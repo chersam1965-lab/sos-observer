@@ -90,11 +90,19 @@ const STATUS_STYLE: Record<"stable" | "monitor" | "risk", { bg: string; fg: stri
 };
 
 function statusExplanationKey(state: "green" | "yellow" | "red"): "statusExplanationGreen" | "statusExplanationYellow" | "statusExplanationRed" {
-  return `statusExplanation${state.charAt(0).toUpperCase() + state.slice(1)}` as const;
+  switch (state) {
+    case "green": return "statusExplanationGreen";
+    case "yellow": return "statusExplanationYellow";
+    case "red": return "statusExplanationRed";
+  }
 }
 
 function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "globalStatusExplanationStable" | "globalStatusExplanationMonitor" | "globalStatusExplanationRisk" {
-  return `globalStatusExplanation${status.charAt(0).toUpperCase() + status.slice(1)}` as const;
+  switch (status) {
+    case "stable": return "globalStatusExplanationStable";
+    case "monitor": return "globalStatusExplanationMonitor";
+    case "risk": return "globalStatusExplanationRisk";
+  }
 }
 
 function AnalysisPanel({ indicators, status }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk" }) {
