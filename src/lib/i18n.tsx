@@ -33,10 +33,16 @@ const dict = {
     globalStatusExplanationStable: "All indicators are in the green range. The system is operating normally.",
     globalStatusExplanationMonitor: "One indicator is in the yellow/red range. Caution and monitoring are advised.",
     globalStatusExplanationRisk: "Two or more indicators are in the red range. Immediate response is required.",
-    exportPdf: "Export PDF",
+    exportPdf: "Export PDF (image)",
+    exportPdfText: "Export PDF (searchable)",
     exporting: "Exporting…",
     reportHeader: "GSOS Analysis Report",
     exportDate: "Export date",
+    arabicTextNotice: "Note: searchable Arabic export falls back to the image version for proper glyph shaping.",
+    indicator: "Indicator",
+    status: "Status",
+    explanation: "Explanation",
+
   },
   fr: {
     appName: "GSOS Observer",
@@ -68,10 +74,16 @@ const dict = {
     globalStatusExplanationStable: "Tous les indicateurs sont dans la plage verte. Le système fonctionne normalement.",
     globalStatusExplanationMonitor: "Un indicateur est dans la plage jaune/rouge. Prudence et surveillance conseillées.",
     globalStatusExplanationRisk: "Deux indicateurs ou plus sont dans la plage rouge. Réponse immédiate requise.",
-    exportPdf: "Exporter en PDF",
+    exportPdf: "Exporter en PDF (image)",
+    exportPdfText: "Exporter PDF (recherche)",
     exporting: "Exportation…",
     reportHeader: "Rapport d'analyse GSOS",
     exportDate: "Date d'exportation",
+    arabicTextNotice: "Remarque: l'export arabe recherchable bascule sur la version image pour un rendu correct des glyphes.",
+    indicator: "Indicateur",
+    status: "Statut",
+    explanation: "Explication",
+
   },
   ar: {
     appName: "مرصد GSOS",
@@ -103,10 +115,16 @@ const dict = {
     globalStatusExplanationStable: "جميع المؤشرات في النطاق الأخضر. النظام يعمل بشكل طبيعي.",
     globalStatusExplanationMonitor: "مؤشر واحد في النطاق الأصفر/الأحمر. ينصح بالحذر والمراقبة.",
     globalStatusExplanationRisk: "مؤشران أو أكثر في النطاق الأحمر. يتطلب رد فعل فوري.",
-    exportPdf: "تصدير PDF",
+    exportPdf: "تصدير PDF (صورة)",
+    exportPdfText: "تصدير PDF (نص قابل للبحث)",
     exporting: "جاري التصدير…",
     reportHeader: "تقرير تحليل GSOS",
     exportDate: "تاريخ التصدير",
+    arabicTextNotice: "ملاحظة: التصدير النصي للعربية يتحول إلى نسخة الصورة لضمان تشكيل الحروف.",
+    indicator: "المؤشر",
+    status: "الحالة",
+    explanation: "التفسير",
+
   },
 } as const;
 
