@@ -89,12 +89,70 @@ const STATUS_STYLE: Record<"stable" | "monitor" | "risk", { bg: string; fg: stri
   },
 };
 
+function statusExplanationKey(state: "green" | "yellow" | "red"): "statusExplanationGreen" | "statusExplanationYellow" | "statusExplanationRed" {
+  return `statusExplanation${state.charAt(0).toUpperCase() + state.slice(1)}` as const;
+}
+
+function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "globalStatusExplanationStable" | "globalStatusExplanationMonitor" | "globalStatusExplanationRisk" {
+  return `globalStatusExplanation${status.charAt(0).toUpperCase() + status.slice(1)}` as const;
+}
+
+function AnalysisPanel({ indicators, status }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk" }) {
+  const { t } = useI18n();
+  const s = STATUS_STYLE[status];
+
+  return (
+    <section className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <h2 className="mb-3 text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {indicators.map((i) => {
+          const state = colorStateFor(i.value);
+          const c = COLOR_CLASSES[state];
+          return (
+            <div key={i.key} className="rounded-xl border border-border bg-card p-4 shadow-sm">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-medium text-muted-foreground">{t(i.key)}</span>
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}>
+                  <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
+                  {state.toUpperCase()}
+                </span>
+              </div>
+              <div className="mt-2 text-2xl font-semibold tabular-nums">{i.value}</div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {t(statusExplanationKey(state))}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 rounded-xl border border-border bg-card p-5 shadow-sm">
+        <div className="flex flex-wrap items-start gap-4">
+          <div className="flex-1">
+            <h3 className="text-sm font-medium text-muted-foreground">{t("globalStatus")}</h3>
+            <div className="mt-2 flex items-center gap-3">
+              <span className={`h-3 w-3 rounded-full ${s.dot}`} />
+              <span className={`text-xl font-semibold ${s.fg}`}>{t(status)}</span>
+            </div>
+          </div>
+          <div className="flex-1">
+            <p className={`text-sm leading-relaxed ${s.fg}`}>
+              {t(globalStatusExplanationKey(status))}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function DashboardPage() {
   const { t, lang } = useI18n();
   const navigate = useNavigate();
   const { indicators, updatedAt, analyse } = useIndicators();
   const [analysing, setAnalysing] = useState(false);
   const [ready, setReady] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
 
   useEffect(() => {
     if (!isAuthed()) {
@@ -104,16 +162,16 @@ function DashboardPage() {
     }
   }, [navigate]);
 
-  if (!ready) return null;
-
   const status = computeGlobalStatus(indicators);
   const s = STATUS_STYLE[status];
 
   const handleAnalyse = () => {
     setAnalysing(true);
+    setShowAnalysis(false);
     setTimeout(() => {
       analyse();
       setAnalysing(false);
+      setShowAnalysis(true);
     }, 400);
   };
 
@@ -121,6 +179,8 @@ function DashboardPage() {
     lang === "ar" ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
     { dateStyle: "medium", timeStyle: "short" },
   );
+
+  if (!ready) return null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -185,6 +245,8 @@ function DashboardPage() {
             </span>
           </div>
         </section>
+
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} />}
       </main>
     </div>
   );
