@@ -264,9 +264,62 @@ function DashboardPage() {
   const [ready, setReady] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
   const analysisRef = useRef<HTMLElement | null>(null);
 
+  const tick = async (value: number) => {
+    setExportProgress(value);
+    // yield to the browser so the UI repaints between heavy steps
+    await new Promise((r) => setTimeout(r, 30));
+  };
+
   const handleExportPdf = async () => {
+    if (!analysisRef.current) return;
+    setExporting(true);
+    setExportProgress(0);
+    try {
+      await tick(8);
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      await tick(30);
+      const el = analysisRef.current;
+      const bg = getComputedStyle(document.body).backgroundColor || "#ffffff";
+      const canvas = await html2canvas(el, { scale: 2, backgroundColor: bg, useCORS: true });
+      await tick(70);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 24;
+      const maxW = pageW - margin * 2;
+      const imgH = (canvas.height * maxW) / canvas.width;
+      let y = margin;
+      let remaining = imgH;
+      await tick(85);
+      if (imgH <= pageH - margin * 2) {
+        pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
+      } else {
+        let position = 0;
+        while (remaining > 0) {
+          pdf.addImage(imgData, "PNG", margin, margin - position, maxW, imgH);
+          remaining -= pageH - margin * 2;
+          position += pageH - margin * 2;
+          if (remaining > 0) pdf.addPage();
+        }
+      }
+      await tick(95);
+      const d = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
+      pdf.save(`gsos-analysis-${status.toUpperCase()}-${dateStr}.pdf`);
+      await tick(100);
+    } finally {
+      setExporting(false);
+      setExportProgress(0);
+    }
+  };
     if (!analysisRef.current) return;
     setExporting(true);
     try {
