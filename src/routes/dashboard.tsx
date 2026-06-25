@@ -171,6 +171,46 @@ function DashboardPage() {
   const [analysing, setAnalysing] = useState(false);
   const [ready, setReady] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const analysisRef = useRef<HTMLElement | null>(null);
+
+  const handleExportPdf = async () => {
+    if (!analysisRef.current) return;
+    setExporting(true);
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const el = analysisRef.current;
+      const bg = getComputedStyle(document.body).backgroundColor || "#ffffff";
+      const canvas = await html2canvas(el, { scale: 2, backgroundColor: bg, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 24;
+      const maxW = pageW - margin * 2;
+      const imgH = (canvas.height * maxW) / canvas.width;
+      let y = margin;
+      let remaining = imgH;
+      if (imgH <= pageH - margin * 2) {
+        pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
+      } else {
+        // Multi-page: slice via positioning trick
+        let position = 0;
+        while (remaining > 0) {
+          pdf.addImage(imgData, "PNG", margin, margin - position, maxW, imgH);
+          remaining -= pageH - margin * 2;
+          position += pageH - margin * 2;
+          if (remaining > 0) pdf.addPage();
+        }
+      }
+      pdf.save(`gsos-analysis-${lang}-${Date.now()}.pdf`);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   useEffect(() => {
     if (!isAuthed()) {
@@ -264,7 +304,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} exporting={exporting} />}
       </main>
     </div>
   );
