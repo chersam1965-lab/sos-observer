@@ -110,6 +110,7 @@ function AnalysisPanel({
   status,
   panelRef,
   onExport,
+  onExportText,
   exporting,
   exportDate,
 }: {
@@ -117,6 +118,7 @@ function AnalysisPanel({
   status: "stable" | "monitor" | "risk";
   panelRef: React.RefObject<HTMLElement | null>;
   onExport: () => void;
+  onExportText: () => void;
   exporting: boolean;
   exportDate?: Date;
 }) {
@@ -146,16 +148,24 @@ function AnalysisPanel({
         </div>
       </div>
 
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
-        <button
-          onClick={onExport}
-          disabled={exporting}
-          data-export-ignore
-          className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
-        >
-          {exporting ? t("exporting") : t("exportPdf")}
-        </button>
+        <div className="flex flex-wrap items-center gap-2" data-export-ignore>
+          <button
+            onClick={onExportText}
+            disabled={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+          >
+            {exporting ? t("exporting") : t("exportPdfText")}
+          </button>
+          <button
+            onClick={onExport}
+            disabled={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+          >
+            {exporting ? t("exporting") : t("exportPdf")}
+          </button>
+        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
@@ -196,6 +206,12 @@ function AnalysisPanel({
         </div>
       </div>
 
+      {isRTL && (
+        <div data-export-ignore className="mt-3 rounded-md border border-border bg-secondary/40 p-2 text-xs text-muted-foreground text-right">
+          {t("arabicTextNotice")}
+        </div>
+      )}
+
       <div
         dir={isRTL ? "rtl" : "ltr"}
         className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}
@@ -205,6 +221,7 @@ function AnalysisPanel({
     </section>
   );
 }
+
 
 function DashboardPage() {
   const { t, lang } = useI18n();
