@@ -112,6 +112,7 @@ function AnalysisPanel({
   onExport,
   onExportText,
   exporting,
+  exportProgress,
   exportDate,
 }: {
   indicators: Indicator[];
@@ -120,6 +121,7 @@ function AnalysisPanel({
   onExport: () => void;
   onExportText: () => void;
   exporting: boolean;
+  exportProgress: number;
   exportDate?: Date;
 }) {
   const { t, lang } = useI18n();
@@ -154,19 +156,50 @@ function AnalysisPanel({
           <button
             onClick={onExportText}
             disabled={exporting}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-busy={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
+            {exporting && (
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+            )}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
           <button
             onClick={onExport}
             disabled={exporting}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-busy={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
+            {exporting && (
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+            )}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
         </div>
       </div>
+
+      {exporting && (
+        <div
+          data-export-ignore
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(exportProgress)}
+          aria-label={t("exporting")}
+          className="mb-4 rounded-lg border border-border bg-card p-3 shadow-sm"
+        >
+          <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
+            <span>{t("exporting")}</span>
+            <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+              style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
+            />
+          </div>
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
           const state = colorStateFor(i.value);
@@ -231,19 +264,30 @@ function DashboardPage() {
   const [ready, setReady] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
   const analysisRef = useRef<HTMLElement | null>(null);
+
+  const tick = async (value: number) => {
+    setExportProgress(value);
+    // yield to the browser so the UI repaints between heavy steps
+    await new Promise((r) => setTimeout(r, 30));
+  };
 
   const handleExportPdf = async () => {
     if (!analysisRef.current) return;
     setExporting(true);
+    setExportProgress(0);
     try {
+      await tick(8);
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
         import("html2canvas"),
         import("jspdf"),
       ]);
+      await tick(30);
       const el = analysisRef.current;
       const bg = getComputedStyle(document.body).backgroundColor || "#ffffff";
       const canvas = await html2canvas(el, { scale: 2, backgroundColor: bg, useCORS: true });
+      await tick(70);
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       const pageW = pdf.internal.pageSize.getWidth();
@@ -253,10 +297,10 @@ function DashboardPage() {
       const imgH = (canvas.height * maxW) / canvas.width;
       let y = margin;
       let remaining = imgH;
+      await tick(85);
       if (imgH <= pageH - margin * 2) {
         pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
       } else {
-        // Multi-page: slice via positioning trick
         let position = 0;
         while (remaining > 0) {
           pdf.addImage(imgData, "PNG", margin, margin - position, maxW, imgH);
@@ -265,12 +309,15 @@ function DashboardPage() {
           if (remaining > 0) pdf.addPage();
         }
       }
+      await tick(95);
       const d = new Date();
       const pad = (n: number) => String(n).padStart(2, "0");
       const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
       pdf.save(`gsos-analysis-${status.toUpperCase()}-${dateStr}.pdf`);
+      await tick(100);
     } finally {
       setExporting(false);
+      setExportProgress(0);
     }
   };
 
@@ -281,8 +328,11 @@ function DashboardPage() {
       return;
     }
     setExporting(true);
+    setExportProgress(0);
     try {
+      await tick(10);
       const { jsPDF } = await import("jspdf");
+      await tick(35);
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
@@ -336,6 +386,8 @@ function DashboardPage() {
       pdf.setDrawColor(220, 220, 220);
       pdf.line(margin, y, pageW - margin, y);
       y += 16;
+      await tick(55);
+
 
       // Analysis title
       writeWrapped(t("analysisTitle"), 14, { bold: true });
@@ -355,6 +407,7 @@ function DashboardPage() {
       y += 4;
       writeWrapped(t("globalStatus"), 14, { bold: true });
       writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: statusColor[status] });
+      await tick(80);
 
       // Footer on every page
       const pageCount = pdf.getNumberOfPages();
@@ -366,10 +419,13 @@ function DashboardPage() {
         pdf.text(`${t("appName")} — ${dateStr}`, margin, pageH - 20);
         pdf.text(`${p} / ${pageCount}`, pageW - margin, pageH - 20, { align: "right" });
       }
+      await tick(95);
 
       pdf.save(`gsos-analysis-${status.toUpperCase()}-${stamp}-text.pdf`);
+      await tick(100);
     } finally {
       setExporting(false);
+      setExportProgress(0);
     }
   };
 
@@ -466,7 +522,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportDate={new Date()} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} exportDate={new Date()} />}
       </main>
     </div>
   );
