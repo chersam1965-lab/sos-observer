@@ -110,6 +110,7 @@ function AnalysisPanel({
   status,
   panelRef,
   onExport,
+  onExportText,
   exporting,
   exportDate,
 }: {
@@ -117,6 +118,7 @@ function AnalysisPanel({
   status: "stable" | "monitor" | "risk";
   panelRef: React.RefObject<HTMLElement | null>;
   onExport: () => void;
+  onExportText: () => void;
   exporting: boolean;
   exportDate?: Date;
 }) {
@@ -146,16 +148,24 @@ function AnalysisPanel({
         </div>
       </div>
 
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
-        <button
-          onClick={onExport}
-          disabled={exporting}
-          data-export-ignore
-          className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
-        >
-          {exporting ? t("exporting") : t("exportPdf")}
-        </button>
+        <div className="flex flex-wrap items-center gap-2" data-export-ignore>
+          <button
+            onClick={onExportText}
+            disabled={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+          >
+            {exporting ? t("exporting") : t("exportPdfText")}
+          </button>
+          <button
+            onClick={onExport}
+            disabled={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+          >
+            {exporting ? t("exporting") : t("exportPdf")}
+          </button>
+        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
@@ -196,6 +206,12 @@ function AnalysisPanel({
         </div>
       </div>
 
+      {isRTL && (
+        <div data-export-ignore className="mt-3 rounded-md border border-border bg-secondary/40 p-2 text-xs text-muted-foreground text-right">
+          {t("arabicTextNotice")}
+        </div>
+      )}
+
       <div
         dir={isRTL ? "rtl" : "ltr"}
         className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}
@@ -205,6 +221,7 @@ function AnalysisPanel({
     </section>
   );
 }
+
 
 function DashboardPage() {
   const { t, lang } = useI18n();
@@ -256,6 +273,106 @@ function DashboardPage() {
       setExporting(false);
     }
   };
+
+  const handleExportPdfText = async () => {
+    // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
+    if (lang === "ar") {
+      await handleExportPdf();
+      return;
+    }
+    setExporting(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 48;
+      const maxW = pageW - margin * 2;
+      let y = margin;
+
+      const d = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      const stamp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
+      const dateStr = d.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+
+      const statusColor: Record<typeof status, [number, number, number]> = {
+        stable: [22, 163, 74],
+        monitor: [202, 138, 4],
+        risk: [220, 38, 38],
+      };
+
+      const ensureSpace = (h: number) => {
+        if (y + h > pageH - margin) {
+          pdf.addPage();
+          y = margin;
+        }
+      };
+
+      const writeWrapped = (text: string, size: number, opts: { bold?: boolean; color?: [number, number, number] } = {}) => {
+        pdf.setFont("helvetica", opts.bold ? "bold" : "normal");
+        pdf.setFontSize(size);
+        const [r, g, b] = opts.color ?? [20, 20, 20];
+        pdf.setTextColor(r, g, b);
+        const lines = pdf.splitTextToSize(text, maxW) as string[];
+        const lineH = size * 1.35;
+        ensureSpace(lines.length * lineH);
+        pdf.text(lines, margin, y);
+        y += lines.length * lineH;
+      };
+
+      // Header
+      writeWrapped(t("reportHeader"), 18, { bold: true });
+      y += 4;
+      writeWrapped(`${t("exportDate")}: ${dateStr}`, 10, { color: [110, 110, 110] });
+      writeWrapped(
+        `${t("globalStatus")}: ${t(status)}`,
+        12,
+        { bold: true, color: statusColor[status] },
+      );
+      y += 8;
+      pdf.setDrawColor(220, 220, 220);
+      pdf.line(margin, y, pageW - margin, y);
+      y += 16;
+
+      // Analysis title
+      writeWrapped(t("analysisTitle"), 14, { bold: true });
+      y += 6;
+
+      // Per-indicator
+      indicators.forEach((i) => {
+        const state = colorStateFor(i.value);
+        const color: [number, number, number] =
+          state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
+        writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
+        writeWrapped(t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
+        y += 6;
+      });
+
+      // Global explanation
+      y += 4;
+      writeWrapped(t("globalStatus"), 14, { bold: true });
+      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: statusColor[status] });
+
+      // Footer on every page
+      const pageCount = pdf.getNumberOfPages();
+      for (let p = 1; p <= pageCount; p++) {
+        pdf.setPage(p);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(140, 140, 140);
+        pdf.text(`${t("appName")} — ${dateStr}`, margin, pageH - 20);
+        pdf.text(`${p} / ${pageCount}`, pageW - margin, pageH - 20, { align: "right" });
+      }
+
+      pdf.save(`gsos-analysis-${status.toUpperCase()}-${stamp}-text.pdf`);
+    } finally {
+      setExporting(false);
+    }
+  };
+
 
   useEffect(() => {
     if (!isAuthed()) {
@@ -349,7 +466,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} exporting={exporting} exportDate={new Date()} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportDate={new Date()} />}
       </main>
     </div>
   );
