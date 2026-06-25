@@ -33,6 +33,8 @@ const dict = {
     globalStatusExplanationStable: "All indicators are in the green range. The system is operating normally.",
     globalStatusExplanationMonitor: "One indicator is in the yellow/red range. Caution and monitoring are advised.",
     globalStatusExplanationRisk: "Two or more indicators are in the red range. Immediate response is required.",
+    exportPdf: "Export PDF",
+    exporting: "Exporting…",
   },
   fr: {
     appName: "GSOS Observer",
@@ -64,6 +66,8 @@ const dict = {
     globalStatusExplanationStable: "Tous les indicateurs sont dans la plage verte. Le système fonctionne normalement.",
     globalStatusExplanationMonitor: "Un indicateur est dans la plage jaune/rouge. Prudence et surveillance conseillées.",
     globalStatusExplanationRisk: "Deux indicateurs ou plus sont dans la plage rouge. Réponse immédiate requise.",
+    exportPdf: "Exporter en PDF",
+    exporting: "Exportation…",
   },
   ar: {
     appName: "مرصد GSOS",
@@ -95,6 +99,8 @@ const dict = {
     globalStatusExplanationStable: "جميع المؤشرات في النطاق الأخضر. النظام يعمل بشكل طبيعي.",
     globalStatusExplanationMonitor: "مؤشر واحد في النطاق الأصفر/الأحمر. ينصح بالحذر والمراقبة.",
     globalStatusExplanationRisk: "مؤشران أو أكثر في النطاق الأحمر. يتطلب رد فعل فوري.",
+    exportPdf: "تصدير PDF",
+    exporting: "جاري التصدير…",
   },
 } as const;
 

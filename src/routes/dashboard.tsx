@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isAuthed, signOut } from "@/lib/auth";
 import { useI18n, LanguageSwitcher } from "@/lib/i18n";
 import {
@@ -105,13 +105,23 @@ function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "glo
   }
 }
 
-function AnalysisPanel({ indicators, status }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk" }) {
+function AnalysisPanel({ indicators, status, panelRef, onExport, exporting }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk"; panelRef: React.RefObject<HTMLElement | null>; onExport: () => void; exporting: boolean }) {
   const { t } = useI18n();
   const s = STATUS_STYLE[status];
 
   return (
-    <section className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <h2 className="mb-3 text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
+    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
+        <button
+          onClick={onExport}
+          disabled={exporting}
+          data-export-ignore
+          className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+        >
+          {exporting ? t("exporting") : t("exportPdf")}
+        </button>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
           const state = colorStateFor(i.value);
@@ -161,6 +171,46 @@ function DashboardPage() {
   const [analysing, setAnalysing] = useState(false);
   const [ready, setReady] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const analysisRef = useRef<HTMLElement | null>(null);
+
+  const handleExportPdf = async () => {
+    if (!analysisRef.current) return;
+    setExporting(true);
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const el = analysisRef.current;
+      const bg = getComputedStyle(document.body).backgroundColor || "#ffffff";
+      const canvas = await html2canvas(el, { scale: 2, backgroundColor: bg, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 24;
+      const maxW = pageW - margin * 2;
+      const imgH = (canvas.height * maxW) / canvas.width;
+      let y = margin;
+      let remaining = imgH;
+      if (imgH <= pageH - margin * 2) {
+        pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
+      } else {
+        // Multi-page: slice via positioning trick
+        let position = 0;
+        while (remaining > 0) {
+          pdf.addImage(imgData, "PNG", margin, margin - position, maxW, imgH);
+          remaining -= pageH - margin * 2;
+          position += pageH - margin * 2;
+          if (remaining > 0) pdf.addPage();
+        }
+      }
+      pdf.save(`gsos-analysis-${lang}-${Date.now()}.pdf`);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   useEffect(() => {
     if (!isAuthed()) {
@@ -254,7 +304,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} exporting={exporting} />}
       </main>
     </div>
   );
