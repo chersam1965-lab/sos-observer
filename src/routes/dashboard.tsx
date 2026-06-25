@@ -407,6 +407,7 @@ function DashboardPage() {
       y += 4;
       writeWrapped(t("globalStatus"), 14, { bold: true });
       writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: statusColor[status] });
+      await tick(80);
 
       // Footer on every page
       const pageCount = pdf.getNumberOfPages();
@@ -418,10 +419,13 @@ function DashboardPage() {
         pdf.text(`${t("appName")} — ${dateStr}`, margin, pageH - 20);
         pdf.text(`${p} / ${pageCount}`, pageW - margin, pageH - 20, { align: "right" });
       }
+      await tick(95);
 
       pdf.save(`gsos-analysis-${status.toUpperCase()}-${stamp}-text.pdf`);
+      await tick(100);
     } finally {
       setExporting(false);
+      setExportProgress(0);
     }
   };
 
