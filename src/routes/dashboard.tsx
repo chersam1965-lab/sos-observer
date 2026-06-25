@@ -157,10 +157,12 @@ function AnalysisPanel({
             onClick={onExportText}
             disabled={exporting}
             aria-busy={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
             )}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
@@ -168,10 +170,12 @@ function AnalysisPanel({
             onClick={onExport}
             disabled={exporting}
             aria-busy={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
             )}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
