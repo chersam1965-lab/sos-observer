@@ -157,10 +157,12 @@ function AnalysisPanel({
             onClick={onExportText}
             disabled={exporting}
             aria-busy={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
             )}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
@@ -168,10 +170,12 @@ function AnalysisPanel({
             onClick={onExport}
             disabled={exporting}
             aria-busy={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
             )}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
@@ -185,14 +189,16 @@ function AnalysisPanel({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(exportProgress)}
+          aria-valuetext={`${Math.round(exportProgress)}%`}
           aria-label={t("exporting")}
+          aria-live="polite"
           className="mb-4 rounded-lg border border-border bg-card p-3 shadow-sm"
         >
           <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
             <span>{t("exporting")}</span>
             <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
             <div
               className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
               style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
@@ -495,6 +501,9 @@ function DashboardPage() {
           <button
             onClick={handleAnalyse}
             disabled={analysing}
+            aria-busy={analysing}
+            aria-disabled={analysing}
+            tabIndex={analysing ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90 disabled:opacity-60"
           >
             {analysing ? t("analysing") : t("analyse")}
