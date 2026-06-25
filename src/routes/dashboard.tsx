@@ -206,7 +206,10 @@ function DashboardPage() {
           if (remaining > 0) pdf.addPage();
         }
       }
-      pdf.save(`gsos-analysis-${lang}-${Date.now()}.pdf`);
+      const d = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
+      pdf.save(`gsos-analysis-${status.toUpperCase()}-${dateStr}.pdf`);
     } finally {
       setExporting(false);
     }
