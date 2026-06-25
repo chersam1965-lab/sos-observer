@@ -105,6 +105,8 @@ const dict = {
     globalStatusExplanationRisk: "مؤشران أو أكثر في النطاق الأحمر. يتطلب رد فعل فوري.",
     exportPdf: "تصدير PDF",
     exporting: "جاري التصدير…",
+    reportHeader: "تقرير تحليل GSOS",
+    exportDate: "تاريخ التصدير",
   },
 } as const;
 
