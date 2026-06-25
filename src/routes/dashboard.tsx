@@ -112,6 +112,7 @@ function AnalysisPanel({
   onExport,
   onExportText,
   exporting,
+  exportProgress,
   exportDate,
 }: {
   indicators: Indicator[];
@@ -120,6 +121,7 @@ function AnalysisPanel({
   onExport: () => void;
   onExportText: () => void;
   exporting: boolean;
+  exportProgress: number;
   exportDate?: Date;
 }) {
   const { t, lang } = useI18n();
@@ -154,19 +156,50 @@ function AnalysisPanel({
           <button
             onClick={onExportText}
             disabled={exporting}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-busy={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
+            {exporting && (
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+            )}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
           <button
             onClick={onExport}
             disabled={exporting}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-busy={exporting}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
+            {exporting && (
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+            )}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
         </div>
       </div>
+
+      {exporting && (
+        <div
+          data-export-ignore
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(exportProgress)}
+          aria-label={t("exporting")}
+          className="mb-4 rounded-lg border border-border bg-card p-3 shadow-sm"
+        >
+          <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
+            <span>{t("exporting")}</span>
+            <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+              style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
+            />
+          </div>
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
           const state = colorStateFor(i.value);
