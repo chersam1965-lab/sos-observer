@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isAuthed, signOut } from "@/lib/auth";
 import { useI18n, LanguageSwitcher } from "@/lib/i18n";
 import {
@@ -105,13 +105,23 @@ function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "glo
   }
 }
 
-function AnalysisPanel({ indicators, status }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk" }) {
+function AnalysisPanel({ indicators, status, panelRef, onExport, exporting }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk"; panelRef: React.RefObject<HTMLElement | null>; onExport: () => void; exporting: boolean }) {
   const { t } = useI18n();
   const s = STATUS_STYLE[status];
 
   return (
-    <section className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <h2 className="mb-3 text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
+    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
+        <button
+          onClick={onExport}
+          disabled={exporting}
+          data-export-ignore
+          className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+        >
+          {exporting ? t("exporting") : t("exportPdf")}
+        </button>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
           const state = colorStateFor(i.value);
