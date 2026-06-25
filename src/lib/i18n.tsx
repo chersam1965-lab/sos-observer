@@ -70,6 +70,8 @@ const dict = {
     globalStatusExplanationRisk: "Deux indicateurs ou plus sont dans la plage rouge. Réponse immédiate requise.",
     exportPdf: "Exporter en PDF",
     exporting: "Exportation…",
+    reportHeader: "Rapport d'analyse GSOS",
+    exportDate: "Date d'exportation",
   },
   ar: {
     appName: "مرصد GSOS",
