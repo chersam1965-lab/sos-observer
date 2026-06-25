@@ -501,6 +501,9 @@ function DashboardPage() {
           <button
             onClick={handleAnalyse}
             disabled={analysing}
+            aria-busy={analysing}
+            aria-disabled={analysing}
+            tabIndex={analysing ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90 disabled:opacity-60"
           >
             {analysing ? t("analysing") : t("analyse")}
