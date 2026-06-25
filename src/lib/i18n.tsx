@@ -35,6 +35,8 @@ const dict = {
     globalStatusExplanationRisk: "Two or more indicators are in the red range. Immediate response is required.",
     exportPdf: "Export PDF",
     exporting: "Exporting…",
+    reportHeader: "GSOS Analysis Report",
+    exportDate: "Export date",
   },
   fr: {
     appName: "GSOS Observer",
