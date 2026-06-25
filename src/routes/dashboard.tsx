@@ -320,45 +320,6 @@ function DashboardPage() {
       setExportProgress(0);
     }
   };
-    if (!analysisRef.current) return;
-    setExporting(true);
-    try {
-      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-        import("html2canvas"),
-        import("jspdf"),
-      ]);
-      const el = analysisRef.current;
-      const bg = getComputedStyle(document.body).backgroundColor || "#ffffff";
-      const canvas = await html2canvas(el, { scale: 2, backgroundColor: bg, useCORS: true });
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-      const margin = 24;
-      const maxW = pageW - margin * 2;
-      const imgH = (canvas.height * maxW) / canvas.width;
-      let y = margin;
-      let remaining = imgH;
-      if (imgH <= pageH - margin * 2) {
-        pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
-      } else {
-        // Multi-page: slice via positioning trick
-        let position = 0;
-        while (remaining > 0) {
-          pdf.addImage(imgData, "PNG", margin, margin - position, maxW, imgH);
-          remaining -= pageH - margin * 2;
-          position += pageH - margin * 2;
-          if (remaining > 0) pdf.addPage();
-        }
-      }
-      const d = new Date();
-      const pad = (n: number) => String(n).padStart(2, "0");
-      const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
-      pdf.save(`gsos-analysis-${status.toUpperCase()}-${dateStr}.pdf`);
-    } finally {
-      setExporting(false);
-    }
-  };
 
   const handleExportPdfText = async () => {
     // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
