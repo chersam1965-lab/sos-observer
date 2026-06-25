@@ -328,7 +328,9 @@ function DashboardPage() {
       return;
     }
     setExporting(true);
+    setExportProgress(0);
     try {
+      await tick(10);
       const { jsPDF } = await import("jspdf");
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       const pageW = pdf.internal.pageSize.getWidth();
