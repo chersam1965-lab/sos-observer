@@ -274,6 +274,106 @@ function DashboardPage() {
     }
   };
 
+  const handleExportPdfText = async () => {
+    // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
+    if (lang === "ar") {
+      await handleExportPdf();
+      return;
+    }
+    setExporting(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 48;
+      const maxW = pageW - margin * 2;
+      let y = margin;
+
+      const d = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      const stamp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
+      const dateStr = d.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+
+      const statusColor: Record<typeof status, [number, number, number]> = {
+        stable: [22, 163, 74],
+        monitor: [202, 138, 4],
+        risk: [220, 38, 38],
+      };
+
+      const ensureSpace = (h: number) => {
+        if (y + h > pageH - margin) {
+          pdf.addPage();
+          y = margin;
+        }
+      };
+
+      const writeWrapped = (text: string, size: number, opts: { bold?: boolean; color?: [number, number, number] } = {}) => {
+        pdf.setFont("helvetica", opts.bold ? "bold" : "normal");
+        pdf.setFontSize(size);
+        const [r, g, b] = opts.color ?? [20, 20, 20];
+        pdf.setTextColor(r, g, b);
+        const lines = pdf.splitTextToSize(text, maxW) as string[];
+        const lineH = size * 1.35;
+        ensureSpace(lines.length * lineH);
+        pdf.text(lines, margin, y);
+        y += lines.length * lineH;
+      };
+
+      // Header
+      writeWrapped(t("reportHeader"), 18, { bold: true });
+      y += 4;
+      writeWrapped(`${t("exportDate")}: ${dateStr}`, 10, { color: [110, 110, 110] });
+      writeWrapped(
+        `${t("globalStatus")}: ${t(status)}`,
+        12,
+        { bold: true, color: statusColor[status] },
+      );
+      y += 8;
+      pdf.setDrawColor(220, 220, 220);
+      pdf.line(margin, y, pageW - margin, y);
+      y += 16;
+
+      // Analysis title
+      writeWrapped(t("analysisTitle"), 14, { bold: true });
+      y += 6;
+
+      // Per-indicator
+      indicators.forEach((i) => {
+        const state = colorStateFor(i.value);
+        const color: [number, number, number] =
+          state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
+        writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
+        writeWrapped(t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
+        y += 6;
+      });
+
+      // Global explanation
+      y += 4;
+      writeWrapped(t("globalStatus"), 14, { bold: true });
+      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: statusColor[status] });
+
+      // Footer on every page
+      const pageCount = pdf.getNumberOfPages();
+      for (let p = 1; p <= pageCount; p++) {
+        pdf.setPage(p);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(140, 140, 140);
+        pdf.text(`${t("appName")} — ${dateStr}`, margin, pageH - 20);
+        pdf.text(`${p} / ${pageCount}`, pageW - margin, pageH - 20, { align: "right" });
+      }
+
+      pdf.save(`gsos-analysis-${status.toUpperCase()}-${stamp}-text.pdf`);
+    } finally {
+      setExporting(false);
+    }
+  };
+
+
   useEffect(() => {
     if (!isAuthed()) {
       navigate({ to: "/login" });
@@ -366,7 +466,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} exporting={exporting} exportDate={new Date()} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportDate={new Date()} />}
       </main>
     </div>
   );
