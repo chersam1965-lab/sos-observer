@@ -35,6 +35,8 @@ const dict = {
     globalStatusExplanationRisk: "Two or more indicators are in the red range. Immediate response is required.",
     exportPdf: "Export PDF",
     exporting: "Exporting…",
+    reportHeader: "GSOS Analysis Report",
+    exportDate: "Export date",
   },
   fr: {
     appName: "GSOS Observer",
@@ -68,6 +70,8 @@ const dict = {
     globalStatusExplanationRisk: "Deux indicateurs ou plus sont dans la plage rouge. Réponse immédiate requise.",
     exportPdf: "Exporter en PDF",
     exporting: "Exportation…",
+    reportHeader: "Rapport d'analyse GSOS",
+    exportDate: "Date d'exportation",
   },
   ar: {
     appName: "مرصد GSOS",
@@ -101,6 +105,8 @@ const dict = {
     globalStatusExplanationRisk: "مؤشران أو أكثر في النطاق الأحمر. يتطلب رد فعل فوري.",
     exportPdf: "تصدير PDF",
     exporting: "جاري التصدير…",
+    reportHeader: "تقرير تحليل GSOS",
+    exportDate: "تاريخ التصدير",
   },
 } as const;
 

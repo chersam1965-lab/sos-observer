@@ -105,12 +105,47 @@ function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "glo
   }
 }
 
-function AnalysisPanel({ indicators, status, panelRef, onExport, exporting }: { indicators: Indicator[]; status: "stable" | "monitor" | "risk"; panelRef: React.RefObject<HTMLElement | null>; onExport: () => void; exporting: boolean }) {
-  const { t } = useI18n();
+function AnalysisPanel({
+  indicators,
+  status,
+  panelRef,
+  onExport,
+  exporting,
+  exportDate,
+}: {
+  indicators: Indicator[];
+  status: "stable" | "monitor" | "risk";
+  panelRef: React.RefObject<HTMLElement | null>;
+  onExport: () => void;
+  exporting: boolean;
+  exportDate?: Date;
+}) {
+  const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
+  const isRTL = lang === "ar";
+  const now = exportDate ?? new Date();
+  const dateStr = now.toLocaleString(
+    isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
+    { dateStyle: "medium", timeStyle: "short" },
+  );
 
   return (
     <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <div
+        dir={isRTL ? "rtl" : "ltr"}
+        className={`mb-4 rounded-xl border border-border bg-card p-4 shadow-sm ${isRTL ? "text-right" : "text-left"}`}
+      >
+        <div className="text-sm font-semibold tracking-tight">{t("reportHeader")}</div>
+        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+          <span className="text-muted-foreground">
+            {t("globalStatus")}: <span className={`font-semibold ${s.fg}`}>{t(status)}</span>
+          </span>
+          <span className="text-muted-foreground">
+            {t("exportDate")}: <span className="tabular-nums font-medium">{dateStr}</span>
+          </span>
+        </div>
+      </div>
+
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
         <button
@@ -159,6 +194,13 @@ function AnalysisPanel({ indicators, status, panelRef, onExport, exporting }: { 
             </p>
           </div>
         </div>
+      </div>
+
+      <div
+        dir={isRTL ? "rtl" : "ltr"}
+        className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}
+      >
+        {t("appName")} — {dateStr}
       </div>
     </section>
   );
@@ -307,7 +349,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} exporting={exporting} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} exporting={exporting} exportDate={new Date()} />}
       </main>
     </div>
   );
