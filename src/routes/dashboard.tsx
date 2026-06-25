@@ -522,7 +522,7 @@ function DashboardPage() {
           </div>
         </section>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportDate={new Date()} />}
+        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} exportDate={new Date()} />}
       </main>
     </div>
   );
