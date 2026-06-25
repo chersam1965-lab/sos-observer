@@ -336,7 +336,6 @@ function DashboardPage() {
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
-      const pageH = pdf.internal.pageSize.getHeight();
       const margin = 48;
       const maxW = pageW - margin * 2;
       let y = margin;
