@@ -386,6 +386,8 @@ function DashboardPage() {
       pdf.setDrawColor(220, 220, 220);
       pdf.line(margin, y, pageW - margin, y);
       y += 16;
+      await tick(55);
+
 
       // Analysis title
       writeWrapped(t("analysisTitle"), 14, { bold: true });
