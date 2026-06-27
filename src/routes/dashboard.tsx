@@ -8,6 +8,8 @@ import {
   useIndicators,
   type Indicator,
 } from "@/lib/indicators";
+import { GsosCard, GsosCardHeader, GsosCardTitle } from "@/components/GsosCard";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
