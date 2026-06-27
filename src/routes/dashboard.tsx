@@ -49,27 +49,55 @@ function IndicatorCard({ indicator }: { indicator: Indicator }) {
   const { t } = useI18n();
   const state = colorStateFor(indicator.value);
   const c = COLOR_CLASSES[state];
+  const label = t(indicator.key);
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-sm font-medium text-muted-foreground">{t(indicator.key)}</h3>
-        <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}>
+    <GsosCard
+      interactive
+      as="article"
+      aria-label={`${label}: ${indicator.value} of 100, ${state}`}
+    >
+      <GsosCardHeader>
+        <GsosCardTitle>{label}</GsosCardTitle>
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}
+          aria-hidden="true"
+        >
           <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
           {state.toUpperCase()}
         </span>
-      </div>
+      </GsosCardHeader>
       <div className="mt-4 flex items-baseline gap-2">
         <span className="text-4xl font-semibold tabular-nums tracking-tight">{indicator.value}</span>
         <span className="text-sm text-muted-foreground">/ 100</span>
       </div>
-      <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-secondary">
+      <div
+        className="mt-auto pt-4 h-2 w-full overflow-hidden rounded-full bg-secondary"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={indicator.value}
+        aria-label={label}
+      >
         <div
           className={`h-full rounded-full transition-all duration-500 ${c.bar}`}
           style={{ width: `${indicator.value}%` }}
         />
       </div>
-    </div>
+    </GsosCard>
+  );
+}
+
+function IndicatorSkeleton() {
+  return (
+    <GsosCard aria-hidden="true">
+      <div className="flex items-start justify-between gap-3">
+        <Skeleton className="h-4 w-32" />
+        <Skeleton className="h-5 w-14 rounded-full" />
+      </div>
+      <Skeleton className="mt-4 h-9 w-20" />
+      <Skeleton className="mt-auto pt-4 h-2 w-full rounded-full" />
+    </GsosCard>
   );
 }
 
