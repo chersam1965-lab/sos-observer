@@ -540,26 +540,33 @@ function DashboardPage() {
           </button>
         </div>
 
-        <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {indicators.map((i) => (
-            <IndicatorCard key={i.key} indicator={i} />
-          ))}
+        <section
+          className="mt-6 grid gap-[var(--gsos-gap-grid)] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+          aria-label={t("dashboard")}
+          aria-busy={analysing}
+        >
+          {analysing
+            ? indicators.map((i) => <IndicatorSkeleton key={i.key} />)
+            : indicators.map((i) => <IndicatorCard key={i.key} indicator={i} />)}
         </section>
 
-        <section className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <GsosCard as="section" className="mt-6" aria-label={t("globalStatus")}>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 className="text-sm font-medium text-muted-foreground">{t("globalStatus")}</h2>
               <div className="mt-2 flex items-center gap-3">
-                <span className={`h-3 w-3 rounded-full ${s.dot}`} />
+                <span className={`h-3 w-3 rounded-full ${s.dot}`} aria-hidden="true" />
                 <span className={`text-2xl font-semibold ${s.fg}`}>{t(status)}</span>
               </div>
             </div>
-            <span className={`rounded-full px-3 py-1 text-xs font-medium ${s.bg} ${s.fg}`}>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${s.bg} ${s.fg}`}
+              aria-label={`${indicators.filter((i) => colorStateFor(i.value) === "red").length} of 3 indicators critical`}
+            >
               {indicators.filter((i) => colorStateFor(i.value) === "red").length} / 3 RED
             </span>
           </div>
-        </section>
+        </GsosCard>
 
         {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} exportDate={new Date()} />}
       </main>
