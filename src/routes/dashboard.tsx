@@ -8,6 +8,8 @@ import {
   useIndicators,
   type Indicator,
 } from "@/lib/indicators";
+import { GsosCard, GsosCardHeader, GsosCardTitle } from "@/components/GsosCard";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -47,27 +49,55 @@ function IndicatorCard({ indicator }: { indicator: Indicator }) {
   const { t } = useI18n();
   const state = colorStateFor(indicator.value);
   const c = COLOR_CLASSES[state];
+  const label = t(indicator.key);
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-sm font-medium text-muted-foreground">{t(indicator.key)}</h3>
-        <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}>
+    <GsosCard
+      interactive
+      as="article"
+      aria-label={`${label}: ${indicator.value} of 100, ${state}`}
+    >
+      <GsosCardHeader>
+        <GsosCardTitle>{label}</GsosCardTitle>
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}
+          aria-hidden="true"
+        >
           <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
           {state.toUpperCase()}
         </span>
-      </div>
+      </GsosCardHeader>
       <div className="mt-4 flex items-baseline gap-2">
         <span className="text-4xl font-semibold tabular-nums tracking-tight">{indicator.value}</span>
         <span className="text-sm text-muted-foreground">/ 100</span>
       </div>
-      <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-secondary">
+      <div
+        className="mt-auto pt-4 h-2 w-full overflow-hidden rounded-full bg-secondary"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={indicator.value}
+        aria-label={label}
+      >
         <div
           className={`h-full rounded-full transition-all duration-500 ${c.bar}`}
           style={{ width: `${indicator.value}%` }}
         />
       </div>
-    </div>
+    </GsosCard>
+  );
+}
+
+function IndicatorSkeleton() {
+  return (
+    <GsosCard aria-hidden="true">
+      <div className="flex items-start justify-between gap-3">
+        <Skeleton className="h-4 w-32" />
+        <Skeleton className="h-5 w-14 rounded-full" />
+      </div>
+      <Skeleton className="mt-4 h-9 w-20" />
+      <Skeleton className="mt-auto pt-4 h-2 w-full rounded-full" />
+    </GsosCard>
   );
 }
 
@@ -510,26 +540,33 @@ function DashboardPage() {
           </button>
         </div>
 
-        <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {indicators.map((i) => (
-            <IndicatorCard key={i.key} indicator={i} />
-          ))}
+        <section
+          className="mt-6 grid gap-[var(--gsos-gap-grid)] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+          aria-label={t("dashboard")}
+          aria-busy={analysing}
+        >
+          {analysing
+            ? indicators.map((i) => <IndicatorSkeleton key={i.key} />)
+            : indicators.map((i) => <IndicatorCard key={i.key} indicator={i} />)}
         </section>
 
-        <section className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <GsosCard as="section" className="mt-6" aria-label={t("globalStatus")}>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 className="text-sm font-medium text-muted-foreground">{t("globalStatus")}</h2>
               <div className="mt-2 flex items-center gap-3">
-                <span className={`h-3 w-3 rounded-full ${s.dot}`} />
+                <span className={`h-3 w-3 rounded-full ${s.dot}`} aria-hidden="true" />
                 <span className={`text-2xl font-semibold ${s.fg}`}>{t(status)}</span>
               </div>
             </div>
-            <span className={`rounded-full px-3 py-1 text-xs font-medium ${s.bg} ${s.fg}`}>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${s.bg} ${s.fg}`}
+              aria-label={`${indicators.filter((i) => colorStateFor(i.value) === "red").length} of 3 indicators critical`}
+            >
               {indicators.filter((i) => colorStateFor(i.value) === "red").length} / 3 RED
             </span>
           </div>
-        </section>
+        </GsosCard>
 
         {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} exportDate={new Date()} />}
       </main>
