@@ -341,6 +341,7 @@ function DashboardPage() {
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
+  const [reportMeta, setReportMeta] = useState<{ id: string; date: Date } | null>(null);
   const analysisRef = useRef<HTMLElement | null>(null);
 
   const tick = async (value: number) => {
