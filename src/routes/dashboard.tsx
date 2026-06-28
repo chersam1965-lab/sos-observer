@@ -350,8 +350,22 @@ function DashboardPage() {
     await new Promise((r) => setTimeout(r, 30));
   };
 
+  const setPdfMetadata = (pdf: any, meta: { id: string; date: Date }) => {
+    pdf.setProperties({
+      title: `${t("reportHeader")} — ${meta.id}`,
+      subject: `${t("globalStatus")}: ${t(status)}`,
+      author: `${t("appName")} V1.0`,
+      keywords: `GSOS, ${status}, ${t("langName")}, ${meta.id}`,
+      creator: `${t("appName")} V1.0`,
+    });
+    try { pdf.setLanguage?.(lang); } catch { /* noop */ }
+  };
+
+  const buildFilename = (meta: { id: string; date: Date }, suffix = "") =>
+    `GSOS-Observer-${status.toUpperCase()}-${fileStamp(meta.date)}${suffix}.pdf`;
+
   const handleExportPdf = async () => {
-    if (!analysisRef.current) return;
+    if (!analysisRef.current || !reportMeta) return;
     setExporting(true);
     setExportProgress(0);
     try {
@@ -367,16 +381,16 @@ function DashboardPage() {
       await tick(70);
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      setPdfMetadata(pdf, reportMeta);
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
       const margin = 24;
       const maxW = pageW - margin * 2;
       const imgH = (canvas.height * maxW) / canvas.width;
-      let y = margin;
       let remaining = imgH;
       await tick(85);
       if (imgH <= pageH - margin * 2) {
-        pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
+        pdf.addImage(imgData, "PNG", margin, margin, maxW, imgH);
       } else {
         let position = 0;
         while (remaining > 0) {
@@ -386,11 +400,23 @@ function DashboardPage() {
           if (remaining > 0) pdf.addPage();
         }
       }
+      // Page numbers + footer overlay
+      const pageCount = pdf.getNumberOfPages();
+      const isRTL = lang === "ar";
+      for (let p = 1; p <= pageCount; p++) {
+        pdf.setPage(p);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(140, 140, 140);
+        const pageLabel = t("pageOf").replace("{x}", String(p)).replace("{y}", String(pageCount));
+        if (isRTL) {
+          pdf.text(pageLabel, margin, pageH - 14);
+        } else {
+          pdf.text(pageLabel, pageW - margin, pageH - 14, { align: "right" });
+        }
+      }
       await tick(95);
-      const d = new Date();
-      const pad = (n: number) => String(n).padStart(2, "0");
-      const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
-      pdf.save(`gsos-analysis-${status.toUpperCase()}-${dateStr}.pdf`);
+      pdf.save(buildFilename(reportMeta));
       await tick(100);
     } finally {
       setExporting(false);
@@ -399,6 +425,7 @@ function DashboardPage() {
   };
 
   const handleExportPdfText = async () => {
+    if (!reportMeta) return;
     // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
     if (lang === "ar") {
       await handleExportPdf();
@@ -411,16 +438,14 @@ function DashboardPage() {
       const { jsPDF } = await import("jspdf");
       await tick(35);
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      setPdfMetadata(pdf, reportMeta);
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
       const margin = 48;
       const maxW = pageW - margin * 2;
       let y = margin;
 
-      const d = new Date();
-      const pad = (n: number) => String(n).padStart(2, "0");
-      const stamp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
-      const dateStr = d.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", {
+      const dateStr = reportMeta.date.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", {
         dateStyle: "medium",
         timeStyle: "short",
       });
@@ -432,7 +457,7 @@ function DashboardPage() {
       };
 
       const ensureSpace = (h: number) => {
-        if (y + h > pageH - margin) {
+        if (y + h > pageH - margin - 24) {
           pdf.addPage();
           y = margin;
         }
@@ -450,55 +475,68 @@ function DashboardPage() {
         y += lines.length * lineH;
       };
 
-      // Header
-      writeWrapped(t("reportHeader"), 18, { bold: true });
-      y += 4;
-      writeWrapped(`${t("exportDate")}: ${dateStr}`, 10, { color: [110, 110, 110] });
-      writeWrapped(
-        `${t("globalStatus")}: ${t(status)}`,
-        12,
-        { bold: true, color: statusColor[status] },
-      );
-      y += 8;
-      pdf.setDrawColor(220, 220, 220);
-      pdf.line(margin, y, pageW - margin, y);
-      y += 16;
-      await tick(55);
+      const hr = () => {
+        ensureSpace(12);
+        pdf.setDrawColor(220, 220, 220);
+        pdf.line(margin, y, pageW - margin, y);
+        y += 12;
+      };
 
-
-      // Analysis title
-      writeWrapped(t("analysisTitle"), 14, { bold: true });
+      // === Report Identity ===
+      writeWrapped(t("reportHeader"), 20, { bold: true });
+      writeWrapped(`${t("appName")} — ${t("version")} 1.0`, 10, { color: [110, 110, 110] });
       y += 6;
+      writeWrapped(`${t("reportId")}: ${reportMeta.id}`, 10, { color: [60, 60, 60] });
+      writeWrapped(`${t("generationDate")}: ${dateStr}`, 10, { color: [60, 60, 60] });
+      writeWrapped(`${t("languageLabel")}: ${t("langName")}`, 10, { color: [60, 60, 60] });
+      hr();
+      await tick(45);
 
-      // Per-indicator
+      // === Executive Summary ===
+      writeWrapped(t("executiveSummary"), 14, { bold: true });
+      y += 2;
+      const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
+      const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
+      writeWrapped(`${t("overallRiskLevel")}: ${t(status)}`, 11, { bold: true, color: statusColor[status] });
+      writeWrapped(`${t("criticalIndicators")}: ${criticalCount} / ${indicators.length}`, 11);
+      writeWrapped(`${t("stableIndicators")}: ${stableCount} / ${indicators.length}`, 11);
+      writeWrapped(`${t("recommendedAction")}: ${t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
+      hr();
+      await tick(60);
+
+      // === Analysis Result ===
+      writeWrapped(t("analysisTitle"), 14, { bold: true });
+      y += 4;
       indicators.forEach((i) => {
         const state = colorStateFor(i.value);
         const color: [number, number, number] =
           state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
         writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
         writeWrapped(t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
-        y += 6;
+        y += 4;
       });
+      hr();
 
-      // Global explanation
-      y += 4;
+      // === Global Status ===
       writeWrapped(t("globalStatus"), 14, { bold: true });
-      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: statusColor[status] });
-      await tick(80);
+      writeWrapped(t(status), 12, { bold: true, color: statusColor[status] });
+      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
+      await tick(85);
 
-      // Footer on every page
+      // === Footer on every page ===
       const pageCount = pdf.getNumberOfPages();
       for (let p = 1; p <= pageCount; p++) {
         pdf.setPage(p);
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(9);
         pdf.setTextColor(140, 140, 140);
-        pdf.text(`${t("appName")} — ${dateStr}`, margin, pageH - 20);
-        pdf.text(`${p} / ${pageCount}`, pageW - margin, pageH - 20, { align: "right" });
+        pdf.text(`${t("confidentialFooter")} — ${reportMeta.id}`, margin, pageH - 20);
+        const pageLabel = t("pageOf").replace("{x}", String(p)).replace("{y}", String(pageCount));
+        pdf.text(pageLabel, pageW - margin, pageH - 20, { align: "right" });
       }
       await tick(95);
 
-      pdf.save(`gsos-analysis-${status.toUpperCase()}-${stamp}-text.pdf`);
+      pdf.save(buildFilename(reportMeta));
       await tick(100);
     } finally {
       setExporting(false);
@@ -523,6 +561,8 @@ function DashboardPage() {
     setShowAnalysis(false);
     setTimeout(() => {
       analyse();
+      const d = new Date();
+      setReportMeta({ id: generateReportId(d), date: d });
       setAnalysing(false);
       setShowAnalysis(true);
     }, 400);
