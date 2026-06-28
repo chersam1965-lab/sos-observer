@@ -135,6 +135,26 @@ function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "glo
   }
 }
 
+function recommendedActionKey(status: "stable" | "monitor" | "risk"): "recommendedActionStable" | "recommendedActionMonitor" | "recommendedActionRisk" {
+  switch (status) {
+    case "stable": return "recommendedActionStable";
+    case "monitor": return "recommendedActionMonitor";
+    case "risk": return "recommendedActionRisk";
+  }
+}
+
+function formatPad(n: number) { return String(n).padStart(2, "0"); }
+
+function generateReportId(d: Date): string {
+  const stamp = `${d.getFullYear()}${formatPad(d.getMonth() + 1)}${formatPad(d.getDate())}-${formatPad(d.getHours())}${formatPad(d.getMinutes())}${formatPad(d.getSeconds())}`;
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `GSOS-${stamp}-${rand}`;
+}
+
+function fileStamp(d: Date): string {
+  return `${d.getFullYear()}-${formatPad(d.getMonth() + 1)}-${formatPad(d.getDate())}-${formatPad(d.getHours())}-${formatPad(d.getMinutes())}`;
+}
+
 function AnalysisPanel({
   indicators,
   status,
@@ -143,7 +163,7 @@ function AnalysisPanel({
   onExportText,
   exporting,
   exportProgress,
-  exportDate,
+  reportMeta,
 }: {
   indicators: Indicator[];
   status: "stable" | "monitor" | "risk";
@@ -152,37 +172,40 @@ function AnalysisPanel({
   onExportText: () => void;
   exporting: boolean;
   exportProgress: number;
-  exportDate?: Date;
+  reportMeta: { id: string; date: Date };
 }) {
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
   const isRTL = lang === "ar";
-  const now = exportDate ?? new Date();
-  const dateStr = now.toLocaleString(
+  const dateStr = reportMeta.date.toLocaleString(
     isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
     { dateStyle: "medium", timeStyle: "short" },
   );
+  const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
+  const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
 
   return (
-    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <div
-        dir={isRTL ? "rtl" : "ltr"}
-        className={`mb-4 rounded-xl border border-border bg-card p-4 shadow-sm ${isRTL ? "text-right" : "text-left"}`}
-      >
-        <div className="text-sm font-semibold tracking-tight">{t("reportHeader")}</div>
-        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-          <span className="text-muted-foreground">
-            {t("globalStatus")}: <span className={`font-semibold ${s.fg}`}>{t(status)}</span>
-          </span>
-          <span className="text-muted-foreground">
-            {t("exportDate")}: <span className="tabular-nums font-medium">{dateStr}</span>
-          </span>
+    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500" dir={isRTL ? "rtl" : "ltr"}>
+      {/* Report Identity */}
+      <div className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div className="text-base font-semibold tracking-tight">{t("reportHeader")}</div>
+            <div className="text-xs text-muted-foreground">{t("appName")} — {t("version")} 1.0</div>
+          </div>
+          <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.bg} ${s.fg}`}>{t(status)}</span>
         </div>
+        <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 text-xs sm:grid-cols-3">
+          <div><dt className="text-muted-foreground">{t("reportId")}</dt><dd className="font-mono font-medium">{reportMeta.id}</dd></div>
+          <div><dt className="text-muted-foreground">{t("generationDate")}</dt><dd className="tabular-nums font-medium">{dateStr}</dd></div>
+          <div><dt className="text-muted-foreground">{t("languageLabel")}</dt><dd className="font-medium">{t("langName")}</dd></div>
+        </dl>
       </div>
 
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+      {/* Toolbar */}
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3" data-export-ignore>
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
-        <div className="flex flex-wrap items-center gap-2" data-export-ignore>
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={onExportText}
             disabled={exporting}
@@ -191,9 +214,7 @@ function AnalysisPanel({
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
-            )}
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
           <button
@@ -204,9 +225,7 @@ function AnalysisPanel({
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
-            )}
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
         </div>
@@ -229,13 +248,35 @@ function AnalysisPanel({
             <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
-            <div
-              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-              style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
-            />
+            <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }} />
           </div>
         </div>
       )}
+
+      {/* Executive Summary */}
+      <div className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+        <h3 className="text-sm font-semibold tracking-tight">{t("executiveSummary")}</h3>
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border border-border bg-background p-3">
+            <div className="text-xs text-muted-foreground">{t("overallRiskLevel")}</div>
+            <div className={`mt-1 text-lg font-semibold ${s.fg}`}>{t(status)}</div>
+          </div>
+          <div className="rounded-lg border border-border bg-background p-3">
+            <div className="text-xs text-muted-foreground">{t("criticalIndicators")}</div>
+            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-red)]">{criticalCount} / {indicators.length}</div>
+          </div>
+          <div className="rounded-lg border border-border bg-background p-3">
+            <div className="text-xs text-muted-foreground">{t("stableIndicators")}</div>
+            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-green)]">{stableCount} / {indicators.length}</div>
+          </div>
+        </div>
+        <div className="mt-3 rounded-lg border border-border bg-background p-3">
+          <div className="text-xs text-muted-foreground">{t("recommendedAction")}</div>
+          <p className={`mt-1 text-sm leading-relaxed font-medium ${s.fg}`}>{t(recommendedActionKey(status))}</p>
+        </div>
+      </div>
+
+      {/* Per-indicator */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
           const state = colorStateFor(i.value);
@@ -258,6 +299,7 @@ function AnalysisPanel({
         })}
       </div>
 
+      {/* Global Status */}
       <div className="mt-4 rounded-xl border border-border bg-card p-5 shadow-sm">
         <div className="flex flex-wrap items-start gap-4">
           <div className="flex-1">
@@ -281,11 +323,9 @@ function AnalysisPanel({
         </div>
       )}
 
-      <div
-        dir={isRTL ? "rtl" : "ltr"}
-        className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}
-      >
-        {t("appName")} — {dateStr}
+      {/* Footer */}
+      <div className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}>
+        {t("confidentialFooter")} — {reportMeta.id} — {dateStr}
       </div>
     </section>
   );
@@ -301,6 +341,7 @@ function DashboardPage() {
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
+  const [reportMeta, setReportMeta] = useState<{ id: string; date: Date } | null>(null);
   const analysisRef = useRef<HTMLElement | null>(null);
 
   const tick = async (value: number) => {
@@ -309,8 +350,22 @@ function DashboardPage() {
     await new Promise((r) => setTimeout(r, 30));
   };
 
+  const setPdfMetadata = (pdf: any, meta: { id: string; date: Date }) => {
+    pdf.setProperties({
+      title: `${t("reportHeader")} — ${meta.id}`,
+      subject: `${t("globalStatus")}: ${t(status)}`,
+      author: `${t("appName")} V1.0`,
+      keywords: `GSOS, ${status}, ${t("langName")}, ${meta.id}`,
+      creator: `${t("appName")} V1.0`,
+    });
+    try { pdf.setLanguage?.(lang); } catch { /* noop */ }
+  };
+
+  const buildFilename = (meta: { id: string; date: Date }, suffix = "") =>
+    `GSOS-Observer-${status.toUpperCase()}-${fileStamp(meta.date)}${suffix}.pdf`;
+
   const handleExportPdf = async () => {
-    if (!analysisRef.current) return;
+    if (!analysisRef.current || !reportMeta) return;
     setExporting(true);
     setExportProgress(0);
     try {
@@ -326,16 +381,16 @@ function DashboardPage() {
       await tick(70);
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      setPdfMetadata(pdf, reportMeta);
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
       const margin = 24;
       const maxW = pageW - margin * 2;
       const imgH = (canvas.height * maxW) / canvas.width;
-      let y = margin;
       let remaining = imgH;
       await tick(85);
       if (imgH <= pageH - margin * 2) {
-        pdf.addImage(imgData, "PNG", margin, y, maxW, imgH);
+        pdf.addImage(imgData, "PNG", margin, margin, maxW, imgH);
       } else {
         let position = 0;
         while (remaining > 0) {
@@ -345,11 +400,23 @@ function DashboardPage() {
           if (remaining > 0) pdf.addPage();
         }
       }
+      // Page numbers + footer overlay
+      const pageCount = pdf.getNumberOfPages();
+      const isRTL = lang === "ar";
+      for (let p = 1; p <= pageCount; p++) {
+        pdf.setPage(p);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(140, 140, 140);
+        const pageLabel = t("pageOf").replace("{x}", String(p)).replace("{y}", String(pageCount));
+        if (isRTL) {
+          pdf.text(pageLabel, margin, pageH - 14);
+        } else {
+          pdf.text(pageLabel, pageW - margin, pageH - 14, { align: "right" });
+        }
+      }
       await tick(95);
-      const d = new Date();
-      const pad = (n: number) => String(n).padStart(2, "0");
-      const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
-      pdf.save(`gsos-analysis-${status.toUpperCase()}-${dateStr}.pdf`);
+      pdf.save(buildFilename(reportMeta));
       await tick(100);
     } finally {
       setExporting(false);
@@ -358,6 +425,7 @@ function DashboardPage() {
   };
 
   const handleExportPdfText = async () => {
+    if (!reportMeta) return;
     // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
     if (lang === "ar") {
       await handleExportPdf();
@@ -370,16 +438,14 @@ function DashboardPage() {
       const { jsPDF } = await import("jspdf");
       await tick(35);
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      setPdfMetadata(pdf, reportMeta);
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
       const margin = 48;
       const maxW = pageW - margin * 2;
       let y = margin;
 
-      const d = new Date();
-      const pad = (n: number) => String(n).padStart(2, "0");
-      const stamp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}-${pad(d.getMinutes())}`;
-      const dateStr = d.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", {
+      const dateStr = reportMeta.date.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", {
         dateStyle: "medium",
         timeStyle: "short",
       });
@@ -391,7 +457,7 @@ function DashboardPage() {
       };
 
       const ensureSpace = (h: number) => {
-        if (y + h > pageH - margin) {
+        if (y + h > pageH - margin - 24) {
           pdf.addPage();
           y = margin;
         }
@@ -409,55 +475,68 @@ function DashboardPage() {
         y += lines.length * lineH;
       };
 
-      // Header
-      writeWrapped(t("reportHeader"), 18, { bold: true });
-      y += 4;
-      writeWrapped(`${t("exportDate")}: ${dateStr}`, 10, { color: [110, 110, 110] });
-      writeWrapped(
-        `${t("globalStatus")}: ${t(status)}`,
-        12,
-        { bold: true, color: statusColor[status] },
-      );
-      y += 8;
-      pdf.setDrawColor(220, 220, 220);
-      pdf.line(margin, y, pageW - margin, y);
-      y += 16;
-      await tick(55);
+      const hr = () => {
+        ensureSpace(12);
+        pdf.setDrawColor(220, 220, 220);
+        pdf.line(margin, y, pageW - margin, y);
+        y += 12;
+      };
 
-
-      // Analysis title
-      writeWrapped(t("analysisTitle"), 14, { bold: true });
+      // === Report Identity ===
+      writeWrapped(t("reportHeader"), 20, { bold: true });
+      writeWrapped(`${t("appName")} — ${t("version")} 1.0`, 10, { color: [110, 110, 110] });
       y += 6;
+      writeWrapped(`${t("reportId")}: ${reportMeta.id}`, 10, { color: [60, 60, 60] });
+      writeWrapped(`${t("generationDate")}: ${dateStr}`, 10, { color: [60, 60, 60] });
+      writeWrapped(`${t("languageLabel")}: ${t("langName")}`, 10, { color: [60, 60, 60] });
+      hr();
+      await tick(45);
 
-      // Per-indicator
+      // === Executive Summary ===
+      writeWrapped(t("executiveSummary"), 14, { bold: true });
+      y += 2;
+      const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
+      const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
+      writeWrapped(`${t("overallRiskLevel")}: ${t(status)}`, 11, { bold: true, color: statusColor[status] });
+      writeWrapped(`${t("criticalIndicators")}: ${criticalCount} / ${indicators.length}`, 11);
+      writeWrapped(`${t("stableIndicators")}: ${stableCount} / ${indicators.length}`, 11);
+      writeWrapped(`${t("recommendedAction")}: ${t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
+      hr();
+      await tick(60);
+
+      // === Analysis Result ===
+      writeWrapped(t("analysisTitle"), 14, { bold: true });
+      y += 4;
       indicators.forEach((i) => {
         const state = colorStateFor(i.value);
         const color: [number, number, number] =
           state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
         writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
         writeWrapped(t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
-        y += 6;
+        y += 4;
       });
+      hr();
 
-      // Global explanation
-      y += 4;
+      // === Global Status ===
       writeWrapped(t("globalStatus"), 14, { bold: true });
-      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: statusColor[status] });
-      await tick(80);
+      writeWrapped(t(status), 12, { bold: true, color: statusColor[status] });
+      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
+      await tick(85);
 
-      // Footer on every page
+      // === Footer on every page ===
       const pageCount = pdf.getNumberOfPages();
       for (let p = 1; p <= pageCount; p++) {
         pdf.setPage(p);
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(9);
         pdf.setTextColor(140, 140, 140);
-        pdf.text(`${t("appName")} — ${dateStr}`, margin, pageH - 20);
-        pdf.text(`${p} / ${pageCount}`, pageW - margin, pageH - 20, { align: "right" });
+        pdf.text(`${t("confidentialFooter")} — ${reportMeta.id}`, margin, pageH - 20);
+        const pageLabel = t("pageOf").replace("{x}", String(p)).replace("{y}", String(pageCount));
+        pdf.text(pageLabel, pageW - margin, pageH - 20, { align: "right" });
       }
       await tick(95);
 
-      pdf.save(`gsos-analysis-${status.toUpperCase()}-${stamp}-text.pdf`);
+      pdf.save(buildFilename(reportMeta));
       await tick(100);
     } finally {
       setExporting(false);
@@ -482,6 +561,8 @@ function DashboardPage() {
     setShowAnalysis(false);
     setTimeout(() => {
       analyse();
+      const d = new Date();
+      setReportMeta({ id: generateReportId(d), date: d });
       setAnalysing(false);
       setShowAnalysis(true);
     }, 400);
@@ -568,7 +649,7 @@ function DashboardPage() {
           </div>
         </GsosCard>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} exportDate={new Date()} />}
+        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} />}
       </main>
     </div>
   );
