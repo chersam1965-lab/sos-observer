@@ -135,6 +135,26 @@ function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "glo
   }
 }
 
+function recommendedActionKey(status: "stable" | "monitor" | "risk"): "recommendedActionStable" | "recommendedActionMonitor" | "recommendedActionRisk" {
+  switch (status) {
+    case "stable": return "recommendedActionStable";
+    case "monitor": return "recommendedActionMonitor";
+    case "risk": return "recommendedActionRisk";
+  }
+}
+
+function formatPad(n: number) { return String(n).padStart(2, "0"); }
+
+function generateReportId(d: Date): string {
+  const stamp = `${d.getFullYear()}${formatPad(d.getMonth() + 1)}${formatPad(d.getDate())}-${formatPad(d.getHours())}${formatPad(d.getMinutes())}${formatPad(d.getSeconds())}`;
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `GSOS-${stamp}-${rand}`;
+}
+
+function fileStamp(d: Date): string {
+  return `${d.getFullYear()}-${formatPad(d.getMonth() + 1)}-${formatPad(d.getDate())}-${formatPad(d.getHours())}-${formatPad(d.getMinutes())}`;
+}
+
 function AnalysisPanel({
   indicators,
   status,
