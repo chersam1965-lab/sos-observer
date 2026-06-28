@@ -649,7 +649,7 @@ function DashboardPage() {
           </div>
         </GsosCard>
 
-        {showAnalysis && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} exportDate={new Date()} />}
+        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} />}
       </main>
     </div>
   );
