@@ -163,7 +163,7 @@ function AnalysisPanel({
   onExportText,
   exporting,
   exportProgress,
-  exportDate,
+  reportMeta,
 }: {
   indicators: Indicator[];
   status: "stable" | "monitor" | "risk";
@@ -172,37 +172,40 @@ function AnalysisPanel({
   onExportText: () => void;
   exporting: boolean;
   exportProgress: number;
-  exportDate?: Date;
+  reportMeta: { id: string; date: Date };
 }) {
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
   const isRTL = lang === "ar";
-  const now = exportDate ?? new Date();
-  const dateStr = now.toLocaleString(
+  const dateStr = reportMeta.date.toLocaleString(
     isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
     { dateStyle: "medium", timeStyle: "short" },
   );
+  const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
+  const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
 
   return (
-    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <div
-        dir={isRTL ? "rtl" : "ltr"}
-        className={`mb-4 rounded-xl border border-border bg-card p-4 shadow-sm ${isRTL ? "text-right" : "text-left"}`}
-      >
-        <div className="text-sm font-semibold tracking-tight">{t("reportHeader")}</div>
-        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-          <span className="text-muted-foreground">
-            {t("globalStatus")}: <span className={`font-semibold ${s.fg}`}>{t(status)}</span>
-          </span>
-          <span className="text-muted-foreground">
-            {t("exportDate")}: <span className="tabular-nums font-medium">{dateStr}</span>
-          </span>
+    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500" dir={isRTL ? "rtl" : "ltr"}>
+      {/* Report Identity */}
+      <div className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div className="text-base font-semibold tracking-tight">{t("reportHeader")}</div>
+            <div className="text-xs text-muted-foreground">{t("appName")} — {t("version")} 1.0</div>
+          </div>
+          <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.bg} ${s.fg}`}>{t(status)}</span>
         </div>
+        <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 text-xs sm:grid-cols-3">
+          <div><dt className="text-muted-foreground">{t("reportId")}</dt><dd className="font-mono font-medium">{reportMeta.id}</dd></div>
+          <div><dt className="text-muted-foreground">{t("generationDate")}</dt><dd className="tabular-nums font-medium">{dateStr}</dd></div>
+          <div><dt className="text-muted-foreground">{t("languageLabel")}</dt><dd className="font-medium">{t("langName")}</dd></div>
+        </dl>
       </div>
 
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+      {/* Toolbar */}
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3" data-export-ignore>
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
-        <div className="flex flex-wrap items-center gap-2" data-export-ignore>
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={onExportText}
             disabled={exporting}
@@ -211,9 +214,7 @@ function AnalysisPanel({
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
-            )}
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
           <button
@@ -224,9 +225,7 @@ function AnalysisPanel({
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />
-            )}
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
         </div>
@@ -249,13 +248,35 @@ function AnalysisPanel({
             <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
-            <div
-              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-              style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
-            />
+            <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }} />
           </div>
         </div>
       )}
+
+      {/* Executive Summary */}
+      <div className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+        <h3 className="text-sm font-semibold tracking-tight">{t("executiveSummary")}</h3>
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border border-border bg-background p-3">
+            <div className="text-xs text-muted-foreground">{t("overallRiskLevel")}</div>
+            <div className={`mt-1 text-lg font-semibold ${s.fg}`}>{t(status)}</div>
+          </div>
+          <div className="rounded-lg border border-border bg-background p-3">
+            <div className="text-xs text-muted-foreground">{t("criticalIndicators")}</div>
+            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-red)]">{criticalCount} / {indicators.length}</div>
+          </div>
+          <div className="rounded-lg border border-border bg-background p-3">
+            <div className="text-xs text-muted-foreground">{t("stableIndicators")}</div>
+            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-green)]">{stableCount} / {indicators.length}</div>
+          </div>
+        </div>
+        <div className="mt-3 rounded-lg border border-border bg-background p-3">
+          <div className="text-xs text-muted-foreground">{t("recommendedAction")}</div>
+          <p className={`mt-1 text-sm leading-relaxed font-medium ${s.fg}`}>{t(recommendedActionKey(status))}</p>
+        </div>
+      </div>
+
+      {/* Per-indicator */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {indicators.map((i) => {
           const state = colorStateFor(i.value);
@@ -278,6 +299,7 @@ function AnalysisPanel({
         })}
       </div>
 
+      {/* Global Status */}
       <div className="mt-4 rounded-xl border border-border bg-card p-5 shadow-sm">
         <div className="flex flex-wrap items-start gap-4">
           <div className="flex-1">
@@ -301,11 +323,9 @@ function AnalysisPanel({
         </div>
       )}
 
-      <div
-        dir={isRTL ? "rtl" : "ltr"}
-        className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}
-      >
-        {t("appName")} — {dateStr}
+      {/* Footer */}
+      <div className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}>
+        {t("confidentialFooter")} — {reportMeta.id} — {dateStr}
       </div>
     </section>
   );
