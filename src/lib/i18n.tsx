@@ -58,6 +58,11 @@ const dict = {
     pageOf: "Page {x} of {y}",
     confidentialFooter: "GSOS Observer V1.0 — International Audit Report",
     explanation: "Explanation",
+    previewReport: "Preview report",
+    previewTitle: "Report preview",
+    previewSubtitle: "Review the report before exporting to PDF.",
+    closePreview: "Close",
+    pageOnePreview: "Page 1 of 1 (preview)",
 
   },
   fr: {
@@ -115,6 +120,11 @@ const dict = {
     pageOf: "Page {x} sur {y}",
     confidentialFooter: "GSOS Observer V1.0 — Rapport d'audit international",
     explanation: "Explication",
+    previewReport: "Aperçu du rapport",
+    previewTitle: "Aperçu du rapport",
+    previewSubtitle: "Vérifiez le rapport avant l'exportation en PDF.",
+    closePreview: "Fermer",
+    pageOnePreview: "Page 1 sur 1 (aperçu)",
 
   },
   ar: {
@@ -172,6 +182,11 @@ const dict = {
     pageOf: "صفحة {x} من {y}",
     confidentialFooter: "مرصد GSOS الإصدار 1.0 — تقرير تدقيق دولي",
     explanation: "التفسير",
+    previewReport: "معاينة التقرير",
+    previewTitle: "معاينة التقرير",
+    previewSubtitle: "راجع التقرير قبل تصديره إلى PDF.",
+    closePreview: "إغلاق",
+    pageOnePreview: "صفحة 1 من 1 (معاينة)",
 
   },
 } as const;
