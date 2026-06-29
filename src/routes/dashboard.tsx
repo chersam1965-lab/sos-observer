@@ -668,7 +668,19 @@ function DashboardPage() {
           </div>
         </GsosCard>
 
-        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} />}
+        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} onPreview={() => setPreviewOpen(true)} />}
+        {reportMeta && (
+          <ReportPreviewDialog
+            open={previewOpen}
+            onOpenChange={setPreviewOpen}
+            indicators={indicators}
+            status={status}
+            reportMeta={reportMeta}
+            exporting={exporting}
+            onExport={async () => { await handleExportPdf(); }}
+            onExportText={async () => { await handleExportPdfText(); }}
+          />
+        )}
       </main>
     </div>
   );
