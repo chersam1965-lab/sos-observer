@@ -818,6 +818,7 @@ function DashboardPage() {
             status={status}
             reportMeta={reportMeta}
             exporting={exporting}
+            exportProgress={exportProgress}
             onExport={async () => { await handleExportPdf(); }}
             onExportText={async () => { await handleExportPdfText(); }}
           />
