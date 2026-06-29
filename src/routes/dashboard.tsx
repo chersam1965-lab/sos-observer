@@ -217,7 +217,15 @@ function AnalysisPanel({
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
         <div className="flex flex-wrap items-center gap-2">
           <button
-            onClick={onExportText}
+            onClick={onPreview}
+            disabled={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {t("previewReport")}
+          </button>
+          <button
             disabled={exporting}
             aria-busy={exporting}
             aria-disabled={exporting}
