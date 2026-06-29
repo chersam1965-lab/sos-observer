@@ -482,7 +482,9 @@ function ReportPreviewDialog({
             type="button"
             onClick={() => onOpenChange(false)}
             disabled={exporting}
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {t("closePreview")}
           </button>
@@ -491,7 +493,9 @@ function ReportPreviewDialog({
             onClick={async () => { await onExportText(); onOpenChange(false); }}
             disabled={exporting}
             aria-busy={exporting}
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdfText")}
@@ -501,7 +505,9 @@ function ReportPreviewDialog({
             onClick={async () => { await onExport(); onOpenChange(false); }}
             disabled={exporting}
             aria-busy={exporting}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdf")}
