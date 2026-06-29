@@ -10,6 +10,14 @@ import {
 } from "@/lib/indicators";
 import { GsosCard, GsosCardHeader, GsosCardTitle } from "@/components/GsosCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
