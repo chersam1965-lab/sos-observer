@@ -120,6 +120,11 @@ const dict = {
     pageOf: "Page {x} sur {y}",
     confidentialFooter: "GSOS Observer V1.0 — Rapport d'audit international",
     explanation: "Explication",
+    previewReport: "Aperçu du rapport",
+    previewTitle: "Aperçu du rapport",
+    previewSubtitle: "Vérifiez le rapport avant l'exportation en PDF.",
+    closePreview: "Fermer",
+    pageOnePreview: "Page 1 sur 1 (aperçu)",
 
   },
   ar: {
