@@ -172,6 +172,7 @@ function AnalysisPanel({
   exporting,
   exportProgress,
   reportMeta,
+  onPreview,
 }: {
   indicators: Indicator[];
   status: "stable" | "monitor" | "risk";
@@ -181,6 +182,7 @@ function AnalysisPanel({
   exporting: boolean;
   exportProgress: number;
   reportMeta: { id: string; date: Date };
+  onPreview: () => void;
 }) {
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
