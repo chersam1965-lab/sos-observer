@@ -182,6 +182,11 @@ const dict = {
     pageOf: "صفحة {x} من {y}",
     confidentialFooter: "مرصد GSOS الإصدار 1.0 — تقرير تدقيق دولي",
     explanation: "التفسير",
+    previewReport: "معاينة التقرير",
+    previewTitle: "معاينة التقرير",
+    previewSubtitle: "راجع التقرير قبل تصديره إلى PDF.",
+    closePreview: "إغلاق",
+    pageOnePreview: "صفحة 1 من 1 (معاينة)",
 
   },
 } as const;
