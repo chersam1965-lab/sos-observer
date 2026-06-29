@@ -356,6 +356,7 @@ function ReportPreviewDialog({
   status,
   reportMeta,
   exporting,
+  exportProgress,
   onExport,
   onExportText,
 }: {
@@ -365,6 +366,7 @@ function ReportPreviewDialog({
   status: "stable" | "monitor" | "risk";
   reportMeta: { id: string; date: Date };
   exporting: boolean;
+  exportProgress: number;
   onExport: () => Promise<void>;
   onExportText: () => Promise<void>;
 }) {
@@ -454,12 +456,35 @@ function ReportPreviewDialog({
           </div>
         </div>
 
+        {exporting && (
+          <div
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(exportProgress)}
+            aria-valuetext={`${Math.round(exportProgress)}%`}
+            aria-label={t("exporting")}
+            aria-live="polite"
+            className="mt-3 rounded-lg border border-border bg-card p-3 shadow-sm"
+          >
+            <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
+              <span>{t("exporting")}</span>
+              <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
+              <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }} />
+            </div>
+          </div>
+        )}
+
         <DialogFooter className="mt-2 gap-2 sm:gap-2">
           <button
             type="button"
             onClick={() => onOpenChange(false)}
             disabled={exporting}
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {t("closePreview")}
           </button>
@@ -468,7 +493,9 @@ function ReportPreviewDialog({
             onClick={async () => { await onExportText(); onOpenChange(false); }}
             disabled={exporting}
             aria-busy={exporting}
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdfText")}
@@ -478,7 +505,9 @@ function ReportPreviewDialog({
             onClick={async () => { await onExport(); onOpenChange(false); }}
             disabled={exporting}
             aria-busy={exporting}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdf")}
@@ -816,6 +845,7 @@ function DashboardPage() {
             status={status}
             reportMeta={reportMeta}
             exporting={exporting}
+            exportProgress={exportProgress}
             onExport={async () => { await handleExportPdf(); }}
             onExportText={async () => { await handleExportPdfText(); }}
           />
