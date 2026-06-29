@@ -456,6 +456,27 @@ function ReportPreviewDialog({
           </div>
         </div>
 
+        {exporting && (
+          <div
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(exportProgress)}
+            aria-valuetext={`${Math.round(exportProgress)}%`}
+            aria-label={t("exporting")}
+            aria-live="polite"
+            className="mt-3 rounded-lg border border-border bg-card p-3 shadow-sm"
+          >
+            <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
+              <span>{t("exporting")}</span>
+              <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
+              <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }} />
+            </div>
+          </div>
+        )}
+
         <DialogFooter className="mt-2 gap-2 sm:gap-2">
           <button
             type="button"
