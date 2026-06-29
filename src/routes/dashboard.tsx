@@ -356,6 +356,7 @@ function ReportPreviewDialog({
   status,
   reportMeta,
   exporting,
+  exportProgress,
   onExport,
   onExportText,
 }: {
@@ -365,6 +366,7 @@ function ReportPreviewDialog({
   status: "stable" | "monitor" | "risk";
   reportMeta: { id: string; date: Date };
   exporting: boolean;
+  exportProgress: number;
   onExport: () => Promise<void>;
   onExportText: () => Promise<void>;
 }) {
