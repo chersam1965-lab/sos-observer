@@ -349,6 +349,145 @@ function AnalysisPanel({
   );
 }
 
+function ReportPreviewDialog({
+  open,
+  onOpenChange,
+  indicators,
+  status,
+  reportMeta,
+  exporting,
+  onExport,
+  onExportText,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  indicators: Indicator[];
+  status: "stable" | "monitor" | "risk";
+  reportMeta: { id: string; date: Date };
+  exporting: boolean;
+  onExport: () => Promise<void>;
+  onExportText: () => Promise<void>;
+}) {
+  const { t, lang } = useI18n();
+  const s = STATUS_STYLE[status];
+  const isRTL = lang === "ar";
+  const dateStr = reportMeta.date.toLocaleString(
+    isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
+    { dateStyle: "medium", timeStyle: "short" },
+  );
+  const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
+  const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" dir={isRTL ? "rtl" : "ltr"}>
+        <DialogHeader className={isRTL ? "text-right" : "text-left"}>
+          <DialogTitle>{t("previewTitle")}</DialogTitle>
+          <DialogDescription>{t("previewSubtitle")}</DialogDescription>
+        </DialogHeader>
+
+        {/* Simulated A4 page */}
+        <div className={`mt-2 rounded-lg border border-border bg-card shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+          {/* Header band */}
+          <div className="flex flex-wrap items-start justify-between gap-2 border-b border-border px-5 py-3">
+            <div>
+              <div className="text-sm font-semibold tracking-tight">{t("reportHeader")}</div>
+              <div className="text-[11px] text-muted-foreground">{t("appName")} — {t("version")} 1.0</div>
+            </div>
+            <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${s.bg} ${s.fg}`}>{t(status)}</span>
+          </div>
+
+          {/* Body */}
+          <div className="space-y-4 px-5 py-4">
+            <dl className="grid grid-cols-1 gap-x-6 gap-y-1 text-[11px] sm:grid-cols-3">
+              <div><dt className="text-muted-foreground">{t("reportId")}</dt><dd className="font-mono font-medium">{reportMeta.id}</dd></div>
+              <div><dt className="text-muted-foreground">{t("generationDate")}</dt><dd className="tabular-nums font-medium">{dateStr}</dd></div>
+              <div><dt className="text-muted-foreground">{t("languageLabel")}</dt><dd className="font-medium">{t("langName")}</dd></div>
+            </dl>
+
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("executiveSummary")}</h4>
+              <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <div className="rounded-md border border-border bg-background p-2">
+                  <div className="text-[11px] text-muted-foreground">{t("overallRiskLevel")}</div>
+                  <div className={`text-sm font-semibold ${s.fg}`}>{t(status)}</div>
+                </div>
+                <div className="rounded-md border border-border bg-background p-2">
+                  <div className="text-[11px] text-muted-foreground">{t("criticalIndicators")}</div>
+                  <div className="text-sm font-semibold tabular-nums text-[color:var(--status-red)]">{criticalCount} / {indicators.length}</div>
+                </div>
+                <div className="rounded-md border border-border bg-background p-2">
+                  <div className="text-[11px] text-muted-foreground">{t("stableIndicators")}</div>
+                  <div className="text-sm font-semibold tabular-nums text-[color:var(--status-green)]">{stableCount} / {indicators.length}</div>
+                </div>
+              </div>
+              <div className="mt-2 rounded-md border border-border bg-background p-2">
+                <div className="text-[11px] text-muted-foreground">{t("recommendedAction")}</div>
+                <p className={`text-xs font-medium leading-relaxed ${s.fg}`}>{t(recommendedActionKey(status))}</p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("analysisTitle")}</h4>
+              <ul className="mt-2 space-y-1.5">
+                {indicators.map((i) => {
+                  const state = colorStateFor(i.value);
+                  const c = COLOR_CLASSES[state];
+                  return (
+                    <li key={i.key} className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-2 py-1.5 text-xs">
+                      <span className="font-medium">{t(i.key)}</span>
+                      <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium ${c.bg} ${c.fg}`}>
+                        <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
+                        {i.value} — {state.toUpperCase()}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+
+          {/* Footer band with page number */}
+          <div className={`flex flex-wrap items-center justify-between gap-2 border-t border-border px-5 py-2 text-[11px] text-muted-foreground ${isRTL ? "flex-row-reverse" : ""}`}>
+            <span>{t("confidentialFooter")} — {reportMeta.id}</span>
+            <span className="tabular-nums">{t("pageOnePreview")}</span>
+          </div>
+        </div>
+
+        <DialogFooter className="mt-2 gap-2 sm:gap-2">
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            disabled={exporting}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+          >
+            {t("closePreview")}
+          </button>
+          <button
+            type="button"
+            onClick={async () => { await onExportText(); onOpenChange(false); }}
+            disabled={exporting}
+            aria-busy={exporting}
+            className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:opacity-60"
+          >
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting ? t("exporting") : t("exportPdfText")}
+          </button>
+          <button
+            type="button"
+            onClick={async () => { await onExport(); onOpenChange(false); }}
+            disabled={exporting}
+            aria-busy={exporting}
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
+          >
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting ? t("exporting") : t("exportPdf")}
+          </button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 function DashboardPage() {
   const { t, lang } = useI18n();
