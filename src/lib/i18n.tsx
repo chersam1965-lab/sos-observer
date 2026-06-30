@@ -235,8 +235,32 @@ const dict = {
     previewSubtitle: "راجع التقرير قبل تصديره إلى PDF.",
     closePreview: "إغلاق",
     pageOnePreview: "صفحة 1 من 1 (معاينة)",
-
+    aiReview: "مراجعة بالذكاء الاصطناعي",
+    aiReviewing: "جاري التحليل بالذكاء الاصطناعي…",
+    aiReviewTitle: "مساعد الكتابة بالذكاء الاصطناعي",
+    aiReviewSubtitle: "اقتراحات لتحسين الوضوح والقواعد والأسلوب. لا يتم تعديل القيم الرقمية أو المعرفات أو التواريخ أبدًا.",
+    aiNoSuggestions: "لا توجد اقتراحات — التقرير مكتوب بشكل جيد.",
+    aiWritingQuality: "جودة الكتابة",
+    aiReadability: "سهولة القراءة",
+    aiAcceptAll: "قبول الكل",
+    aiAcceptSelected: "قبول المحدد",
+    aiRejectAll: "رفض الكل",
+    aiExportCorrected: "تصدير PDF المصحح",
+    aiOriginal: "الأصلي",
+    aiSuggested: "المقترح",
+    aiSection: "القسم",
+    aiType: "النوع",
+    aiTypeSpelling: "إملاء",
+    aiTypeGrammar: "قواعد",
+    aiTypeStyle: "أسلوب",
+    aiTypeClarity: "وضوح",
+    aiTypeDuplication: "تكرار",
+    aiTypeReadability: "قابلية القراءة",
+    aiClose: "إغلاق",
+    aiError: "فشلت المراجعة بالذكاء الاصطناعي. يرجى المحاولة مرة أخرى.",
+    aiSelectAll: "تحديد الكل",
   },
+
 } as const;
 
 type Key = keyof typeof dict["en"];
