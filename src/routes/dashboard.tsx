@@ -905,7 +905,7 @@ function DashboardPage() {
       writeWrapped(`${t("overallRiskLevel")}: ${t(status)}`, 11, { bold: true, color: statusColor[status] });
       writeWrapped(`${t("criticalIndicators")}: ${criticalCount} / ${indicators.length}`, 11);
       writeWrapped(`${t("stableIndicators")}: ${stableCount} / ${indicators.length}`, 11);
-      writeWrapped(`${t("recommendedAction")}: ${t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
+      writeWrapped(`${t("recommendedAction")}: ${ov["exec_recommended_action"] ?? t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
       hr();
       await tick(60);
 
