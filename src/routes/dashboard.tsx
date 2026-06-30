@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { isAuthed, signOut } from "@/lib/auth";
 import { useI18n, LanguageSwitcher } from "@/lib/i18n";
 import {
@@ -18,6 +19,8 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { reviewReport, type ReviewResult, type Suggestion } from "@/lib/ai-review.functions";
+
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -173,6 +176,7 @@ function AnalysisPanel({
   exportProgress,
   reportMeta,
   onPreview,
+  onAIReview,
 }: {
   indicators: Indicator[];
   status: "stable" | "monitor" | "risk";
@@ -183,7 +187,9 @@ function AnalysisPanel({
   exportProgress: number;
   reportMeta: { id: string; date: Date };
   onPreview: () => void;
+  onAIReview: () => void;
 }) {
+
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
   const isRTL = lang === "ar";
@@ -217,6 +223,16 @@ function AnalysisPanel({
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
         <div className="flex flex-wrap items-center gap-2">
           <button
+            onClick={onAIReview}
+            disabled={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center gap-2 rounded-md border border-primary bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <span aria-hidden="true">✦</span>
+            {t("aiReview")}
+          </button>
+          <button
             onClick={onPreview}
             disabled={exporting}
             aria-disabled={exporting}
@@ -226,12 +242,14 @@ function AnalysisPanel({
             {t("previewReport")}
           </button>
           <button
+            onClick={onExportText}
             disabled={exporting}
             aria-busy={exporting}
             aria-disabled={exporting}
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
+
             {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
@@ -518,7 +536,219 @@ function ReportPreviewDialog({
   );
 }
 
+type ReviewSectionInput = { id: string; label: string; text: string };
+
+function AIReviewDialog({
+  open,
+  onOpenChange,
+  sections,
+  lang,
+  onExportCorrected,
+  exporting,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  sections: ReviewSectionInput[];
+  lang: "en" | "fr" | "ar";
+  onExportCorrected: (overrides: Record<string, string>) => Promise<void>;
+  exporting: boolean;
+}) {
+  const { t } = useI18n();
+  const isRTL = lang === "ar";
+  const runReview = useServerFn(reviewReport);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<ReviewResult | null>(null);
+  const [accepted, setAccepted] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    setResult(null);
+    setAccepted(new Set());
+    runReview({ data: { lang, sections } })
+      .then((r) => { if (!cancelled) setResult(r); })
+      .catch((e: unknown) => { if (!cancelled) setError(e instanceof Error ? e.message : t("aiError")); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const toggle = (id: string) => {
+    setAccepted((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+  const acceptAll = () => setResult((r) => { if (r) setAccepted(new Set(r.suggestions.map((s) => s.id))); return r; });
+  const rejectAll = () => setAccepted(new Set());
+
+  const overrides = useMemo<Record<string, string>>(() => {
+    if (!result) return {};
+    // Apply accepted suggestions per section
+    const bySection: Record<string, Suggestion[]> = {};
+    result.suggestions.forEach((s) => {
+      if (!accepted.has(s.id)) return;
+      (bySection[s.sectionId] ||= []).push(s);
+    });
+    const out: Record<string, string> = {};
+    for (const sec of sections) {
+      const list = bySection[sec.id];
+      if (!list || list.length === 0) continue;
+      let text = sec.text;
+      for (const s of list) {
+        if (s.original && text.includes(s.original)) {
+          text = text.split(s.original).join(s.suggested);
+        } else {
+          // Fallback: replace whole section if no exact match
+          text = s.suggested;
+        }
+      }
+      out[sec.id] = text;
+    }
+    return out;
+  }, [result, accepted, sections]);
+
+  const typeLabel = (type: Suggestion["type"]) => {
+    switch (type) {
+      case "spelling": return t("aiTypeSpelling");
+      case "grammar": return t("aiTypeGrammar");
+      case "style": return t("aiTypeStyle");
+      case "clarity": return t("aiTypeClarity");
+      case "duplication": return t("aiTypeDuplication");
+      case "readability": return t("aiTypeReadability");
+    }
+  };
+
+  const scoreColor = (n: number) =>
+    n >= 85 ? "text-[color:var(--status-green)]" : n >= 65 ? "text-[color:var(--status-yellow)]" : "text-[color:var(--status-red)]";
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-3xl" dir={isRTL ? "rtl" : "ltr"}>
+        <DialogHeader>
+          <DialogTitle>{t("aiReviewTitle")}</DialogTitle>
+          <DialogDescription>{t("aiReviewSubtitle")}</DialogDescription>
+        </DialogHeader>
+
+        {loading && (
+          <div role="status" aria-live="polite" className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 text-sm">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />
+            <span>{t("aiReviewing")}</span>
+          </div>
+        )}
+
+        {error && (
+          <div role="alert" className="rounded-lg border border-[color:var(--status-red)] bg-[color:var(--status-red-soft)] p-3 text-sm text-[color:var(--status-red)]">
+            {error}
+          </div>
+        )}
+
+        {result && !loading && (
+          <div className="space-y-4">
+            {/* Scores */}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="rounded-lg border border-border bg-card p-3">
+                <div className="text-xs text-muted-foreground">{t("aiWritingQuality")}</div>
+                <div className={`mt-1 text-2xl font-semibold tabular-nums ${scoreColor(result.writingQualityScore)}`}>
+                  {result.writingQualityScore}<span className="text-sm text-muted-foreground">/100</span>
+                </div>
+              </div>
+              <div className="rounded-lg border border-border bg-card p-3">
+                <div className="text-xs text-muted-foreground">{t("aiReadability")}</div>
+                <div className={`mt-1 text-2xl font-semibold ${scoreColor(result.readabilityScore)}`}>
+                  {result.readabilityLabel || result.readabilityScore + "/100"}
+                </div>
+              </div>
+            </div>
+
+            {result.summary && (
+              <p className="rounded-lg border border-border bg-secondary/40 p-3 text-sm leading-relaxed">{result.summary}</p>
+            )}
+
+            {/* Suggestions list */}
+            {result.suggestions.length === 0 ? (
+              <p className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">{t("aiNoSuggestions")}</p>
+            ) : (
+              <>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button onClick={acceptAll} className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary">
+                    {t("aiAcceptAll")}
+                  </button>
+                  <button onClick={rejectAll} className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary">
+                    {t("aiRejectAll")}
+                  </button>
+                  <span className="text-xs text-muted-foreground">{accepted.size} / {result.suggestions.length}</span>
+                </div>
+                <ul className="max-h-[40vh] space-y-2 overflow-y-auto pr-1">
+                  {result.suggestions.map((s) => {
+                    const isOn = accepted.has(s.id);
+                    const sec = sections.find((x) => x.id === s.sectionId);
+                    return (
+                      <li key={s.id} className={`rounded-lg border p-3 transition-colors ${isOn ? "border-primary bg-primary/5" : "border-border bg-card"}`}>
+                        <label className="flex cursor-pointer items-start gap-3">
+                          <input
+                            type="checkbox"
+                            checked={isOn}
+                            onChange={() => toggle(s.id)}
+                            className="mt-1 h-4 w-4 cursor-pointer"
+                            aria-label={`${t("aiAcceptSelected")}: ${s.id}`}
+                          />
+                          <div className="min-w-0 flex-1 text-sm">
+                            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
+                              <span className="rounded-full bg-secondary px-2 py-0.5 font-medium">{typeLabel(s.type)}</span>
+                              {sec && <span className="text-muted-foreground">{t("aiSection")}: {sec.label}</span>}
+                            </div>
+                            <div className="grid gap-2 sm:grid-cols-2">
+                              <div>
+                                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("aiOriginal")}</div>
+                                <p className="rounded bg-[color:var(--status-red-soft)] p-2 text-[color:var(--status-red)] line-through decoration-1">{s.original}</p>
+                              </div>
+                              <div>
+                                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("aiSuggested")}</div>
+                                <p className="rounded bg-[color:var(--status-green-soft)] p-2 text-[color:var(--status-green)]">{s.suggested}</p>
+                              </div>
+                            </div>
+                            {s.explanation && <p className="mt-2 text-xs text-muted-foreground">{s.explanation}</p>}
+                          </div>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            )}
+          </div>
+        )}
+
+        <DialogFooter className="gap-2">
+          <button
+            onClick={() => onOpenChange(false)}
+            className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary"
+          >
+            {t("aiClose")}
+          </button>
+          <button
+            onClick={async () => { await onExportCorrected(overrides); }}
+            disabled={loading || exporting || !result}
+            aria-disabled={loading || exporting || !result}
+            aria-busy={exporting}
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {t("aiExportCorrected")}
+          </button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function DashboardPage() {
+
   const { t, lang } = useI18n();
   const navigate = useNavigate();
   const { indicators, updatedAt, analyse } = useIndicators();
@@ -529,7 +759,9 @@ function DashboardPage() {
   const [exportProgress, setExportProgress] = useState(0);
   const [reportMeta, setReportMeta] = useState<{ id: string; date: Date } | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [aiReviewOpen, setAiReviewOpen] = useState(false);
   const analysisRef = useRef<HTMLElement | null>(null);
+
 
   const tick = async (value: number) => {
     setExportProgress(value);
@@ -611,13 +843,16 @@ function DashboardPage() {
     }
   };
 
-  const handleExportPdfText = async () => {
+  const handleExportPdfText = async (overrides?: Record<string, string>) => {
     if (!reportMeta) return;
+    const hasOverrides = !!overrides && Object.keys(overrides).length > 0;
     // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
-    if (lang === "ar") {
+    if (lang === "ar" && !hasOverrides) {
       await handleExportPdf();
       return;
     }
+    const ov = overrides ?? {};
+
     setExporting(true);
     setExportProgress(0);
     try {
@@ -687,7 +922,7 @@ function DashboardPage() {
       writeWrapped(`${t("overallRiskLevel")}: ${t(status)}`, 11, { bold: true, color: statusColor[status] });
       writeWrapped(`${t("criticalIndicators")}: ${criticalCount} / ${indicators.length}`, 11);
       writeWrapped(`${t("stableIndicators")}: ${stableCount} / ${indicators.length}`, 11);
-      writeWrapped(`${t("recommendedAction")}: ${t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
+      writeWrapped(`${t("recommendedAction")}: ${ov["exec_recommended_action"] ?? t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
       hr();
       await tick(60);
 
@@ -699,7 +934,7 @@ function DashboardPage() {
         const color: [number, number, number] =
           state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
         writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
-        writeWrapped(t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
+        writeWrapped(ov[`indicator_${i.key}`] ?? t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
         y += 4;
       });
       hr();
@@ -707,7 +942,7 @@ function DashboardPage() {
       // === Global Status ===
       writeWrapped(t("globalStatus"), 14, { bold: true });
       writeWrapped(t(status), 12, { bold: true, color: statusColor[status] });
-      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
+      writeWrapped(ov["global_status"] ?? t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
       await tick(85);
 
       // === Footer on every page ===
@@ -723,7 +958,8 @@ function DashboardPage() {
       }
       await tick(95);
 
-      pdf.save(buildFilename(reportMeta));
+      pdf.save(buildFilename(reportMeta, hasOverrides ? "-AI" : ""));
+
       await tick(100);
     } finally {
       setExporting(false);
@@ -836,7 +1072,7 @@ function DashboardPage() {
           </div>
         </GsosCard>
 
-        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} onPreview={() => setPreviewOpen(true)} />}
+        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={() => handleExportPdfText()} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} onPreview={() => setPreviewOpen(true)} onAIReview={() => setAiReviewOpen(true)} />}
         {reportMeta && (
           <ReportPreviewDialog
             open={previewOpen}
@@ -850,6 +1086,28 @@ function DashboardPage() {
             onExportText={async () => { await handleExportPdfText(); }}
           />
         )}
+        {showAnalysis && reportMeta && (
+          <AIReviewDialog
+            open={aiReviewOpen}
+            onOpenChange={setAiReviewOpen}
+            lang={lang}
+            exporting={exporting}
+            sections={[
+              { id: "exec_recommended_action", label: t("recommendedAction"), text: t(recommendedActionKey(status)) },
+              ...indicators.map((i) => ({
+                id: `indicator_${i.key}`,
+                label: t(i.key),
+                text: t(statusExplanationKey(colorStateFor(i.value))),
+              })),
+              { id: "global_status", label: t("globalStatus"), text: t(globalStatusExplanationKey(status)) },
+            ]}
+            onExportCorrected={async (overrides) => {
+              await handleExportPdfText(overrides);
+              setAiReviewOpen(false);
+            }}
+          />
+        )}
+
       </main>
     </div>
   );
