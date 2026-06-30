@@ -223,6 +223,16 @@ function AnalysisPanel({
         <h2 className="text-lg font-semibold tracking-tight">{t("analysisTitle")}</h2>
         <div className="flex flex-wrap items-center gap-2">
           <button
+            onClick={onAIReview}
+            disabled={exporting}
+            aria-disabled={exporting}
+            tabIndex={exporting ? -1 : 0}
+            className="inline-flex items-center gap-2 rounded-md border border-primary bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <span aria-hidden="true">✦</span>
+            {t("aiReview")}
+          </button>
+          <button
             onClick={onPreview}
             disabled={exporting}
             aria-disabled={exporting}
@@ -232,12 +242,14 @@ function AnalysisPanel({
             {t("previewReport")}
           </button>
           <button
+            onClick={onExportText}
             disabled={exporting}
             aria-busy={exporting}
             aria-disabled={exporting}
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
+
             {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
