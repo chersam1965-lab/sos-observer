@@ -1072,7 +1072,7 @@ function DashboardPage() {
           </div>
         </GsosCard>
 
-        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={handleExportPdfText} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} onPreview={() => setPreviewOpen(true)} />}
+        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={() => handleExportPdfText()} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} onPreview={() => setPreviewOpen(true)} onAIReview={() => setAiReviewOpen(true)} />}
         {reportMeta && (
           <ReportPreviewDialog
             open={previewOpen}
@@ -1086,6 +1086,28 @@ function DashboardPage() {
             onExportText={async () => { await handleExportPdfText(); }}
           />
         )}
+        {showAnalysis && reportMeta && (
+          <AIReviewDialog
+            open={aiReviewOpen}
+            onOpenChange={setAiReviewOpen}
+            lang={lang}
+            exporting={exporting}
+            sections={[
+              { id: "exec_recommended_action", label: t("recommendedAction"), text: t(recommendedActionKey(status)) },
+              ...indicators.map((i) => ({
+                id: `indicator_${i.key}`,
+                label: t(i.key),
+                text: t(statusExplanationKey(colorStateFor(i.value))),
+              })),
+              { id: "global_status", label: t("globalStatus"), text: t(globalStatusExplanationKey(status)) },
+            ]}
+            onExportCorrected={async (overrides) => {
+              await handleExportPdfText(overrides);
+              setAiReviewOpen(false);
+            }}
+          />
+        )}
+
       </main>
     </div>
   );
