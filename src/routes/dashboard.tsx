@@ -925,7 +925,7 @@ function DashboardPage() {
       // === Global Status ===
       writeWrapped(t("globalStatus"), 14, { bold: true });
       writeWrapped(t(status), 12, { bold: true, color: statusColor[status] });
-      writeWrapped(t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
+      writeWrapped(ov["global_status"] ?? t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
       await tick(85);
 
       // === Footer on every page ===
