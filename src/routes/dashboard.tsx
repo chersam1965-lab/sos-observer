@@ -941,7 +941,8 @@ function DashboardPage() {
       }
       await tick(95);
 
-      pdf.save(buildFilename(reportMeta));
+      pdf.save(buildFilename(reportMeta, hasOverrides ? "-AI" : ""));
+
       await tick(100);
     } finally {
       setExporting(false);
