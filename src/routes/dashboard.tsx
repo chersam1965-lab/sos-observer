@@ -759,7 +759,9 @@ function DashboardPage() {
   const [exportProgress, setExportProgress] = useState(0);
   const [reportMeta, setReportMeta] = useState<{ id: string; date: Date } | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [aiReviewOpen, setAiReviewOpen] = useState(false);
   const analysisRef = useRef<HTMLElement | null>(null);
+
 
   const tick = async (value: number) => {
     setExportProgress(value);
