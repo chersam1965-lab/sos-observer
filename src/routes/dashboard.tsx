@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { isAuthed, signOut } from "@/lib/auth";
 import { useI18n, LanguageSwitcher } from "@/lib/i18n";
 import {
@@ -18,6 +19,8 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { reviewReport, type ReviewResult, type Suggestion } from "@/lib/ai-review.functions";
+
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
