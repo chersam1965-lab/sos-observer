@@ -826,13 +826,16 @@ function DashboardPage() {
     }
   };
 
-  const handleExportPdfText = async () => {
+  const handleExportPdfText = async (overrides?: Record<string, string>) => {
     if (!reportMeta) return;
+    const hasOverrides = !!overrides && Object.keys(overrides).length > 0;
     // Arabic needs glyph shaping the standard jsPDF fonts can't do — fall back to image.
-    if (lang === "ar") {
+    if (lang === "ar" && !hasOverrides) {
       await handleExportPdf();
       return;
     }
+    const ov = overrides ?? {};
+
     setExporting(true);
     setExportProgress(0);
     try {
