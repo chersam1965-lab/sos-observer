@@ -917,7 +917,7 @@ function DashboardPage() {
         const color: [number, number, number] =
           state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
         writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
-        writeWrapped(t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
+        writeWrapped(ov[`indicator_${i.key}`] ?? t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
         y += 4;
       });
       hr();
