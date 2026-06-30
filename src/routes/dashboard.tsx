@@ -176,6 +176,7 @@ function AnalysisPanel({
   exportProgress,
   reportMeta,
   onPreview,
+  onAIReview,
 }: {
   indicators: Indicator[];
   status: "stable" | "monitor" | "risk";
@@ -186,7 +187,9 @@ function AnalysisPanel({
   exportProgress: number;
   reportMeta: { id: string; date: Date };
   onPreview: () => void;
+  onAIReview: () => void;
 }) {
+
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
   const isRTL = lang === "ar";
