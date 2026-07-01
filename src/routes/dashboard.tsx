@@ -20,6 +20,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { reviewReport, type ReviewResult, type Suggestion } from "@/lib/ai-review.functions";
+import { AnalysisService, ENGINE_VERSION, QUESTIONNAIRE_VERSION } from "@/lib/analysis";
 
 
 export const Route = createFileRoute("/dashboard")({
@@ -990,6 +991,33 @@ function DashboardPage() {
       setShowAnalysis(true);
     }, 400);
   };
+
+  // Sprint 4 — persist every completed analysis as a first-class domain entity.
+  // The dashboard remains a read-through view; the repository is the source of
+  // truth for future history / archive / admin surfaces.
+  useEffect(() => {
+    if (!showAnalysis || !reportMeta) return;
+    const findValue = (k: Indicator["key"]) =>
+      indicators.find((i) => i.key === k)?.value ?? 0;
+    const risk = computeGlobalStatus(indicators);
+    AnalysisService.recordCompleted({
+      analysisId: reportMeta.id,
+      organizationId: null,
+      userId: null,
+      engineVersion: ENGINE_VERSION,
+      questionnaireVersion: QUESTIONNAIRE_VERSION,
+      overallRiskLevel: risk,
+      realityGapIndex: findValue("realityGap"),
+      trustIndex: findValue("trust"),
+      responseDelayIndex: findValue("responseDelay"),
+      executiveSummary: t("executiveSummary"),
+      recommendedAction: t(recommendedActionKey(risk)),
+    }).catch(() => {
+      /* persistence is best-effort; UI is unaffected on failure */
+    });
+    // Only re-run when a new report is produced.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reportMeta?.id]);
 
   const formattedDate = new Date(updatedAt).toLocaleString(
     lang === "ar" ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
