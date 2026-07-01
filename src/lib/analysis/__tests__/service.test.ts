@@ -62,7 +62,7 @@ describe("AnalysisService", () => {
     setAnalysisRepository({
       create: async (i) => {
         calls.push("create");
-        return { ...(i as never), analysisId: "x", createdAt: "", completedAt: null, status: "Completed" } as never;
+        return { ...i, analysisId: "x", createdAt: "", completedAt: null, status: "Completed" };
       },
       save: async (a) => {
         calls.push("save");
