@@ -968,7 +968,11 @@ function DashboardPage() {
     await new Promise((r) => setTimeout(r, 30));
   };
 
-  const setPdfMetadata = (pdf: jsPDF, meta: { id: string; date: Date }) => {
+  type PdfMetaTarget = {
+    setProperties: (p: Record<string, string>) => void;
+    setLanguage?: (l: string) => void;
+  };
+  const setPdfMetadata = (pdf: PdfMetaTarget, meta: { id: string; date: Date }) => {
     pdf.setProperties({
       title: `${t("reportHeader")} — ${meta.id}`,
       subject: `${t("globalStatus")}: ${t(status)}`,
