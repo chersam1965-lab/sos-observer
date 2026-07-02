@@ -983,7 +983,7 @@ function DashboardPage() {
       creator: `${t("appName")} V1.0`,
     });
     try {
-      pdf.setLanguage?.(lang);
+      pdf.setLanguage?.(lang as never);
     } catch {
       /* noop */
     }
