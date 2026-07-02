@@ -78,7 +78,8 @@ export const reviewReport = createServerFn({ method: "POST" })
     if (!res.ok) {
       const txt = await res.text().catch(() => "");
       if (res.status === 429) throw new Error("AI rate limit exceeded. Please retry shortly.");
-      if (res.status === 402) throw new Error("AI credits exhausted. Please add credits in workspace settings.");
+      if (res.status === 402)
+        throw new Error("AI credits exhausted. Please add credits in workspace settings.");
       throw new Error(`AI gateway error ${res.status}: ${txt.slice(0, 200)}`);
     }
 
@@ -99,7 +100,9 @@ export const reviewReport = createServerFn({ method: "POST" })
         sectionId: String(s.sectionId ?? ""),
         original: String(s.original ?? ""),
         suggested: String(s.suggested ?? ""),
-        type: (["spelling", "grammar", "style", "clarity", "duplication", "readability"].includes(s.type)
+        type: (["spelling", "grammar", "style", "clarity", "duplication", "readability"].includes(
+          s.type,
+        )
           ? s.type
           : "style") as Suggestion["type"],
         explanation: String(s.explanation ?? ""),

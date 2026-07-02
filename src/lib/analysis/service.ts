@@ -1,9 +1,5 @@
 import { getAnalysisRepository } from "./repository";
-import type {
-  Analysis,
-  AnalysisListOptions,
-  NewAnalysisInput,
-} from "./types";
+import type { Analysis, AnalysisListOptions, NewAnalysisInput } from "./types";
 
 /**
  * Thin service layer over the repository. Keeps call sites free of any
