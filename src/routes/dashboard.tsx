@@ -22,7 +22,6 @@ import {
 import { reviewReport, type ReviewResult, type Suggestion } from "@/lib/ai-review.functions";
 import { AnalysisService, ENGINE_VERSION, QUESTIONNAIRE_VERSION } from "@/lib/analysis";
 
-
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
@@ -64,11 +63,7 @@ function IndicatorCard({ indicator }: { indicator: Indicator }) {
   const label = t(indicator.key);
 
   return (
-    <GsosCard
-      interactive
-      as="article"
-      aria-label={`${label}: ${indicator.value} of 100, ${state}`}
-    >
+    <GsosCard interactive as="article" aria-label={`${label}: ${indicator.value} of 100, ${state}`}>
       <GsosCardHeader>
         <GsosCardTitle>{label}</GsosCardTitle>
         <span
@@ -80,7 +75,9 @@ function IndicatorCard({ indicator }: { indicator: Indicator }) {
         </span>
       </GsosCardHeader>
       <div className="mt-4 flex items-baseline gap-2">
-        <span className="text-4xl font-semibold tabular-nums tracking-tight">{indicator.value}</span>
+        <span className="text-4xl font-semibold tabular-nums tracking-tight">
+          {indicator.value}
+        </span>
         <span className="text-sm text-muted-foreground">/ 100</span>
       </div>
       <div
@@ -113,49 +110,70 @@ function IndicatorSkeleton() {
   );
 }
 
-const STATUS_STYLE: Record<"stable" | "monitor" | "risk", { bg: string; fg: string; dot: string }> = {
-  stable: {
-    bg: "bg-[color:var(--status-green-soft)]",
-    fg: "text-[color:var(--status-green)]",
-    dot: "bg-[color:var(--status-green)]",
-  },
-  monitor: {
-    bg: "bg-[color:var(--status-yellow-soft)]",
-    fg: "text-[color:var(--status-yellow)]",
-    dot: "bg-[color:var(--status-yellow)]",
-  },
-  risk: {
-    bg: "bg-[color:var(--status-red-soft)]",
-    fg: "text-[color:var(--status-red)]",
-    dot: "bg-[color:var(--status-red)]",
-  },
-};
+const STATUS_STYLE: Record<"stable" | "monitor" | "risk", { bg: string; fg: string; dot: string }> =
+  {
+    stable: {
+      bg: "bg-[color:var(--status-green-soft)]",
+      fg: "text-[color:var(--status-green)]",
+      dot: "bg-[color:var(--status-green)]",
+    },
+    monitor: {
+      bg: "bg-[color:var(--status-yellow-soft)]",
+      fg: "text-[color:var(--status-yellow)]",
+      dot: "bg-[color:var(--status-yellow)]",
+    },
+    risk: {
+      bg: "bg-[color:var(--status-red-soft)]",
+      fg: "text-[color:var(--status-red)]",
+      dot: "bg-[color:var(--status-red)]",
+    },
+  };
 
-function statusExplanationKey(state: "green" | "yellow" | "red"): "statusExplanationGreen" | "statusExplanationYellow" | "statusExplanationRed" {
+function statusExplanationKey(
+  state: "green" | "yellow" | "red",
+): "statusExplanationGreen" | "statusExplanationYellow" | "statusExplanationRed" {
   switch (state) {
-    case "green": return "statusExplanationGreen";
-    case "yellow": return "statusExplanationYellow";
-    case "red": return "statusExplanationRed";
+    case "green":
+      return "statusExplanationGreen";
+    case "yellow":
+      return "statusExplanationYellow";
+    case "red":
+      return "statusExplanationRed";
   }
 }
 
-function globalStatusExplanationKey(status: "stable" | "monitor" | "risk"): "globalStatusExplanationStable" | "globalStatusExplanationMonitor" | "globalStatusExplanationRisk" {
+function globalStatusExplanationKey(
+  status: "stable" | "monitor" | "risk",
+):
+  | "globalStatusExplanationStable"
+  | "globalStatusExplanationMonitor"
+  | "globalStatusExplanationRisk" {
   switch (status) {
-    case "stable": return "globalStatusExplanationStable";
-    case "monitor": return "globalStatusExplanationMonitor";
-    case "risk": return "globalStatusExplanationRisk";
+    case "stable":
+      return "globalStatusExplanationStable";
+    case "monitor":
+      return "globalStatusExplanationMonitor";
+    case "risk":
+      return "globalStatusExplanationRisk";
   }
 }
 
-function recommendedActionKey(status: "stable" | "monitor" | "risk"): "recommendedActionStable" | "recommendedActionMonitor" | "recommendedActionRisk" {
+function recommendedActionKey(
+  status: "stable" | "monitor" | "risk",
+): "recommendedActionStable" | "recommendedActionMonitor" | "recommendedActionRisk" {
   switch (status) {
-    case "stable": return "recommendedActionStable";
-    case "monitor": return "recommendedActionMonitor";
-    case "risk": return "recommendedActionRisk";
+    case "stable":
+      return "recommendedActionStable";
+    case "monitor":
+      return "recommendedActionMonitor";
+    case "risk":
+      return "recommendedActionRisk";
   }
 }
 
-function formatPad(n: number) { return String(n).padStart(2, "0"); }
+function formatPad(n: number) {
+  return String(n).padStart(2, "0");
+}
 
 function generateReportId(d: Date): string {
   const stamp = `${d.getFullYear()}${formatPad(d.getMonth() + 1)}${formatPad(d.getDate())}-${formatPad(d.getHours())}${formatPad(d.getMinutes())}${formatPad(d.getSeconds())}`;
@@ -190,32 +208,50 @@ function AnalysisPanel({
   onPreview: () => void;
   onAIReview: () => void;
 }) {
-
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
   const isRTL = lang === "ar";
-  const dateStr = reportMeta.date.toLocaleString(
-    isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
-    { dateStyle: "medium", timeStyle: "short" },
-  );
+  const dateStr = reportMeta.date.toLocaleString(isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
   const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
   const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
 
   return (
-    <section ref={panelRef} className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500" dir={isRTL ? "rtl" : "ltr"}>
+    <section
+      ref={panelRef}
+      className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500"
+      dir={isRTL ? "rtl" : "ltr"}
+    >
       {/* Report Identity */}
-      <div className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+      <div
+        className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}
+      >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="text-base font-semibold tracking-tight">{t("reportHeader")}</div>
-            <div className="text-xs text-muted-foreground">{t("appName")} — {t("version")} 1.0</div>
+            <div className="text-xs text-muted-foreground">
+              {t("appName")} — {t("version")} 1.0
+            </div>
           </div>
-          <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.bg} ${s.fg}`}>{t(status)}</span>
+          <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.bg} ${s.fg}`}>
+            {t(status)}
+          </span>
         </div>
         <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 text-xs sm:grid-cols-3">
-          <div><dt className="text-muted-foreground">{t("reportId")}</dt><dd className="font-mono font-medium">{reportMeta.id}</dd></div>
-          <div><dt className="text-muted-foreground">{t("generationDate")}</dt><dd className="tabular-nums font-medium">{dateStr}</dd></div>
-          <div><dt className="text-muted-foreground">{t("languageLabel")}</dt><dd className="font-medium">{t("langName")}</dd></div>
+          <div>
+            <dt className="text-muted-foreground">{t("reportId")}</dt>
+            <dd className="font-mono font-medium">{reportMeta.id}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">{t("generationDate")}</dt>
+            <dd className="tabular-nums font-medium">{dateStr}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">{t("languageLabel")}</dt>
+            <dd className="font-medium">{t("langName")}</dd>
+          </div>
         </dl>
       </div>
 
@@ -250,8 +286,13 @@ function AnalysisPanel({
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-
-            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting && (
+              <span
+                className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
           <button
@@ -262,7 +303,13 @@ function AnalysisPanel({
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting && (
+              <span
+                className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
         </div>
@@ -285,13 +332,18 @@ function AnalysisPanel({
             <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
-            <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }} />
+            <div
+              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+              style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
+            />
           </div>
         </div>
       )}
 
       {/* Executive Summary */}
-      <div className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+      <div
+        className={`mb-4 rounded-xl border border-border bg-card p-5 shadow-sm ${isRTL ? "text-right" : "text-left"}`}
+      >
         <h3 className="text-sm font-semibold tracking-tight">{t("executiveSummary")}</h3>
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-lg border border-border bg-background p-3">
@@ -300,16 +352,22 @@ function AnalysisPanel({
           </div>
           <div className="rounded-lg border border-border bg-background p-3">
             <div className="text-xs text-muted-foreground">{t("criticalIndicators")}</div>
-            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-red)]">{criticalCount} / {indicators.length}</div>
+            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-red)]">
+              {criticalCount} / {indicators.length}
+            </div>
           </div>
           <div className="rounded-lg border border-border bg-background p-3">
             <div className="text-xs text-muted-foreground">{t("stableIndicators")}</div>
-            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-green)]">{stableCount} / {indicators.length}</div>
+            <div className="mt-1 text-lg font-semibold tabular-nums text-[color:var(--status-green)]">
+              {stableCount} / {indicators.length}
+            </div>
           </div>
         </div>
         <div className="mt-3 rounded-lg border border-border bg-background p-3">
           <div className="text-xs text-muted-foreground">{t("recommendedAction")}</div>
-          <p className={`mt-1 text-sm leading-relaxed font-medium ${s.fg}`}>{t(recommendedActionKey(status))}</p>
+          <p className={`mt-1 text-sm leading-relaxed font-medium ${s.fg}`}>
+            {t(recommendedActionKey(status))}
+          </p>
         </div>
       </div>
 
@@ -322,7 +380,9 @@ function AnalysisPanel({
             <div key={i.key} className="rounded-xl border border-border bg-card p-4 shadow-sm">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-medium text-muted-foreground">{t(i.key)}</span>
-                <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}>
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${c.bg} ${c.fg}`}
+                >
                   <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
                   {state.toUpperCase()}
                 </span>
@@ -355,13 +415,18 @@ function AnalysisPanel({
       </div>
 
       {isRTL && (
-        <div data-export-ignore className="mt-3 rounded-md border border-border bg-secondary/40 p-2 text-xs text-muted-foreground text-right">
+        <div
+          data-export-ignore
+          className="mt-3 rounded-md border border-border bg-secondary/40 p-2 text-xs text-muted-foreground text-right"
+        >
           {t("arabicTextNotice")}
         </div>
       )}
 
       {/* Footer */}
-      <div className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}>
+      <div
+        className={`mt-4 rounded-xl border border-border bg-card p-3 shadow-sm text-xs text-muted-foreground ${isRTL ? "text-right" : "text-left"}`}
+      >
         {t("confidentialFooter")} — {reportMeta.id} — {dateStr}
       </div>
     </section>
@@ -392,10 +457,10 @@ function ReportPreviewDialog({
   const { t, lang } = useI18n();
   const s = STATUS_STYLE[status];
   const isRTL = lang === "ar";
-  const dateStr = reportMeta.date.toLocaleString(
-    isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US",
-    { dateStyle: "medium", timeStyle: "short" },
-  );
+  const dateStr = reportMeta.date.toLocaleString(isRTL ? "ar" : lang === "fr" ? "fr-FR" : "en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
   const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
   const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
 
@@ -408,26 +473,43 @@ function ReportPreviewDialog({
         </DialogHeader>
 
         {/* Simulated A4 page */}
-        <div className={`mt-2 rounded-lg border border-border bg-card shadow-sm ${isRTL ? "text-right" : "text-left"}`}>
+        <div
+          className={`mt-2 rounded-lg border border-border bg-card shadow-sm ${isRTL ? "text-right" : "text-left"}`}
+        >
           {/* Header band */}
           <div className="flex flex-wrap items-start justify-between gap-2 border-b border-border px-5 py-3">
             <div>
               <div className="text-sm font-semibold tracking-tight">{t("reportHeader")}</div>
-              <div className="text-[11px] text-muted-foreground">{t("appName")} — {t("version")} 1.0</div>
+              <div className="text-[11px] text-muted-foreground">
+                {t("appName")} — {t("version")} 1.0
+              </div>
             </div>
-            <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${s.bg} ${s.fg}`}>{t(status)}</span>
+            <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${s.bg} ${s.fg}`}>
+              {t(status)}
+            </span>
           </div>
 
           {/* Body */}
           <div className="space-y-4 px-5 py-4">
             <dl className="grid grid-cols-1 gap-x-6 gap-y-1 text-[11px] sm:grid-cols-3">
-              <div><dt className="text-muted-foreground">{t("reportId")}</dt><dd className="font-mono font-medium">{reportMeta.id}</dd></div>
-              <div><dt className="text-muted-foreground">{t("generationDate")}</dt><dd className="tabular-nums font-medium">{dateStr}</dd></div>
-              <div><dt className="text-muted-foreground">{t("languageLabel")}</dt><dd className="font-medium">{t("langName")}</dd></div>
+              <div>
+                <dt className="text-muted-foreground">{t("reportId")}</dt>
+                <dd className="font-mono font-medium">{reportMeta.id}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">{t("generationDate")}</dt>
+                <dd className="tabular-nums font-medium">{dateStr}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">{t("languageLabel")}</dt>
+                <dd className="font-medium">{t("langName")}</dd>
+              </div>
             </dl>
 
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("executiveSummary")}</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {t("executiveSummary")}
+              </h4>
               <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
                 <div className="rounded-md border border-border bg-background p-2">
                   <div className="text-[11px] text-muted-foreground">{t("overallRiskLevel")}</div>
@@ -435,29 +517,42 @@ function ReportPreviewDialog({
                 </div>
                 <div className="rounded-md border border-border bg-background p-2">
                   <div className="text-[11px] text-muted-foreground">{t("criticalIndicators")}</div>
-                  <div className="text-sm font-semibold tabular-nums text-[color:var(--status-red)]">{criticalCount} / {indicators.length}</div>
+                  <div className="text-sm font-semibold tabular-nums text-[color:var(--status-red)]">
+                    {criticalCount} / {indicators.length}
+                  </div>
                 </div>
                 <div className="rounded-md border border-border bg-background p-2">
                   <div className="text-[11px] text-muted-foreground">{t("stableIndicators")}</div>
-                  <div className="text-sm font-semibold tabular-nums text-[color:var(--status-green)]">{stableCount} / {indicators.length}</div>
+                  <div className="text-sm font-semibold tabular-nums text-[color:var(--status-green)]">
+                    {stableCount} / {indicators.length}
+                  </div>
                 </div>
               </div>
               <div className="mt-2 rounded-md border border-border bg-background p-2">
                 <div className="text-[11px] text-muted-foreground">{t("recommendedAction")}</div>
-                <p className={`text-xs font-medium leading-relaxed ${s.fg}`}>{t(recommendedActionKey(status))}</p>
+                <p className={`text-xs font-medium leading-relaxed ${s.fg}`}>
+                  {t(recommendedActionKey(status))}
+                </p>
               </div>
             </div>
 
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("analysisTitle")}</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {t("analysisTitle")}
+              </h4>
               <ul className="mt-2 space-y-1.5">
                 {indicators.map((i) => {
                   const state = colorStateFor(i.value);
                   const c = COLOR_CLASSES[state];
                   return (
-                    <li key={i.key} className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-2 py-1.5 text-xs">
+                    <li
+                      key={i.key}
+                      className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-2 py-1.5 text-xs"
+                    >
                       <span className="font-medium">{t(i.key)}</span>
-                      <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium ${c.bg} ${c.fg}`}>
+                      <span
+                        className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium ${c.bg} ${c.fg}`}
+                      >
                         <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
                         {i.value} — {state.toUpperCase()}
                       </span>
@@ -469,8 +564,12 @@ function ReportPreviewDialog({
           </div>
 
           {/* Footer band with page number */}
-          <div className={`flex flex-wrap items-center justify-between gap-2 border-t border-border px-5 py-2 text-[11px] text-muted-foreground ${isRTL ? "flex-row-reverse" : ""}`}>
-            <span>{t("confidentialFooter")} — {reportMeta.id}</span>
+          <div
+            className={`flex flex-wrap items-center justify-between gap-2 border-t border-border px-5 py-2 text-[11px] text-muted-foreground ${isRTL ? "flex-row-reverse" : ""}`}
+          >
+            <span>
+              {t("confidentialFooter")} — {reportMeta.id}
+            </span>
             <span className="tabular-nums">{t("pageOnePreview")}</span>
           </div>
         </div>
@@ -490,8 +589,14 @@ function ReportPreviewDialog({
               <span>{t("exporting")}</span>
               <span className="tabular-nums font-medium">{Math.round(exportProgress)}%</span>
             </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-secondary" aria-hidden="true">
-              <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }} />
+            <div
+              className="h-2 w-full overflow-hidden rounded-full bg-secondary"
+              aria-hidden="true"
+            >
+              <div
+                className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+                style={{ width: `${Math.max(4, Math.round(exportProgress))}%` }}
+              />
             </div>
           </div>
         )}
@@ -509,26 +614,44 @@ function ReportPreviewDialog({
           </button>
           <button
             type="button"
-            onClick={async () => { await onExportText(); onOpenChange(false); }}
+            onClick={async () => {
+              await onExportText();
+              onOpenChange(false);
+            }}
             disabled={exporting}
             aria-busy={exporting}
             aria-disabled={exporting}
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting && (
+              <span
+                className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
             {exporting ? t("exporting") : t("exportPdfText")}
           </button>
           <button
             type="button"
-            onClick={async () => { await onExport(); onOpenChange(false); }}
+            onClick={async () => {
+              await onExport();
+              onOpenChange(false);
+            }}
             disabled={exporting}
             aria-busy={exporting}
             aria-disabled={exporting}
             tabIndex={exporting ? -1 : 0}
             className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting && (
+              <span
+                className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
             {exporting ? t("exporting") : t("exportPdf")}
           </button>
         </DialogFooter>
@@ -570,21 +693,34 @@ function AIReviewDialog({
     setResult(null);
     setAccepted(new Set());
     runReview({ data: { lang, sections } })
-      .then((r) => { if (!cancelled) setResult(r); })
-      .catch((e: unknown) => { if (!cancelled) setError(e instanceof Error ? e.message : t("aiError")); })
-      .finally(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
+      .then((r) => {
+        if (!cancelled) setResult(r);
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) setError(e instanceof Error ? e.message : t("aiError"));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const toggle = (id: string) => {
     setAccepted((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   };
-  const acceptAll = () => setResult((r) => { if (r) setAccepted(new Set(r.suggestions.map((s) => s.id))); return r; });
+  const acceptAll = () =>
+    setResult((r) => {
+      if (r) setAccepted(new Set(r.suggestions.map((s) => s.id)));
+      return r;
+    });
   const rejectAll = () => setAccepted(new Set());
 
   const overrides = useMemo<Record<string, string>>(() => {
@@ -615,17 +751,27 @@ function AIReviewDialog({
 
   const typeLabel = (type: Suggestion["type"]) => {
     switch (type) {
-      case "spelling": return t("aiTypeSpelling");
-      case "grammar": return t("aiTypeGrammar");
-      case "style": return t("aiTypeStyle");
-      case "clarity": return t("aiTypeClarity");
-      case "duplication": return t("aiTypeDuplication");
-      case "readability": return t("aiTypeReadability");
+      case "spelling":
+        return t("aiTypeSpelling");
+      case "grammar":
+        return t("aiTypeGrammar");
+      case "style":
+        return t("aiTypeStyle");
+      case "clarity":
+        return t("aiTypeClarity");
+      case "duplication":
+        return t("aiTypeDuplication");
+      case "readability":
+        return t("aiTypeReadability");
     }
   };
 
   const scoreColor = (n: number) =>
-    n >= 85 ? "text-[color:var(--status-green)]" : n >= 65 ? "text-[color:var(--status-yellow)]" : "text-[color:var(--status-red)]";
+    n >= 85
+      ? "text-[color:var(--status-green)]"
+      : n >= 65
+        ? "text-[color:var(--status-yellow)]"
+        : "text-[color:var(--status-red)]";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -636,14 +782,24 @@ function AIReviewDialog({
         </DialogHeader>
 
         {loading && (
-          <div role="status" aria-live="polite" className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 text-sm">
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />
+          <div
+            role="status"
+            aria-live="polite"
+            className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 text-sm"
+          >
+            <span
+              className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+              aria-hidden="true"
+            />
             <span>{t("aiReviewing")}</span>
           </div>
         )}
 
         {error && (
-          <div role="alert" className="rounded-lg border border-[color:var(--status-red)] bg-[color:var(--status-red-soft)] p-3 text-sm text-[color:var(--status-red)]">
+          <div
+            role="alert"
+            className="rounded-lg border border-[color:var(--status-red)] bg-[color:var(--status-red-soft)] p-3 text-sm text-[color:var(--status-red)]"
+          >
             {error}
           </div>
         )}
@@ -654,42 +810,62 @@ function AIReviewDialog({
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-border bg-card p-3">
                 <div className="text-xs text-muted-foreground">{t("aiWritingQuality")}</div>
-                <div className={`mt-1 text-2xl font-semibold tabular-nums ${scoreColor(result.writingQualityScore)}`}>
-                  {result.writingQualityScore}<span className="text-sm text-muted-foreground">/100</span>
+                <div
+                  className={`mt-1 text-2xl font-semibold tabular-nums ${scoreColor(result.writingQualityScore)}`}
+                >
+                  {result.writingQualityScore}
+                  <span className="text-sm text-muted-foreground">/100</span>
                 </div>
               </div>
               <div className="rounded-lg border border-border bg-card p-3">
                 <div className="text-xs text-muted-foreground">{t("aiReadability")}</div>
-                <div className={`mt-1 text-2xl font-semibold ${scoreColor(result.readabilityScore)}`}>
+                <div
+                  className={`mt-1 text-2xl font-semibold ${scoreColor(result.readabilityScore)}`}
+                >
                   {result.readabilityLabel || result.readabilityScore + "/100"}
                 </div>
               </div>
             </div>
 
             {result.summary && (
-              <p className="rounded-lg border border-border bg-secondary/40 p-3 text-sm leading-relaxed">{result.summary}</p>
+              <p className="rounded-lg border border-border bg-secondary/40 p-3 text-sm leading-relaxed">
+                {result.summary}
+              </p>
             )}
 
             {/* Suggestions list */}
             {result.suggestions.length === 0 ? (
-              <p className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">{t("aiNoSuggestions")}</p>
+              <p className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+                {t("aiNoSuggestions")}
+              </p>
             ) : (
               <>
                 <div className="flex flex-wrap items-center gap-2">
-                  <button onClick={acceptAll} className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary">
+                  <button
+                    onClick={acceptAll}
+                    className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary"
+                  >
                     {t("aiAcceptAll")}
                   </button>
-                  <button onClick={rejectAll} className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary">
+                  <button
+                    onClick={rejectAll}
+                    className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary"
+                  >
                     {t("aiRejectAll")}
                   </button>
-                  <span className="text-xs text-muted-foreground">{accepted.size} / {result.suggestions.length}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {accepted.size} / {result.suggestions.length}
+                  </span>
                 </div>
                 <ul className="max-h-[40vh] space-y-2 overflow-y-auto pr-1">
                   {result.suggestions.map((s) => {
                     const isOn = accepted.has(s.id);
                     const sec = sections.find((x) => x.id === s.sectionId);
                     return (
-                      <li key={s.id} className={`rounded-lg border p-3 transition-colors ${isOn ? "border-primary bg-primary/5" : "border-border bg-card"}`}>
+                      <li
+                        key={s.id}
+                        className={`rounded-lg border p-3 transition-colors ${isOn ? "border-primary bg-primary/5" : "border-border bg-card"}`}
+                      >
                         <label className="flex cursor-pointer items-start gap-3">
                           <input
                             type="checkbox"
@@ -700,20 +876,36 @@ function AIReviewDialog({
                           />
                           <div className="min-w-0 flex-1 text-sm">
                             <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
-                              <span className="rounded-full bg-secondary px-2 py-0.5 font-medium">{typeLabel(s.type)}</span>
-                              {sec && <span className="text-muted-foreground">{t("aiSection")}: {sec.label}</span>}
+                              <span className="rounded-full bg-secondary px-2 py-0.5 font-medium">
+                                {typeLabel(s.type)}
+                              </span>
+                              {sec && (
+                                <span className="text-muted-foreground">
+                                  {t("aiSection")}: {sec.label}
+                                </span>
+                              )}
                             </div>
                             <div className="grid gap-2 sm:grid-cols-2">
                               <div>
-                                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("aiOriginal")}</div>
-                                <p className="rounded bg-[color:var(--status-red-soft)] p-2 text-[color:var(--status-red)] line-through decoration-1">{s.original}</p>
+                                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                                  {t("aiOriginal")}
+                                </div>
+                                <p className="rounded bg-[color:var(--status-red-soft)] p-2 text-[color:var(--status-red)] line-through decoration-1">
+                                  {s.original}
+                                </p>
                               </div>
                               <div>
-                                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("aiSuggested")}</div>
-                                <p className="rounded bg-[color:var(--status-green-soft)] p-2 text-[color:var(--status-green)]">{s.suggested}</p>
+                                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                                  {t("aiSuggested")}
+                                </div>
+                                <p className="rounded bg-[color:var(--status-green-soft)] p-2 text-[color:var(--status-green)]">
+                                  {s.suggested}
+                                </p>
                               </div>
                             </div>
-                            {s.explanation && <p className="mt-2 text-xs text-muted-foreground">{s.explanation}</p>}
+                            {s.explanation && (
+                              <p className="mt-2 text-xs text-muted-foreground">{s.explanation}</p>
+                            )}
                           </div>
                         </label>
                       </li>
@@ -733,13 +925,21 @@ function AIReviewDialog({
             {t("aiClose")}
           </button>
           <button
-            onClick={async () => { await onExportCorrected(overrides); }}
+            onClick={async () => {
+              await onExportCorrected(overrides);
+            }}
             disabled={loading || exporting || !result}
             aria-disabled={loading || exporting || !result}
             aria-busy={exporting}
             className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {exporting && <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" role="status" aria-hidden="true" />}
+            {exporting && (
+              <span
+                className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
             {t("aiExportCorrected")}
           </button>
         </DialogFooter>
@@ -749,7 +949,6 @@ function AIReviewDialog({
 }
 
 function DashboardPage() {
-
   const { t, lang } = useI18n();
   const navigate = useNavigate();
   const { indicators, updatedAt, analyse } = useIndicators();
@@ -763,14 +962,19 @@ function DashboardPage() {
   const [aiReviewOpen, setAiReviewOpen] = useState(false);
   const analysisRef = useRef<HTMLElement | null>(null);
 
-
   const tick = async (value: number) => {
     setExportProgress(value);
     // yield to the browser so the UI repaints between heavy steps
     await new Promise((r) => setTimeout(r, 30));
   };
 
-  const setPdfMetadata = (pdf: any, meta: { id: string; date: Date }) => {
+  const setPdfMetadata = (
+    pdf: {
+      setProperties: (p: Record<string, string>) => void;
+      setLanguage?: (l: never) => unknown;
+    },
+    meta: { id: string; date: Date },
+  ) => {
     pdf.setProperties({
       title: `${t("reportHeader")} — ${meta.id}`,
       subject: `${t("globalStatus")}: ${t(status)}`,
@@ -778,7 +982,11 @@ function DashboardPage() {
       keywords: `GSOS, ${status}, ${t("langName")}, ${meta.id}`,
       creator: `${t("appName")} V1.0`,
     });
-    try { pdf.setLanguage?.(lang); } catch { /* noop */ }
+    try {
+      pdf.setLanguage?.(lang as never);
+    } catch {
+      /* noop */
+    }
   };
 
   const buildFilename = (meta: { id: string; date: Date }, suffix = "") =>
@@ -886,7 +1094,11 @@ function DashboardPage() {
         }
       };
 
-      const writeWrapped = (text: string, size: number, opts: { bold?: boolean; color?: [number, number, number] } = {}) => {
+      const writeWrapped = (
+        text: string,
+        size: number,
+        opts: { bold?: boolean; color?: [number, number, number] } = {},
+      ) => {
         pdf.setFont("helvetica", opts.bold ? "bold" : "normal");
         pdf.setFontSize(size);
         const [r, g, b] = opts.color ?? [20, 20, 20];
@@ -920,10 +1132,17 @@ function DashboardPage() {
       y += 2;
       const criticalCount = indicators.filter((i) => colorStateFor(i.value) === "red").length;
       const stableCount = indicators.filter((i) => colorStateFor(i.value) === "green").length;
-      writeWrapped(`${t("overallRiskLevel")}: ${t(status)}`, 11, { bold: true, color: statusColor[status] });
+      writeWrapped(`${t("overallRiskLevel")}: ${t(status)}`, 11, {
+        bold: true,
+        color: statusColor[status],
+      });
       writeWrapped(`${t("criticalIndicators")}: ${criticalCount} / ${indicators.length}`, 11);
       writeWrapped(`${t("stableIndicators")}: ${stableCount} / ${indicators.length}`, 11);
-      writeWrapped(`${t("recommendedAction")}: ${ov["exec_recommended_action"] ?? t(recommendedActionKey(status))}`, 11, { color: statusColor[status] });
+      writeWrapped(
+        `${t("recommendedAction")}: ${ov["exec_recommended_action"] ?? t(recommendedActionKey(status))}`,
+        11,
+        { color: statusColor[status] },
+      );
       hr();
       await tick(60);
 
@@ -934,8 +1153,13 @@ function DashboardPage() {
         const state = colorStateFor(i.value);
         const color: [number, number, number] =
           state === "green" ? [22, 163, 74] : state === "yellow" ? [202, 138, 4] : [220, 38, 38];
-        writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, { bold: true, color });
-        writeWrapped(ov[`indicator_${i.key}`] ?? t(statusExplanationKey(state)), 11, { color: [60, 60, 60] });
+        writeWrapped(`${t(i.key)} — ${i.value} / 100 [${state.toUpperCase()}]`, 12, {
+          bold: true,
+          color,
+        });
+        writeWrapped(ov[`indicator_${i.key}`] ?? t(statusExplanationKey(state)), 11, {
+          color: [60, 60, 60],
+        });
         y += 4;
       });
       hr();
@@ -943,7 +1167,9 @@ function DashboardPage() {
       // === Global Status ===
       writeWrapped(t("globalStatus"), 14, { bold: true });
       writeWrapped(t(status), 12, { bold: true, color: statusColor[status] });
-      writeWrapped(ov["global_status"] ?? t(globalStatusExplanationKey(status)), 11, { color: [60, 60, 60] });
+      writeWrapped(ov["global_status"] ?? t(globalStatusExplanationKey(status)), 11, {
+        color: [60, 60, 60],
+      });
       await tick(85);
 
       // === Footer on every page ===
@@ -967,7 +1193,6 @@ function DashboardPage() {
       setExportProgress(0);
     }
   };
-
 
   useEffect(() => {
     if (!isAuthed()) {
@@ -997,8 +1222,7 @@ function DashboardPage() {
   // truth for future history / archive / admin surfaces.
   useEffect(() => {
     if (!showAnalysis || !reportMeta) return;
-    const findValue = (k: Indicator["key"]) =>
-      indicators.find((i) => i.key === k)?.value ?? 0;
+    const findValue = (k: Indicator["key"]) => indicators.find((i) => i.key === k)?.value ?? 0;
     const risk = computeGlobalStatus(indicators);
     AnalysisService.recordCompleted({
       analysisId: reportMeta.id,
@@ -1100,7 +1324,20 @@ function DashboardPage() {
           </div>
         </GsosCard>
 
-        {showAnalysis && reportMeta && <AnalysisPanel indicators={indicators} status={status} panelRef={analysisRef} onExport={handleExportPdf} onExportText={() => handleExportPdfText()} exporting={exporting} exportProgress={exportProgress} reportMeta={reportMeta} onPreview={() => setPreviewOpen(true)} onAIReview={() => setAiReviewOpen(true)} />}
+        {showAnalysis && reportMeta && (
+          <AnalysisPanel
+            indicators={indicators}
+            status={status}
+            panelRef={analysisRef}
+            onExport={handleExportPdf}
+            onExportText={() => handleExportPdfText()}
+            exporting={exporting}
+            exportProgress={exportProgress}
+            reportMeta={reportMeta}
+            onPreview={() => setPreviewOpen(true)}
+            onAIReview={() => setAiReviewOpen(true)}
+          />
+        )}
         {reportMeta && (
           <ReportPreviewDialog
             open={previewOpen}
@@ -1110,8 +1347,12 @@ function DashboardPage() {
             reportMeta={reportMeta}
             exporting={exporting}
             exportProgress={exportProgress}
-            onExport={async () => { await handleExportPdf(); }}
-            onExportText={async () => { await handleExportPdfText(); }}
+            onExport={async () => {
+              await handleExportPdf();
+            }}
+            onExportText={async () => {
+              await handleExportPdfText();
+            }}
           />
         )}
         {showAnalysis && reportMeta && (
@@ -1121,13 +1362,21 @@ function DashboardPage() {
             lang={lang}
             exporting={exporting}
             sections={[
-              { id: "exec_recommended_action", label: t("recommendedAction"), text: t(recommendedActionKey(status)) },
+              {
+                id: "exec_recommended_action",
+                label: t("recommendedAction"),
+                text: t(recommendedActionKey(status)),
+              },
               ...indicators.map((i) => ({
                 id: `indicator_${i.key}`,
                 label: t(i.key),
                 text: t(statusExplanationKey(colorStateFor(i.value))),
               })),
-              { id: "global_status", label: t("globalStatus"), text: t(globalStatusExplanationKey(status)) },
+              {
+                id: "global_status",
+                label: t("globalStatus"),
+                text: t(globalStatusExplanationKey(status)),
+              },
             ]}
             onExportCorrected={async (overrides) => {
               await handleExportPdfText(overrides);
@@ -1135,7 +1384,6 @@ function DashboardPage() {
             }}
           />
         )}
-
       </main>
     </div>
   );

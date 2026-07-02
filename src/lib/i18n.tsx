@@ -30,15 +30,19 @@ const dict = {
     statusExplanationGreen: "Stable range — within acceptable limits.",
     statusExplanationYellow: "Elevated level — requires monitoring.",
     statusExplanationRed: "Critical state — immediate action required.",
-    globalStatusExplanationStable: "All indicators are in the green range. The system is operating normally.",
-    globalStatusExplanationMonitor: "One indicator is in the yellow/red range. Caution and monitoring are advised.",
-    globalStatusExplanationRisk: "Two or more indicators are in the red range. Immediate response is required.",
+    globalStatusExplanationStable:
+      "All indicators are in the green range. The system is operating normally.",
+    globalStatusExplanationMonitor:
+      "One indicator is in the yellow/red range. Caution and monitoring are advised.",
+    globalStatusExplanationRisk:
+      "Two or more indicators are in the red range. Immediate response is required.",
     exportPdf: "Export PDF (image)",
     exportPdfText: "Export PDF (searchable)",
     exporting: "Exporting…",
     reportHeader: "GSOS Analysis Report",
     exportDate: "Export date",
-    arabicTextNotice: "Note: searchable Arabic export falls back to the image version for proper glyph shaping.",
+    arabicTextNotice:
+      "Note: searchable Arabic export falls back to the image version for proper glyph shaping.",
     indicator: "Indicator",
     status: "Status",
     version: "Version",
@@ -66,7 +70,8 @@ const dict = {
     aiReview: "AI Review",
     aiReviewing: "AI reviewing…",
     aiReviewTitle: "AI Writing Assistant",
-    aiReviewSubtitle: "Suggestions to improve clarity, grammar, and style. Numerical values, IDs, and dates are never modified.",
+    aiReviewSubtitle:
+      "Suggestions to improve clarity, grammar, and style. Numerical values, IDs, and dates are never modified.",
     aiNoSuggestions: "No suggestions — the report reads well.",
     aiWritingQuality: "Writing Quality",
     aiReadability: "Readability",
@@ -89,7 +94,6 @@ const dict = {
     aiSelectAll: "Select all",
   },
   fr: {
-
     appName: "GSOS Observer",
     tagline: "Couche d'observation opérationnelle",
     login: "Connexion",
@@ -116,15 +120,19 @@ const dict = {
     statusExplanationGreen: "Plage stable — dans les limites acceptables.",
     statusExplanationYellow: "Niveau élevé — surveillance recommandée.",
     statusExplanationRed: "État critique — action immédiate requise.",
-    globalStatusExplanationStable: "Tous les indicateurs sont dans la plage verte. Le système fonctionne normalement.",
-    globalStatusExplanationMonitor: "Un indicateur est dans la plage jaune/rouge. Prudence et surveillance conseillées.",
-    globalStatusExplanationRisk: "Deux indicateurs ou plus sont dans la plage rouge. Réponse immédiate requise.",
+    globalStatusExplanationStable:
+      "Tous les indicateurs sont dans la plage verte. Le système fonctionne normalement.",
+    globalStatusExplanationMonitor:
+      "Un indicateur est dans la plage jaune/rouge. Prudence et surveillance conseillées.",
+    globalStatusExplanationRisk:
+      "Deux indicateurs ou plus sont dans la plage rouge. Réponse immédiate requise.",
     exportPdf: "Exporter en PDF (image)",
     exportPdfText: "Exporter PDF (recherche)",
     exporting: "Exportation…",
     reportHeader: "Rapport d'analyse GSOS",
     exportDate: "Date d'exportation",
-    arabicTextNotice: "Remarque: l'export arabe recherchable bascule sur la version image pour un rendu correct des glyphes.",
+    arabicTextNotice:
+      "Remarque: l'export arabe recherchable bascule sur la version image pour un rendu correct des glyphes.",
     indicator: "Indicateur",
     status: "Statut",
     version: "Version",
@@ -152,7 +160,8 @@ const dict = {
     aiReview: "Revue IA",
     aiReviewing: "Analyse IA en cours…",
     aiReviewTitle: "Assistant d'écriture IA",
-    aiReviewSubtitle: "Suggestions pour améliorer la clarté, la grammaire et le style. Les valeurs numériques, identifiants et dates ne sont jamais modifiés.",
+    aiReviewSubtitle:
+      "Suggestions pour améliorer la clarté, la grammaire et le style. Les valeurs numériques, identifiants et dates ne sont jamais modifiés.",
     aiNoSuggestions: "Aucune suggestion — le rapport est bien rédigé.",
     aiWritingQuality: "Qualité d'écriture",
     aiReadability: "Lisibilité",
@@ -238,7 +247,8 @@ const dict = {
     aiReview: "مراجعة بالذكاء الاصطناعي",
     aiReviewing: "جاري التحليل بالذكاء الاصطناعي…",
     aiReviewTitle: "مساعد الكتابة بالذكاء الاصطناعي",
-    aiReviewSubtitle: "اقتراحات لتحسين الوضوح والقواعد والأسلوب. لا يتم تعديل القيم الرقمية أو المعرفات أو التواريخ أبدًا.",
+    aiReviewSubtitle:
+      "اقتراحات لتحسين الوضوح والقواعد والأسلوب. لا يتم تعديل القيم الرقمية أو المعرفات أو التواريخ أبدًا.",
     aiNoSuggestions: "لا توجد اقتراحات — التقرير مكتوب بشكل جيد.",
     aiWritingQuality: "جودة الكتابة",
     aiReadability: "سهولة القراءة",
@@ -260,10 +270,9 @@ const dict = {
     aiError: "فشلت المراجعة بالذكاء الاصطناعي. يرجى المحاولة مرة أخرى.",
     aiSelectAll: "تحديد الكل",
   },
-
 } as const;
 
-type Key = keyof typeof dict["en"];
+type Key = keyof (typeof dict)["en"];
 
 const LangContext = createContext<{
   lang: Lang;
@@ -275,7 +284,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
-    const stored = (typeof window !== "undefined" && localStorage.getItem("gsos.lang")) as Lang | null;
+    const stored = (typeof window !== "undefined" &&
+      localStorage.getItem("gsos.lang")) as Lang | null;
     if (stored && ["en", "fr", "ar"].includes(stored)) setLangState(stored);
   }, []);
 

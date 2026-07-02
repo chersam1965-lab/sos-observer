@@ -47,9 +47,14 @@ function LoginPage() {
             <p className="mt-1 text-sm text-muted-foreground">{t("tagline")}</p>
           </div>
 
-          <form onSubmit={onSubmit} className="space-y-4 rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <form
+            onSubmit={onSubmit}
+            className="space-y-4 rounded-2xl border border-border bg-card p-6 shadow-sm"
+          >
             <div className="space-y-1.5">
-              <label htmlFor="user" className="text-sm font-medium">{t("username")}</label>
+              <label htmlFor="user" className="text-sm font-medium">
+                {t("username")}
+              </label>
               <input
                 id="user"
                 value={user}
@@ -60,7 +65,9 @@ function LoginPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="pass" className="text-sm font-medium">{t("password")}</label>
+              <label htmlFor="pass" className="text-sm font-medium">
+                {t("password")}
+              </label>
               <input
                 id="pass"
                 type="password"
@@ -72,7 +79,9 @@ function LoginPage() {
               />
             </div>
             {err && (
-              <p className="text-sm text-[color:var(--status-red)]" role="alert">{err}</p>
+              <p className="text-sm text-[color:var(--status-red)]" role="alert">
+                {err}
+              </p>
             )}
             <button
               type="submit"

@@ -1,9 +1,4 @@
-import type {
-  Analysis,
-  AnalysisListOptions,
-  AnalysisRepository,
-  NewAnalysisInput,
-} from "./types";
+import type { Analysis, AnalysisListOptions, AnalysisRepository, NewAnalysisInput } from "./types";
 
 const STORAGE_KEY = "gsos.analyses.v1";
 
