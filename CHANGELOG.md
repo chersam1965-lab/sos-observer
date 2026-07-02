@@ -2,9 +2,19 @@
 
 All notable changes to GSOS Observer are documented in this file.
 The project adheres to [Semantic Versioning](https://semver.org/) and
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+## [Unreleased] — 1.3.0-dev — Branch `GSOS-Observer-V1.3-DEV`
 
-## [1.2.0] — 2026-06-30 — Sprint 3 Extension: AI Writing Assistant
+Development branch opened 2026-07-02 after v1.2.0 was certified
+Production Ready and frozen as the official Stable Release. See
+`docs/RELEASES.md`, `docs/BRANCHING.md`, and
+`docs/branches/V1.3-DEV.md`.
+
+Scope: TD-001 (Auth), TD-002 (Telemetry), TD-003 (Searchable Arabic
+PDF), plus maintainability work on `dashboard.tsx` and PDF pipeline.
+No new features, no new indicators, no analysis-engine changes.
+
+## [1.2.0] — 2026-06-30 — Sprint 3 Extension: AI Writing Assistant — 🔒 FROZEN STABLE RELEASE
+
 
 ### Added
 - AI Review button in the Analysis panel toolbar.
