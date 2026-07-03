@@ -1380,6 +1380,9 @@ function DashboardPage() {
             onAIReview={() => setAiReviewOpen(true)}
           />
         )}
+        {showAnalysis && pilotEnabled && pilotSessionId && (
+          <PilotFeedbackForm sessionId={pilotSessionId} />
+        )}
         {reportMeta && (
           <ReportPreviewDialog
             open={previewOpen}
