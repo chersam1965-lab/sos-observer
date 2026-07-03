@@ -1248,6 +1248,30 @@ function DashboardPage() {
     }).catch(() => {
       /* persistence is best-effort; UI is unaffected on failure */
     });
+
+    // Pilot Validation Program — record a separate, independent session log
+    // when Pilot Mode is enabled. Never modifies the analysis record above.
+    if (pilotEnabled) {
+      PilotService.logSession({
+        sessionId: reportMeta.id,
+        analysisId: reportMeta.id,
+        reportId: reportMeta.id,
+        language: lang,
+        indicators: {
+          realityGap: findValue("realityGap"),
+          trust: findValue("trust"),
+          responseDelay: findValue("responseDelay"),
+        },
+        globalStatus: risk,
+        appVersion: "1.3.0-dev",
+      })
+        .then((s) => setPilotSessionId(s.sessionId))
+        .catch(() => {
+          /* best-effort */
+        });
+    } else {
+      setPilotSessionId(null);
+    }
     // Only re-run when a new report is produced.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reportMeta?.id]);
@@ -1270,7 +1294,16 @@ function DashboardPage() {
               <div className="text-xs text-muted-foreground">{t("dashboard")}</div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <PilotToggle onChange={setPilotEnabled} />
+            {pilotEnabled && (
+              <Link
+                to="/pilot"
+                className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary"
+              >
+                {t("pilotDashboard")}
+              </Link>
+            )}
             <LanguageSwitcher />
             <button
               onClick={() => {
