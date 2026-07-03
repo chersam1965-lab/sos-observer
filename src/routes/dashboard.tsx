@@ -963,7 +963,13 @@ function DashboardPage() {
   const [reportMeta, setReportMeta] = useState<{ id: string; date: Date } | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [aiReviewOpen, setAiReviewOpen] = useState(false);
+  const [pilotEnabled, setPilotEnabled] = useState(false);
+  const [pilotSessionId, setPilotSessionId] = useState<string | null>(null);
   const analysisRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setPilotEnabled(isPilotModeEnabled());
+  }, []);
 
   const tick = async (value: number) => {
     setExportProgress(value);
