@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { isAuthed, signOut } from "@/lib/auth";
@@ -21,6 +21,9 @@ import {
 } from "@/components/ui/dialog";
 import { reviewReport, type ReviewResult, type Suggestion } from "@/lib/ai-review.functions";
 import { AnalysisService, ENGINE_VERSION, QUESTIONNAIRE_VERSION } from "@/lib/analysis";
+import { PilotService, isPilotModeEnabled } from "@/lib/pilot";
+import { PilotToggle } from "@/components/PilotToggle";
+import { PilotFeedbackForm } from "@/components/PilotFeedbackForm";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -960,7 +963,13 @@ function DashboardPage() {
   const [reportMeta, setReportMeta] = useState<{ id: string; date: Date } | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [aiReviewOpen, setAiReviewOpen] = useState(false);
+  const [pilotEnabled, setPilotEnabled] = useState(false);
+  const [pilotSessionId, setPilotSessionId] = useState<string | null>(null);
   const analysisRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setPilotEnabled(isPilotModeEnabled());
+  }, []);
 
   const tick = async (value: number) => {
     setExportProgress(value);
@@ -1239,6 +1248,30 @@ function DashboardPage() {
     }).catch(() => {
       /* persistence is best-effort; UI is unaffected on failure */
     });
+
+    // Pilot Validation Program — record a separate, independent session log
+    // when Pilot Mode is enabled. Never modifies the analysis record above.
+    if (pilotEnabled) {
+      PilotService.logSession({
+        sessionId: reportMeta.id,
+        analysisId: reportMeta.id,
+        reportId: reportMeta.id,
+        language: lang,
+        indicators: {
+          realityGap: findValue("realityGap"),
+          trust: findValue("trust"),
+          responseDelay: findValue("responseDelay"),
+        },
+        globalStatus: risk,
+        appVersion: "1.3.0-dev",
+      })
+        .then((s) => setPilotSessionId(s.sessionId))
+        .catch(() => {
+          /* best-effort */
+        });
+    } else {
+      setPilotSessionId(null);
+    }
     // Only re-run when a new report is produced.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reportMeta?.id]);
@@ -1261,7 +1294,16 @@ function DashboardPage() {
               <div className="text-xs text-muted-foreground">{t("dashboard")}</div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <PilotToggle onChange={setPilotEnabled} />
+            {pilotEnabled && (
+              <Link
+                to="/pilot"
+                className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary"
+              >
+                {t("pilotDashboard")}
+              </Link>
+            )}
             <LanguageSwitcher />
             <button
               onClick={() => {
@@ -1337,6 +1379,9 @@ function DashboardPage() {
             onPreview={() => setPreviewOpen(true)}
             onAIReview={() => setAiReviewOpen(true)}
           />
+        )}
+        {showAnalysis && pilotEnabled && pilotSessionId && (
+          <PilotFeedbackForm sessionId={pilotSessionId} />
         )}
         {reportMeta && (
           <ReportPreviewDialog

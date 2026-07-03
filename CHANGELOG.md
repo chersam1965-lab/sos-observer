@@ -13,6 +13,29 @@ Scope: TD-001 (Auth), TD-002 (Telemetry), TD-003 (Searchable Arabic
 PDF), plus maintainability work on `dashboard.tsx` and PDF pipeline.
 No new features, no new indicators, no analysis-engine changes.
 
+### Sprint S0 — Pilot Validation Program (added 2026-07-03)
+
+TD-001/002/003 are paused. This sprint adds an isolated Pilot Mode to
+gather field evidence before resuming technical-debt work.
+
+- New domain module `src/lib/pilot/` (types, LocalStorage repository,
+  service with aggregation, mode flag helpers) — mirrors the analysis
+  repository shape and can be swapped provider-side later.
+- `PilotToggle` in the dashboard header (localStorage-backed).
+- `PilotFeedbackForm` rendered under the Analysis panel when Pilot Mode
+  is ON — accuracy 1–5, usefulness 1–5, notes, suggestions; EN/FR/AR + RTL.
+- `/pilot` route: totals, averages, status/language distribution, top
+  keywords, recent sessions table.
+- Pilot Validation Report PDF export.
+- 11 new unit tests (30 total green).
+- ADR-0004; `docs/sprints/V1.3-S0-PILOT.md`.
+
+Analysis engine, indicators, existing i18n keys, and the analysis PDF
+pipeline are unchanged. Analysis records are never mutated by pilot
+feedback — pilot data lives in independent storage keys
+(`gsos.pilot.sessions.v1`, `gsos.pilot.feedback.v1`,
+`gsos.pilot.enabled`).
+
 ## [1.2.0] — 2026-06-30 — Sprint 3 Extension: AI Writing Assistant — 🔒 FROZEN STABLE RELEASE
 
 
