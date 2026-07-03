@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { isAuthed, signOut } from "@/lib/auth";
@@ -21,6 +21,9 @@ import {
 } from "@/components/ui/dialog";
 import { reviewReport, type ReviewResult, type Suggestion } from "@/lib/ai-review.functions";
 import { AnalysisService, ENGINE_VERSION, QUESTIONNAIRE_VERSION } from "@/lib/analysis";
+import { PilotService, isPilotModeEnabled } from "@/lib/pilot";
+import { PilotToggle } from "@/components/PilotToggle";
+import { PilotFeedbackForm } from "@/components/PilotFeedbackForm";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
