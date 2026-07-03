@@ -1,5 +1,11 @@
 # Technical Debt Log
 
+> **V1.3-DEV — Sprint S0 (Pilot Validation Program) in progress.**
+> TD-001, TD-002, TD-003 are intentionally **paused** pending PVP
+> results. See `docs/sprints/V1.3-S0-PILOT.md` and ADR-0004.
+
+
+
 | ID | Item | Origin | Impact | Priority | Status |
 | -- | ---- | ------ | ------ | -------- | ------ |
 | TD-001 | Auth is localStorage-only (`src/lib/auth.ts`); no real session, no roles. | Sprint 1 | Blocks Sprint 4 (Administration) | High | Open |
