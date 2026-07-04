@@ -1,140 +1,152 @@
-# Sprint Plan — Pilot Validation Program (PVP)
+# Sprint Plan — Scientific Validation Framework (SVF)
 
 **Branch:** `GSOS-Observer-V1.3-DEV`
-**Sprint code:** `V1.3-S0-PILOT`
+**Sprint code:** `V1.3-S1-SVF`
 **Status:** Awaiting approval before implementation
-**Precedence:** Runs BEFORE TD-001 / TD-002 / TD-003. Those remain queued and untouched.
+**Precedence:** Runs AFTER PVP (V1.3-S0), BEFORE TD-001 / TD-002 / TD-003.
 
 ## 1. Objective
 
-Prove GSOS Observer's effectiveness in real usage by collecting evidence
-(session logs + user feedback) from a controlled Pilot Mode — without
-modifying the analysis engine, indicators, reporting pipeline, or i18n
-layer.
+Prove scientifically that GSOS Observer results are accurate, measurable,
+and reviewable — by building an **independent** Scientific Validation
+module that captures controlled experiments, compares GSOS output vs.
+ground truth, and produces a formal Scientific Validation Report suitable
+for universities, research centers, and innovation juries.
+
+No change to the analysis engine, indicators, dashboard, PDF pipeline, or
+Pilot module.
 
 ## 2. Guardrails (non-negotiable)
 
-- No change to `src/lib/indicators.ts` or `src/lib/analysis/*` engine logic.
-- No change to PDF export pipeline or `AnalysisPanel` report content.
-- No change to `src/lib/i18n.tsx` dictionaries beyond ADDING new Pilot keys.
-- No new AI features. No dashboard redesign. No new indicators.
-- Pilot data lives in a **separate** repository/storage namespace from
-  the existing Analysis repository. The original analysis record is never
-  mutated by Pilot feedback.
+- No change to `src/lib/indicators.ts` or `src/lib/analysis/*`.
+- No change to the main Dashboard or the existing PDF report pipeline.
+- No change to `src/lib/pilot/*` or the Pilot dashboard/report.
+- No change to existing i18n keys (only ADD new `sv.*` keys).
+- SVF data lives in its **own** localStorage namespace, isolated from
+  Analysis and Pilot stores.
 
 ## 3. Deliverables
 
-### 3.1 Pilot Mode (runtime toggle)
-- New setting `pilotMode: boolean` persisted in localStorage
-  (`gsos.pilot.enabled`).
-- Toggle exposed in the Dashboard header (small switch, labelled, i18n).
-- When ON: session logging + post-analysis feedback form are active.
-- When OFF: behavior is identical to today's V1.2 dashboard.
+### 3.1 Independent Scientific Validation module
+```
+src/lib/scientific/
+  types.ts              // Experiment, GroundTruth, Assessment, Aggregate
+  repository.ts         // DI hook (mirrors analysis/pilot pattern)
+  localStorageRepository.ts
+  service.ts            // create/save/list/aggregate + match rate
+  __tests__/
+    localStorageRepository.test.ts
+    service.test.ts
+```
 
-### 3.2 Pilot Session Log
-For every analysis run while Pilot Mode is ON, record:
-- `sessionId` (UUID)
-- `analysisId` (FK to existing Analysis entity — reference only, never edit)
-- `reportId` (same identifier used in the exported PDF header)
-- `timestamp` (ISO-8601)
-- `language` (`en` | `fr` | `ar`)
-- `indicators` (`realityGap`, `trust`, `responseDelay` — numeric snapshot)
-- `globalStatus` (`stable` | `monitor` | `risk`)
-- `appVersion` (from `VERSION`)
+### 3.2 Scientific Validation Protocol (data model)
+Each `Experiment` records:
+- `experimentId` (UUID), `createdAt`, `language` (en|fr|ar)
+- `objective` (short goal of the experiment)
+- `caseType` (free label, e.g. Governance, Compliance, Security…)
+- `caseDescription`
+- `inputData` (structured notes of inputs fed to GSOS)
+- `gsosResult` — `{ realityGap, trust, responseDelay, globalStatus, summary }`
+  (captured as a snapshot; never mutates the source Analysis)
+- `groundTruth` — `{ globalStatus, notes }` from the expert
+- `matchRate` (0..100, computed) + `matchFlag` (match | partial | mismatch)
+- `evaluatorNotes`
 
-### 3.3 Feedback Form
-Shown after each Pilot analysis, below the analysis panel:
-- Q1 "Was the result accurate?" — 1–5 scale
-- Q2 "Was the report useful?" — 1–5 scale
-- Q3 Free-text notes (optional)
-- Q4 Improvement suggestions (optional)
-- Submit → stored as `PilotFeedback` linked to `sessionId`.
-- Fully translated (EN / FR / AR) with RTL support.
+### 3.3 Scientific Validation Dashboard
+New route `src/routes/scientific.tsx`:
+- Totals: experiments, matches, partials, mismatches
+- Overall success rate (%)
+- Match distribution bar
+- Language / case-type distributions
+- Performance-over-time line (weekly bucketed success rate)
+- Recent experiments table
+- "New Experiment" dialog: form to create an experiment, optionally
+  pre-filled from the latest Analysis snapshot (read-only) or entered
+  manually. Never writes back to the Analysis repository.
+- "Export Scientific Validation Report" button (PDF)
 
-### 3.4 Independent Pilot Repository
-- `src/lib/pilot/types.ts` — `PilotSession`, `PilotFeedback`,
-  `PilotRepository` interface.
-- `src/lib/pilot/localStorageRepository.ts` —
-  keys: `gsos.pilot.sessions.v1`, `gsos.pilot.feedback.v1`.
-- `src/lib/pilot/repository.ts` — DI hook mirroring the analysis pattern.
-- `src/lib/pilot/service.ts` — `PilotService.logSession`,
-  `submitFeedback`, `listSessions`, `listFeedback`, `aggregate`.
-- Unit tests mirroring the Analysis repository test coverage.
+### 3.4 Scientific Validation Report (PDF)
+Filename: `GSOS-Scientific-Validation-Report-YYYY-MM-DD-HH-MM.pdf`
+Sections:
+1. Executive summary of experiments
+2. Statistical results (totals, success rate, distributions)
+3. Strengths
+4. Weaknesses
+5. Recommendations
+6. Improvement plan
+Template is static and populated from aggregates (no AI, no engine calls).
 
-### 3.5 Pilot Dashboard
-- New route `src/routes/pilot.tsx` (visible only when Pilot Mode is ON,
-  otherwise the nav entry is hidden and the route redirects home).
-- Displays:
-  - Total session count
-  - Average score (Q1, Q2, combined)
-  - Global status distribution (Stable / Monitor / Risk) as bars
-  - Top recurring keywords from notes (simple frequency, client-side)
-  - Table of recent sessions with language, status, scores
-- Fully i18n, responsive, uses `GsosCard` and existing tokens.
+### 3.5 Navigation
+- Add a discreet nav entry to `/scientific` (always available; the module
+  is opt-in by usage, no toggle needed).
+- Route is standalone; it does not alter Dashboard or Pilot routes.
 
-### 3.6 Pilot Validation Report
-- Export button on Pilot Dashboard: generates a PDF summarizing the
-  aggregate metrics + a textual recommendations section (static template
-  for now, populated from aggregates — no AI).
-- Filename: `GSOS-Pilot-Validation-Report-YYYY-MM-DD-HH-MM.pdf`.
+### 3.6 i18n
+Add `sv.*` keys in EN / FR / AR with full RTL support. Existing
+dictionaries remain untouched.
 
 ### 3.7 Governance artifacts
-- `docs/sprints/V1.3-S0-PILOT.md` — this sprint's plan + acceptance log.
-- `docs/adr/0004-pilot-validation-program.md` — decision & scope.
-- `docs/TECH_DEBT.md` — note that TD-001/002/003 are paused pending PVP.
-- `CHANGELOG.md` `[Unreleased]` — Added Pilot Mode entries.
+- `docs/sprints/V1.3-S1-SVF.md` — this sprint's plan + acceptance log.
+- `docs/adr/0005-scientific-validation-framework.md` — decision & scope.
+- `docs/TECH_DEBT.md` — note SVF is inserted before TD-001/002/003.
+- `CHANGELOG.md` `[Unreleased]` — Added SVF entries.
 
 ## 4. Technical notes
 
 ```text
-src/lib/pilot/
-  types.ts
-  repository.ts
-  localStorageRepository.ts
-  service.ts
-  __tests__/
-    localStorageRepository.test.ts
-    service.test.ts
-src/routes/
-  pilot.tsx                (new)
-  dashboard.tsx            (minimal wiring only)
+src/lib/scientific/…            (new domain, DI-shaped like analysis & pilot)
+src/routes/scientific.tsx       (new)
 src/components/
-  PilotToggle.tsx
-  PilotFeedbackForm.tsx
+  ScientificExperimentForm.tsx
+  ScientificStats.tsx
 ```
 
-Dashboard integration is limited to:
-1. Reading `pilotMode` flag.
-2. After `AnalysisService.recordCompleted(...)`, calling
-   `PilotService.logSession(...)` with the returned analysis metadata.
-3. Rendering `<PilotFeedbackForm sessionId=... />` under the analysis panel.
+Storage keys: `gsos.scientific.experiments.v1`.
+No shared writes with `gsos.analysis.*` or `gsos.pilot.*`.
 
-No existing component logic is refactored.
+Match rate computation (v1, deterministic, engine-free):
+- +60 pts if `gsosResult.globalStatus === groundTruth.globalStatus`
+- +40 pts scaled by inverse distance on the three indicators when
+  ground-truth numeric fields are provided (optional); otherwise the
+  40 pts are awarded proportionally to the status agreement only.
+- `matchFlag`: `match` ≥ 80, `partial` 50–79, `mismatch` < 50.
 
 ## 5. Acceptance criteria
 
-1. With Pilot Mode OFF, the app is byte-behavior-identical to v1.2.0
-   (no session logs written, no feedback UI, no new nav entry).
-2. With Pilot Mode ON, every analysis produces exactly one PilotSession
-   and allows exactly one PilotFeedback submission per session.
-3. Pilot Dashboard aggregates match the underlying stored data.
-4. Pilot Validation Report PDF exports successfully in EN/FR/AR with
-   correct RTL for Arabic.
-5. Analysis engine, indicators, i18n dictionaries (existing keys), and
-   PDF report pipeline are unmodified — verified by diff review.
-6. All new unit tests pass; existing 19 tests remain green.
-7. `docs/sprints/V1.3-S0-PILOT.md` includes a QA checklist filled in
-   before sprint closure.
+1. Analysis engine, indicators, Dashboard, PDF pipeline, and Pilot module
+   are byte-behavior-identical (verified by diff review).
+2. Creating / saving / listing / aggregating experiments works and is
+   covered by unit tests; all previous tests remain green.
+3. `/scientific` dashboard renders totals, success rate, distributions,
+   performance-over-time, and recent experiments consistent with stored
+   data.
+4. Scientific Validation Report PDF exports successfully in EN / FR / AR
+   (RTL for Arabic) with all six sections populated from aggregates.
+5. SVF storage is isolated — clearing analysis or pilot storage does not
+   affect scientific data and vice versa.
+6. `docs/sprints/V1.3-S1-SVF.md` acceptance checklist filled before
+   sprint closure.
 
 ## 6. Out of scope
 
-- Server-side persistence of pilot data (localStorage only for S0).
-- Authentication / user identity (TD-001, still queued).
-- Telemetry backend (TD-002, still queued).
-- Arabic searchable PDF (TD-003, still queued).
-- Any change to scoring thresholds or report layout.
+- Server-side persistence (localStorage only in S1).
+- Authentication / expert accounts (TD-001, still queued).
+- Telemetry (TD-002), searchable Arabic PDF (TD-003) — still queued.
+- Any change to scoring thresholds, indicators, or report layout of the
+  main Analysis PDF.
+- AI-generated recommendations (report is a static, aggregate-driven
+  template).
 
-## 7. Next after PVP closes
+## 7. Risk assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+| ---- | ---------- | ------ | ---------- |
+| Accidental coupling to Analysis engine | Low | High | Snapshot-only reads; no imports from `analysis/service` write paths |
+| localStorage quota under heavy pilot+SVF use | Low | Medium | Separate namespace; documented clear action in dashboard |
+| Arabic PDF still raster (TD-003 open) | Certain | Low | Accept Latin fallback for AR export; TD-003 will resolve later |
+| Match-rate formula perceived as arbitrary | Medium | Medium | Document formula in ADR-0005; keep it deterministic and reviewable |
+
+## 8. Next after SVF closes
 
 Resume the frozen queue in order: **TD-001 → TD-002 → TD-003**, each
-with its own sprint plan and QA report as per V1.3 governance.
+with its own sprint plan and QA report per V1.3 governance.
