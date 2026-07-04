@@ -1,8 +1,9 @@
 # Technical Debt Log
 
-> **V1.3-DEV — Sprint S0 (Pilot Validation Program) in progress.**
-> TD-001, TD-002, TD-003 are intentionally **paused** pending PVP
-> results. See `docs/sprints/V1.3-S0-PILOT.md` and ADR-0004.
+> **V1.3-DEV — Sprint S1 (Scientific Validation Framework) in progress.**
+> Sprint S0 (Pilot Validation Program) closed. TD-001, TD-002, TD-003
+> remain **paused** pending SVF results. See
+> `docs/sprints/V1.3-S1-SVF.md` and ADR-0005.
 
 
 
