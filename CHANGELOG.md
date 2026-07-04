@@ -13,6 +13,29 @@ Scope: TD-001 (Auth), TD-002 (Telemetry), TD-003 (Searchable Arabic
 PDF), plus maintainability work on `dashboard.tsx` and PDF pipeline.
 No new features, no new indicators, no analysis-engine changes.
 
+### Sprint S1 — Scientific Validation Framework (added 2026-07-04)
+
+TD-001/002/003 remain paused. This sprint adds an isolated Scientific
+Validation module to produce reproducible evidence of GSOS accuracy vs.
+expert ground truth.
+
+- New domain module `src/lib/scientific/` (types, deterministic match
+  formula, LocalStorage repository, DI hook, aggregation service) —
+  mirrors the analysis/pilot repository shape.
+- New route `/scientific` with New-Experiment form, aggregate KPIs
+  (success rate, average match rate, distributions, performance over
+  time), and recent experiments table.
+- Scientific Validation Report PDF export — 6 sections (Executive
+  summary, Statistical results, Strengths, Weaknesses, Recommendations,
+  Improvement plan).
+- Full EN / FR / AR translations (additive `sv.*` keys only).
+- 7 new unit tests (37 total green).
+- ADR-0005; `docs/sprints/V1.3-S1-SVF.md`.
+
+Analysis engine, indicators, main Dashboard, Analysis PDF pipeline, and
+Pilot module are unchanged. Scientific data lives in an isolated storage
+key (`gsos.scientific.experiments.v1`).
+
 ### Sprint S0 — Pilot Validation Program (added 2026-07-03)
 
 TD-001/002/003 are paused. This sprint adds an isolated Pilot Mode to
