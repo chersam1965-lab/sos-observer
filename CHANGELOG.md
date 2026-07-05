@@ -13,6 +13,31 @@ Scope: TD-001 (Auth), TD-002 (Telemetry), TD-003 (Searchable Arabic
 PDF), plus maintainability work on `dashboard.tsx` and PDF pipeline.
 No new features, no new indicators, no analysis-engine changes.
 
+### Sprint S2 — Knowledge Extraction Engine (added 2026-07-05)
+
+TD-001/002/003 remain paused. This sprint adds an isolated, read-only
+Knowledge Extraction Engine (GKE) that turns existing project
+artefacts into structured, versioned, publishable documents.
+
+- New domain module `src/lib/knowledge/` (types, DI repository,
+  extractors for indicators/rules/pilot/scientific/docs, engine,
+  six-document generator, isolated jsPDF exporter, service).
+- Raw project docs (CHANGELOG, ROADMAP, TECH_DEBT, ADRs, sprints)
+  loaded at build time via Vite `?raw` imports — no runtime fetch.
+- New route `/knowledge` — Knowledge Center: versions list, six-tab
+  document viewer (Methodology / Architecture / Research Notes /
+  Decision Rules / Knowledge Book / Evolution Report), full-text
+  search over the selected version, per-document PDF export.
+- Version IDs `K-<appVersion>.<sprintCode>.<seq>`; append-only history.
+- Full EN / FR / AR translations (additive `kc.*` keys only).
+- 3 new unit test files (engine, generator, service).
+- ADR-0006; `docs/sprints/V1.3-S2-GKE.md`.
+
+Analysis engine, indicators, main Dashboard, Analysis PDF pipeline,
+Pilot and Scientific Validation modules are unchanged. Knowledge data
+lives in an isolated storage key (`gsos.knowledge.versions.v1`).
+
+
 ### Sprint S1 — Scientific Validation Framework (added 2026-07-04)
 
 TD-001/002/003 remain paused. This sprint adds an isolated Scientific

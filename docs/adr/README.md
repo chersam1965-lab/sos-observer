@@ -15,3 +15,7 @@ supersedes the previous one.
 - [ADR-0001 — TanStack Start + Lovable Cloud as the application stack](./0001-stack-tanstack-start.md)
 - [ADR-0002 — Client-side jsPDF + html2canvas for report export](./0002-pdf-export-strategy.md)
 - [ADR-0003 — Lovable AI Gateway for the AI Writing Assistant](./0003-ai-writing-assistant.md)
+- [ADR-0004 — Pilot Validation Program](./0004-pilot-validation-program.md)
+- [ADR-0005 — Scientific Validation Framework](./0005-scientific-validation-framework.md)
+- [ADR-0006 — Knowledge Extraction Engine](./0006-knowledge-extraction-engine.md)
+

@@ -1,9 +1,10 @@
 # Technical Debt Log
 
-> **V1.3-DEV — Sprint S1 (Scientific Validation Framework) in progress.**
-> Sprint S0 (Pilot Validation Program) closed. TD-001, TD-002, TD-003
-> remain **paused** pending SVF results. See
-> `docs/sprints/V1.3-S1-SVF.md` and ADR-0005.
+> **V1.3-DEV — Sprint S2 (Knowledge Extraction Engine) in progress.**
+> Sprints S0 (Pilot Validation) and S1 (Scientific Validation) closed.
+> TD-001, TD-002, TD-003 remain **paused** pending GKE closure. See
+> `docs/sprints/V1.3-S2-GKE.md` and ADR-0006.
+
 
 
 
