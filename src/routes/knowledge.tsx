@@ -154,7 +154,7 @@ function KnowledgePage() {
           </GsosCard>
         ) : (
           <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[240px_1fr]">
-            <GsosCard as="aside">
+            <GsosCard as="section">
               <GsosCardHeader>
                 <GsosCardTitle>{t("kcVersions")}</GsosCardTitle>
               </GsosCardHeader>
