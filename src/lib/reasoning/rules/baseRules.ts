@@ -113,11 +113,10 @@ export const BASE_RULES: Rule[] = [
     weight: 0,
     when: (p) =>
       num(p, "realityGapIndex") < T_LOW &&
-      num(p, "trustIndex") >= T_HIGH === false && // not used
-      num(p, "trustIndex") >= T_LOW && // trust is inverted: high trust is good
+      num(p, "trustIndex") >= T_HIGH &&
       num(p, "responseDelayIndex") < T_LOW,
     then: (p) => ({
-      statement: "All three indicators are within their stable bands.",
+      statement: "All three indicators are within their stable bands (trust high, gap/delay low).",
       confidence: 0.85,
       evidence: evidenceFor(p, ["realityGapIndex", "trustIndex", "responseDelayIndex"]),
     }),
