@@ -1,186 +1,126 @@
+# Sprint Plan — V2.0-S1 Reasoning Engine Foundation
 
-# Sprint Plan — Knowledge Extraction Engine (GKE)
-
-**Branch:** `GSOS-Observer-V1.3-DEV`
-**Sprint code:** `V1.3-S2-GKE`
+**Program:** Phase II — Core Intelligence Program (CIP)
+**Branch:** `GSOS-Observer-V1.3-DEV` (opens V2.0 track)
+**Sprint code:** `V2.0-S1-REF`
 **Status:** Awaiting approval before implementation
-**Precedence:** Runs AFTER SVF (V1.3-S1), BEFORE TD-001 / TD-002 / TD-003.
+**Precedence:** First sprint of CIP. Must close with green tests, Acceptance Report and Sprint Certificate before V2.0-S2 begins.
 
 ## 1. Objective
 
-Turn the knowledge already present inside GSOS Observer (indicators,
-decision rules, ADRs, CHANGELOG, ROADMAP, Pilot results, Scientific
-Validation results, sprint records) into a structured, versioned,
-publishable body of scientific knowledge — automatically, without
-altering any product behavior.
+Lay the foundation of the GSOS Reasoning Engine: an isolated, deterministic module that takes an *analysis snapshot* (indicators + rule outputs already produced by the existing engine) and produces a structured **reasoning trace** — a chain of premises, applied rules, intermediate inferences, and a final justified conclusion.
 
-The engine is the foundation of **GSOS Scientific Methodology V1.0**
-and becomes the official reference for the project.
+This sprint delivers the *skeleton and contracts* of reasoning, not new user-facing intelligence. No AI calls, no probabilistic models — pure rule-based, testable logic.
 
 ## 2. Guardrails (non-negotiable)
 
-- No change to `src/lib/indicators.ts` or `src/lib/analysis/*`.
-- No change to the main Dashboard or the existing PDF report pipeline.
-- No change to `src/lib/pilot/*` or `src/lib/scientific/*`.
-- No change to existing i18n keys (only ADD new `kc.*` keys for the
-  Knowledge Center UI).
-- GKE runs in read-only mode against Analysis / Pilot / Scientific
-  repositories — it never mutates their data.
-- GKE storage uses its own namespace, isolated from all other stores.
+- No change to `src/lib/indicators.ts`, `src/lib/analysis/*`, main Dashboard, PDF pipeline.
+- No change to `src/lib/pilot/*`, `src/lib/scientific/*`, `src/lib/knowledge/*`.
+- No change to existing i18n keys (only ADD new `re.*` keys for the Reasoning UI shell).
+- Reasoning Engine is **read-only** with respect to Analysis/Pilot/Scientific/Knowledge repositories.
+- Storage lives in its own namespace `gsos.reasoning.traces.v1`, isolated from all other stores.
+- No network, no server functions, no external deps beyond what is already installed.
 
 ## 3. Deliverables
 
-### 3.1 Independent Knowledge Extraction Engine
+### 3.1 Isolated Reasoning module
 ```
-src/lib/knowledge/
-  types.ts                 // KnowledgeItem, KnowledgeVersion, Document, Source
-  repository.ts            // DI hook (mirrors analysis/pilot/scientific)
+src/lib/reasoning/
+  types.ts                 // Premise, Rule, Inference, ReasoningTrace, ReasoningInput
+  rules/
+    index.ts               // registerRule / getRules
+    baseRules.ts           // 6-8 seed rules derived from existing decision thresholds (read-only mirror)
+  engine.ts                // pure function: reason(input) -> ReasoningTrace
+  explain.ts               // renders a ReasoningTrace into human-readable steps
+  repository.ts            // DI hook (mirrors analysis/pilot/scientific/knowledge)
   localStorageRepository.ts
-  extractors/
-    indicatorsExtractor.ts // reads src/lib/indicators.ts constants (read-only)
-    rulesExtractor.ts      // reads decision thresholds from analysis types
-    pilotExtractor.ts      // reads Pilot aggregates via PilotService
-    scientificExtractor.ts // reads SVF aggregates via ScientificService
-    docsExtractor.ts       // parses ADRs, CHANGELOG, ROADMAP text bundled at build time
-  engine.ts                // orchestrates extractors → KnowledgeVersion
-  generator.ts             // renders the 6 documents from a KnowledgeVersion
-  service.ts               // extract/version/list/get/export
+  service.ts               // run/list/get/clear
+  index.ts
   __tests__/
     engine.test.ts
-    generator.test.ts
+    rules.test.ts
     service.test.ts
+    explain.test.ts
 ```
 
-### 3.2 Knowledge Repository (data model)
+### 3.2 Data model
 
-The repository stores **KnowledgeVersion** snapshots, each containing
-categorized **KnowledgeItem**s:
+- `Premise` — `{ id, kind: 'indicator'|'context'|'fact', key, value, sourcePath }`
+- `Rule` — `{ id, name, when(premises): boolean, then(premises): Inference, weight, category }`
+- `Inference` — `{ id, ruleId, statement, confidence: 0..1, evidence: Premise[] }`
+- `ReasoningTrace` — `{ traceId, createdAt, sprintCode, appVersion, input, premises[], firedRules[], inferences[], conclusion: { status, rationale, confidence } }`
+- Storage key: `gsos.reasoning.traces.v1`. Append-only; older traces preserved.
 
-- Categories: `concept | principle | rule | decision | indicator |
-  experiment | evidence | reference`.
-- Each item: `id`, `category`, `title`, `body`, `sourcePath`,
-  `sprintCode`, `extractedAt`.
-- Each version: `versionId` (semver-ish, e.g. `K-1.3.S2.0`),
-  `createdAt`, `sprintCode`, `sources[]` (paths/aggregates snapshot),
-  `items[]`, `generatedDocuments[]`.
+### 3.3 Engine behavior
 
-Storage key: `gsos.knowledge.versions.v1`. Additive only — older
-versions are never deleted; a new extraction creates a new version.
+- Pure, deterministic (given the same input → same trace).
+- Evaluates every registered rule against premises, records fired rules in order.
+- Aggregates inferences into a single conclusion via a documented, deterministic scoring formula (weighted sum → thresholded status). Formula lives in `engine.ts` and is fully unit-tested.
+- Never mutates its input.
 
-### 3.3 Automatic Documentation Generator
+### 3.4 Reasoning Console (UI shell only)
 
-For every extraction the generator produces six static Markdown-style
-documents (rendered as HTML/PDF client-side, no AI):
+New route `src/routes/reasoning.tsx` (auth-gated, isolated):
+- List of stored traces (newest first).
+- Detail view: premises → fired rules → inferences → conclusion, rendered by `explain.ts`.
+- "Run reasoning" button that consumes the latest Analysis snapshot via the existing `AnalysisService` read API and produces a new trace.
+- "Clear traces" action. No editing, no PDF export in this sprint.
+- Fully localized in EN / FR / AR with RTL, using new `re.*` keys only.
 
-1. **GSOS Scientific Methodology** — indicators, rules, protocol.
-2. **GSOS Technical Architecture** — module map from ADRs.
-3. **GSOS Research Notes** — Pilot + Scientific aggregates.
-4. **GSOS Decision Rules** — thresholds and status mapping.
-5. **GSOS Knowledge Book** — full concatenation of all knowledge items.
-6. **GSOS Evolution Report** — CHANGELOG + sprint history + diff of
-   knowledge items vs. the previous version.
+### 3.5 Governance artifacts
 
-Each document header carries: **Version**, **Creation date**, **Sprint
-code**, **Sources used**, **Extracted components**.
-
-### 3.4 Knowledge Center page
-
-New route `src/routes/knowledge.tsx`:
-- Lists all knowledge versions (newest first) with sprint code + date.
-- Version detail: 6 generated documents (tabs), full-text search across
-  the current version, and a source panel showing which files/aggregates
-  fed each document.
-- "Extract now" button (manual trigger for the current sprint code).
-- "Export to PDF" per document, using the existing jsPDF-based pipeline
-  helper style (client-side, isolated file).
-- Filename pattern:
-  `GSOS-<DocName>-<VersionId>-YYYY-MM-DD.pdf`.
-
-### 3.5 Versioning workflow
-
-- `extract()` reads all sources, builds a `KnowledgeVersion`, and
-  appends it to storage without touching prior versions.
-- Version IDs follow `K-<appVersion>.<sprintCode>.<seq>`, where `seq`
-  auto-increments per sprint code.
-- A future CI hook (documented, not implemented here) can call
-  `extract()` at Release time; for V1.3-S2 the manual button in the
-  Knowledge Center is sufficient.
-
-### 3.6 i18n
-
-Add `kc.*` keys in EN / FR / AR (with RTL) for the Knowledge Center
-UI only. Document bodies are generated in the current UI language when
-strings are localizable; source-derived content (ADR text, CHANGELOG)
-remains verbatim in its original language.
-
-### 3.7 Governance artifacts
-
-- `docs/sprints/V1.3-S2-GKE.md` — this sprint's plan + acceptance log.
-- `docs/adr/0006-knowledge-extraction-engine.md` — decision & scope.
-- `docs/TECH_DEBT.md` — note GKE inserted before TD-001/002/003.
-- `CHANGELOG.md` `[Unreleased]` — Added GKE entries.
+- `docs/sprints/V2.0-S1-REF.md` — sprint plan + acceptance checklist + Sprint Certificate section.
+- `docs/adr/0007-reasoning-engine-foundation.md` — decision, scope, formula.
+- `docs/PROGRAMS/CIP.md` — CIP index listing the 7 sprints with status.
+- `docs/TECH_DEBT.md` — note that TD-001/002/003 remain queued behind CIP.
+- `CHANGELOG.md` `[Unreleased]` — Added Reasoning Engine Foundation entries.
+- `VERSION` bumped to `2.0.0-dev` on sprint open (documented in ADR-0007).
 
 ## 4. Technical notes
 
 ```text
-src/lib/knowledge/…            (new domain, DI-shaped)
-src/routes/knowledge.tsx       (new)
-src/components/
-  KnowledgeVersionList.tsx
-  KnowledgeDocumentView.tsx
-  KnowledgeSearch.tsx
+src/lib/reasoning/…       (new isolated domain, DI-shaped, mirrors knowledge/)
+src/routes/reasoning.tsx  (new, auth-gated)
 ```
 
-- Extractors are pure functions taking already-imported values (for
-  indicators/rules) or repository handles (for Pilot/SVF). Text sources
-  (ADR / CHANGELOG / ROADMAP) are imported as raw strings via Vite's
-  `?raw` suffix so nothing hits the network at runtime.
-- Generator produces plain structured objects; PDF rendering reuses the
-  jsPDF approach already in use for the Scientific Validation report,
-  but in an isolated `src/lib/knowledge/pdf.ts` file — no import from
-  the existing dashboard PDF module.
-- Search is client-side, case-insensitive substring across item
-  `title` + `body` within the selected version.
+- The engine reads *snapshots* of analysis results via the existing service API only; it never imports `src/lib/analysis` internals or `indicators.ts` logic. Thresholds used by seed rules are re-declared locally in `rules/baseRules.ts` and cross-referenced in ADR-0007 to avoid runtime coupling.
+- Trace persistence uses the same repository pattern as `knowledge/` and `scientific/` to keep testing conventions uniform.
+- No dependency additions.
 
 ## 5. Acceptance criteria
 
-1. Analysis engine, indicators, main Dashboard, PDF pipeline, Pilot,
-   and Scientific Validation modules are byte-behavior-identical
-   (verified by diff review).
-2. Running an extraction produces a new `KnowledgeVersion` with items
-   in every applicable category and six generated documents; storage
-   retains all prior versions.
-3. `/knowledge` renders the version list, per-document tabs, search,
-   and PDF export in EN / FR / AR (RTL for Arabic).
-4. Knowledge storage is isolated — clearing Analysis, Pilot, or
-   Scientific storage does not affect knowledge versions and vice versa.
-5. Unit tests cover: extractor outputs, versioning append-only
-   behavior, generator document shape, and service aggregation. All
-   previous tests remain green.
-6. `docs/sprints/V1.3-S2-GKE.md` acceptance checklist filled before
-   sprint closure.
+1. Analysis engine, indicators, Dashboard, PDF pipeline, Pilot, Scientific Validation and Knowledge Extraction modules are byte-behavior-identical (diff review).
+2. `reason(input)` is pure and deterministic — verified by property-style tests (same input → identical trace including ordering).
+3. Storage isolation: clearing reasoning traces does not affect any other module and vice versa.
+4. `/reasoning` renders the trace list, run action, and detail view in EN / FR / AR (RTL for AR).
+5. New unit tests cover: engine determinism, each seed rule, conclusion aggregation edge cases, service append/list/clear, and `explain.ts` output shape. All prior tests remain green.
+6. `docs/sprints/V2.0-S1-REF.md` includes a completed acceptance checklist AND a signed Sprint Certificate section before sprint closure.
+7. No file outside the sprint scope is modified except: `src/lib/i18n.tsx` (additive `re.*` keys), `src/routeTree.gen.ts` (auto), `CHANGELOG.md`, `docs/TECH_DEBT.md`, `VERSION`.
 
 ## 6. Out of scope
 
-- Server-side persistence or CI-driven auto-extraction (localStorage +
-  manual trigger only in S2).
-- AI-generated summaries or rewrites (engine is deterministic).
-- Editing/mutating extracted knowledge from the UI.
-- Any change to scoring thresholds, indicators, or existing reports.
-- TD-001 (Auth), TD-002 (Telemetry), TD-003 (Arabic searchable PDF) —
-  remain queued.
+- AI/LLM-based reasoning, probabilistic models, learning from traces.
+- Editing rules from the UI, rule authoring UX.
+- PDF export of reasoning traces (queued for V2.0-S2+).
+- Any change to scoring thresholds of the Analysis engine.
+- TD-001 / TD-002 / TD-003 — remain queued behind full CIP completion.
 
 ## 7. Risk assessment
 
 | Risk | Likelihood | Impact | Mitigation |
 | ---- | ---------- | ------ | ---------- |
-| Accidental coupling to Analysis engine | Low | High | Read-only imports; extractors return snapshots |
-| localStorage quota with many versions | Medium | Medium | Documented "clear old versions" action; body text kept compact |
-| Docs drift between source files and extracted view | Medium | Low | Every version stamps the exact source paths + hashes of raw text |
-| Arabic PDF still raster (TD-003 open) | Certain | Low | Accept Latin fallback for AR export until TD-003 lands |
-| Perceived overlap with SVF report | Low | Low | GKE Evolution Report cites SVF aggregates rather than replacing them |
+| Accidental coupling to Analysis engine internals | Low | High | Read-only via service API; ADR-0007 forbids internal imports |
+| Rule duplication drift with real thresholds | Medium | Medium | Seed rules mirror documented thresholds; ADR cross-references; tests pin values |
+| Trace storage growth | Low | Low | Append-only + "Clear traces" action documented |
+| Non-determinism from Date/Random | Low | High | Engine receives timestamps as input; no `Date.now()`/`Math.random()` inside `reason()` |
+| Scope creep into V2.0-S2 (Knowledge Graph) | Medium | Medium | Strict deliverables list; PR-level review against this plan |
 
-## 8. Next after GKE closes
+## 8. Sprint closure protocol (per CIP mandate)
 
-Resume the frozen queue in order: **TD-001 → TD-002 → TD-003**, each
-with its own sprint plan and QA report per V1.3 governance.
+Sprint V2.0-S1 is considered closed **only when all** of the following are true:
+1. All new + existing tests pass.
+2. `docs/sprints/V2.0-S1-REF.md` Acceptance Report section is filled and green.
+3. Sprint Certificate section of the same file is signed (version, date, sprint code, hash of changed files list).
+4. This plan is archived as the sprint's plan-of-record.
+
+Only after closure may Sprint V2.0-S2 begin.
