@@ -2,7 +2,30 @@
 
 All notable changes to GSOS Observer are documented in this file.
 The project adheres to [Semantic Versioning](https://semver.org/) and
-## [Unreleased] — 1.3.0-dev — Branch `GSOS-Observer-V1.3-DEV`
+## [Unreleased] — 2.0.0-dev — Phase II · Core Intelligence Program (CIP)
+
+### Sprint V2.0-S1 — Reasoning Engine Foundation (added 2026-07-06)
+
+Opens Phase II (CIP). Seven-sprint program; sprints strictly sequential
+with Acceptance Report + Sprint Certificate gating.
+
+- New isolated domain `src/lib/reasoning/` — pure `reason()` engine,
+  8 seed rules, deterministic aggregation formula (see ADR-0007),
+  DI repository, service, `explain()` renderer.
+- New route `/reasoning` — Reasoning Console: traces list, run
+  reasoning over latest Analysis snapshot, per-trace step view.
+- Additive `re.*` i18n keys in EN / FR / AR (RTL for AR).
+- 4 new unit test files (engine determinism, rules registry, service
+  isolation + auto-increment, explain output).
+- ADR-0007; `docs/sprints/V2.0-S1-REF.md`; `docs/PROGRAMS/CIP.md`.
+- VERSION bumped to `2.0.0-dev`.
+
+Analysis engine, indicators, main Dashboard, Analysis PDF pipeline,
+Pilot, Scientific Validation and Knowledge modules are unchanged.
+Reasoning data lives in an isolated storage key
+(`gsos.reasoning.traces.v1`). TD-001/002/003 remain paused.
+
+## [1.3.0-dev] — Branch `GSOS-Observer-V1.3-DEV`
 
 Development branch opened 2026-07-02 after v1.2.0 was certified
 Production Ready and frozen as the official Stable Release. See
