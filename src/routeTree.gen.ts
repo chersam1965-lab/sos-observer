@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScientificRouteImport } from './routes/scientific'
+import { Route as ReasoningRouteImport } from './routes/reasoning'
 import { Route as PilotRouteImport } from './routes/pilot'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
@@ -19,6 +20,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ScientificRoute = ScientificRouteImport.update({
   id: '/scientific',
   path: '/scientific',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReasoningRoute = ReasoningRouteImport.update({
+  id: '/reasoning',
+  path: '/reasoning',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PilotRoute = PilotRouteImport.update({
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof KnowledgeRoute
   '/login': typeof LoginRoute
   '/pilot': typeof PilotRoute
+  '/reasoning': typeof ReasoningRoute
   '/scientific': typeof ScientificRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/knowledge': typeof KnowledgeRoute
   '/login': typeof LoginRoute
   '/pilot': typeof PilotRoute
+  '/reasoning': typeof ReasoningRoute
   '/scientific': typeof ScientificRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/knowledge': typeof KnowledgeRoute
   '/login': typeof LoginRoute
   '/pilot': typeof PilotRoute
+  '/reasoning': typeof ReasoningRoute
   '/scientific': typeof ScientificRoute
 }
 export interface FileRouteTypes {
@@ -80,9 +89,17 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/login'
     | '/pilot'
+    | '/reasoning'
     | '/scientific'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/knowledge' | '/login' | '/pilot' | '/scientific'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/knowledge'
+    | '/login'
+    | '/pilot'
+    | '/reasoning'
+    | '/scientific'
   id:
     | '__root__'
     | '/'
@@ -90,6 +107,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/login'
     | '/pilot'
+    | '/reasoning'
     | '/scientific'
   fileRoutesById: FileRoutesById
 }
@@ -99,6 +117,7 @@ export interface RootRouteChildren {
   KnowledgeRoute: typeof KnowledgeRoute
   LoginRoute: typeof LoginRoute
   PilotRoute: typeof PilotRoute
+  ReasoningRoute: typeof ReasoningRoute
   ScientificRoute: typeof ScientificRoute
 }
 
@@ -109,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/scientific'
       fullPath: '/scientific'
       preLoaderRoute: typeof ScientificRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reasoning': {
+      id: '/reasoning'
+      path: '/reasoning'
+      fullPath: '/reasoning'
+      preLoaderRoute: typeof ReasoningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pilot': {
@@ -155,18 +181,9 @@ const rootRouteChildren: RootRouteChildren = {
   KnowledgeRoute: KnowledgeRoute,
   LoginRoute: LoginRoute,
   PilotRoute: PilotRoute,
+  ReasoningRoute: ReasoningRoute,
   ScientificRoute: ScientificRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,9 +1,12 @@
 # Technical Debt Log
 
-> **V1.3-DEV — Sprint S2 (Knowledge Extraction Engine) in progress.**
-> Sprints S0 (Pilot Validation) and S1 (Scientific Validation) closed.
-> TD-001, TD-002, TD-003 remain **paused** pending GKE closure. See
-> `docs/sprints/V1.3-S2-GKE.md` and ADR-0006.
+> **Phase II — Core Intelligence Program (CIP) — Sprint 1/7 in progress.**
+> Sprint V2.0-S1-REF (Reasoning Engine Foundation) implemented; pending
+> official acceptance. See `docs/sprints/V2.0-S1-REF.md`,
+> `docs/PROGRAMS/CIP.md` and ADR-0007.
+> Sprints V1.3-S0 (Pilot), V1.3-S1 (SVF), V1.3-S2 (GKE) closed.
+> TD-001, TD-002, TD-003 remain **paused** pending full CIP closure.
+
 
 
 
