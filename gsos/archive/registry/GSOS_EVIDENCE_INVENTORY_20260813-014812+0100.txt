@@ -1,0 +1,2 @@
+/data/data/com.termux/files/home/sos-observer/gsos/archive/evidence/GSOS_EVIDENCE_POLICY.md
+/data/data/com.termux/files/home/sos-observer/gsos/archive/evidence/GSOS_TEMPORAL_EVIDENCE.raw

@@ -1,0 +1,10 @@
+node_modules/@esbuild/android-arm64/bin/esbuild
+node_modules/@oxc-parser/binding-android-arm64/parser.android-arm64.node
+node_modules/@rolldown/binding-android-arm64/rolldown-binding.android-arm64.node
+node_modules/@tailwindcss/node/node_modules/lightningcss-android-arm64/lightningcss.android-arm64.node
+node_modules/@tailwindcss/oxide-android-arm64/tailwindcss-oxide.android-arm64.node
+node_modules/esbuild/bin/esbuild
+node_modules/lightningcss-android-arm64/lightningcss.android-arm64.node
+node_modules/lovable-tagger/node_modules/@esbuild/android-arm64/bin/esbuild
+node_modules/lovable-tagger/node_modules/esbuild/bin/esbuild
+node_modules/vite/node_modules/@rolldown/binding-android-arm64/rolldown-binding.android-arm64.node

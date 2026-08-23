@@ -1,0 +1,23 @@
+TIMESTAMP=2026-08-12T01:50:34+0100
+GIT_HEAD=5b044c16d55fcc30158300dd8a28ea8ad9e546c9
+BRANCH=gsos-mobile-lab
+TRACKED_FILES=202
+STATUS_ENTRIES=15
+ARCHIVE_FILES=18
+
+GIT_STATUS
+?? ANALYSIS
+?? CONCLUSION
+?? DECISION
+?? DOCUMENT
+?? EVIDENCE
+?? gsos-mobile-lab
+?? gsos/archive/
+?? gsos/audit/
+?? gsos/docs/s08/
+?? gsos/executive/
+?? gsos/reports/
+?? gsos/runtime-v2/
+?? gsos/runtime/
+?? gsos/security/
+?? gsos/system/time-check.sh

@@ -1,0 +1,5 @@
+./src/lib/ai-review.functions.ts:52:    const key = process.env.LOVABLE_API_KEY;
+./vitest.config.ts:2:import path from "node:path";
+./.devcontainer/devcontainer.json:3:  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+./scripts/check-env.sh:10:echo "Node:"
+./scripts/gs-cloud.sh:22:echo "Node:"

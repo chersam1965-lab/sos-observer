@@ -1,0 +1,80 @@
+GSOS GITHUB SOURCE
+CAPTURED_AT=2026-08-12T00:27:42+0100
+REMOTE=
+origin	git@github.com:chersam1965-lab/sos-observer.git (fetch)
+origin	git@github.com:chersam1965-lab/sos-observer.git (push)
+
+BRANCH=
+gsos-mobile-lab
+
+HEAD=
+5b044c16d55fcc30158300dd8a28ea8ad9e546c9
+
+STATUS=
+?? ANALYSIS
+?? CONCLUSION
+?? DECISION
+?? DOCUMENT
+?? EVIDENCE
+?? gsos-mobile-lab
+?? gsos/archive/
+?? gsos/audit/
+?? gsos/docs/s08/
+?? gsos/executive/
+?? gsos/reports/
+?? gsos/runtime-v2/
+?? gsos/runtime/
+?? gsos/security/
+?? gsos/system/time-check.sh
+
+RECENT_COMMITS=
+5b044c16d55fcc30158300dd8a28ea8ad9e546c9|2026-08-01 22:47:35 +0100|chersam1965-lab|GSOS Knowledge Timeline V1
+e6e629b8b700cb1c6759906d75c4603a5c72b3c6|2026-08-01 22:09:39 +0100|chersam1965-lab|GSOS Knowledge Library V1
+90cbf9081f026f71ffecab24353925a035c2d19b|2026-08-01 13:58:04 +0100|chersam1965-lab|GSOS Bootstrap Engine V1
+8f3008a197a20f1ebb7f145e74a2ace433bfad0c|2026-08-01 13:28:17 +0100|chersam1965-lab|GSOS Founding Charter V1 (Arabic)
+6ada0e0fc4c4ffad9ec7e8a9d4ce2fc32f940136|2026-08-01 06:42:36 +0100|chersam1965-lab|GSOS Cloud Engine V1
+6e6bade11b393b6c1cfa6ab287ef3d7c4c521d27|2026-07-30 17:44:37 +0100|chersam1965-lab|GSOS Runtime V2
+a9dc13c99270f82f391fd3c3f9aff90236bdd87f|2026-07-28 03:31:10 +0100|chersam1965-lab|GSOS update
+eb395dea6c2f6b486100f2ab437b5f3195f2c53e|2026-07-28 03:20:58 +0100|chersam1965-lab|GSOS update
+d8ed2c1469be0c4f3b2ce8a2f1233f6b4248d8e4|2026-07-28 02:49:40 +0100|chersam1965-lab|GSOS update
+01b6e96a30ecc8acce60e0d28a0b000cfb07e409|2026-07-27 23:19:33 +0100|chersam1965-lab|Add mobile development environment
+6affaa36c73ae8230b640fcbf62cf6d63d1929f6|2026-07-25 17:57:48 +0100|chersam1965-lab|Add founding directive for GSOS AI Engineering OS
+58c92e476390886fe47c6f6ceafa725eead762e5|2026-07-07 07:59:04 +0000|gpt-engineer-app[bot]|Update site info for publish
+e225c0d04d7c09f2d6f1e2cca6851475df731cd2|2026-07-06 03:09:59 +0000|gpt-engineer-app[bot]|Added reasoning module & route
+e8e72a278be37e63e128aeebfcf5ddcd04e90263|2026-07-06 03:09:54 +0000|gpt-engineer-app[bot]|Changes
+5ec7f4932d3d524ca6b3406782662f3da13ced6d|2026-07-06 03:09:47 +0000|gpt-engineer-app[bot]|Changes
+a9ac61eed444f61eeb97c8fbca118344175e5727|2026-07-06 03:08:46 +0000|gpt-engineer-app[bot]|Changes
+8a86789c3cb2b113d381ccfd994d2bc76998481c|2026-07-06 03:08:28 +0000|gpt-engineer-app[bot]|Changes
+13e4c1ba8c366b322f67d378c4aab021b4607b42|2026-07-06 03:08:24 +0000|gpt-engineer-app[bot]|Changes
+e034a67e94530d088dc65269f371245e3185ca25|2026-07-06 03:07:55 +0000|gpt-engineer-app[bot]|Changes
+2048158f05eb6115779de53eab48254377745f5b|2026-07-06 03:07:30 +0000|gpt-engineer-app[bot]|Changes
+378d395117da4db2b9b4972fedb8f7cb25ba9311|2026-07-06 03:07:21 +0000|gpt-engineer-app[bot]|Changes
+cdc3e6c667fa2f0e37b291466f727d6fdabc44a7|2026-07-06 03:06:17 +0000|gpt-engineer-app[bot]|Changes
+62249b54e84f4a57faca0fe5ba0068fa8a32e445|2026-07-06 03:06:11 +0000|gpt-engineer-app[bot]|Changes
+35475f0323f760d87a4441f53ad8d29a6eed261f|2026-07-06 03:01:35 +0000|gpt-engineer-app[bot]|Lovable update
+325fb603c00996a55dfd33bc262ddece60390333|2026-07-06 03:01:00 +0000|gpt-engineer-app[bot]|Work in progress
+2180da7c29e33215dcbbc87eb4686ecbd0f2f47e|2026-07-05 08:26:07 +0000|gpt-engineer-app[bot]|Added Knowledge Center module
+d665b8f3ce8360f1a506c40aec356317b7d50353|2026-07-05 08:25:54 +0000|gpt-engineer-app[bot]|Changes
+5d4c4f3f784262d519963385e47e59e194358595|2026-07-05 08:25:22 +0000|gpt-engineer-app[bot]|Changes
+a8ef3a2065be8c7104eef354fb07e5f9142b20d6|2026-07-05 08:24:59 +0000|gpt-engineer-app[bot]|Changes
+3fe69ab504fa013788fa261ea90057544cf15064|2026-07-05 08:24:52 +0000|gpt-engineer-app[bot]|Changes
+f25118af0511144992821bca08b5c23f26b27263|2026-07-05 08:23:56 +0000|gpt-engineer-app[bot]|Changes
+460466c6003423a20b74025dd389caabf469ab59|2026-07-05 08:21:59 +0000|gpt-engineer-app[bot]|Changes
+a61a9bef3a91cdfdd8844847a2a3aae1e0b62063|2026-07-05 08:21:52 +0000|gpt-engineer-app[bot]|Changes
+92953d34a1c4e898068b15a8919ebd98d2a77259|2026-07-05 07:50:16 +0000|gpt-engineer-app[bot]|Lovable update
+f578c2c85e218b6f55b30aa71a9c113286af5ef9|2026-07-05 07:49:38 +0000|gpt-engineer-app[bot]|Work in progress
+8336384141518addfe0d1ccc0c8661d8b26d383f|2026-07-04 14:46:00 +0000|gpt-engineer-app[bot]|Added i18n keys to all langs
+18fa03503c9d045ee8caf842bdd4ea8bd844194c|2026-07-04 14:45:55 +0000|gpt-engineer-app[bot]|Changes
+ab37873cd2e6a4c8da620739e1beda03bd82ba85|2026-07-04 14:45:20 +0000|gpt-engineer-app[bot]|Changes
+9b1af2799dceca7cc2620d26e77b2beed116037a|2026-07-04 14:44:36 +0000|gpt-engineer-app[bot]|Changes
+882649ceca127c170eac61672196b023060d4c92|2026-07-04 14:43:24 +0000|gpt-engineer-app[bot]|Changes
+b713d80891785ea0a7a8bfbaf733f123d1935368|2026-07-04 14:42:22 +0000|gpt-engineer-app[bot]|Changes
+47ba873d7050f48a7a0db5e3c9a83fa1fca496a9|2026-07-04 14:42:16 +0000|gpt-engineer-app[bot]|Changes
+117a19ddf8da2849326e024d30f785c862cda4e7|2026-07-04 13:30:14 +0000|gpt-engineer-app[bot]|Lovable update
+198f50a47b1151dfe7f88f42a56012121e8d3f67|2026-07-04 13:29:42 +0000|gpt-engineer-app[bot]|Work in progress
+05d853850a9e5999ae9096ee940b95de13384c31|2026-07-03 09:09:05 +0000|gpt-engineer-app[bot]|Added Pilot mode & dashboard
+ba81b59e5ab0915e4a6c898866b991b1d8e76ffb|2026-07-03 09:08:54 +0000|gpt-engineer-app[bot]|Changes
+42e5a82f77760b0e9f77d3bb77793a7e2c2489ea|2026-07-03 09:08:20 +0000|gpt-engineer-app[bot]|Changes
+4804eb32adda1d65be17eb316dd61972c98469bb|2026-07-03 09:08:10 +0000|gpt-engineer-app[bot]|Changes
+910d007b8a90bef9d131c945e44891a3e4d37f25|2026-07-03 09:07:53 +0000|gpt-engineer-app[bot]|Changes
+c11d2b2a8eedd41d3179efc9e19de08066af6daf|2026-07-03 09:07:42 +0000|gpt-engineer-app[bot]|Changes

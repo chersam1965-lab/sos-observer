@@ -1,0 +1,26 @@
+
+> test
+> vitest run
+
+
+ RUN  v3.2.4 /data/data/com.termux/files/home/sos-observer
+
+ ✓ src/lib/pilot/__tests__/localStorageRepository.test.ts (7 tests) 98ms
+ ✓ src/lib/analysis/__tests__/localStorageRepository.test.ts (13 tests) 147ms
+ ✓ src/lib/analysis/__tests__/service.test.ts (6 tests) 90ms
+ ✓ src/lib/pilot/__tests__/service.test.ts (4 tests) 67ms
+ ✓ src/lib/scientific/__tests__/service.test.ts (3 tests) 134ms
+ ✓ src/lib/knowledge/__tests__/service.test.ts (2 tests) 94ms
+ ✓ src/lib/knowledge/__tests__/engine.test.ts (2 tests) 90ms
+ ✓ src/lib/knowledge/__tests__/generator.test.ts (1 test) 57ms
+ ✓ src/lib/scientific/__tests__/localStorageRepository.test.ts (4 tests) 91ms
+ ✓ src/lib/reasoning/__tests__/engine.test.ts (6 tests) 81ms
+ ✓ src/lib/reasoning/__tests__/explain.test.ts (1 test) 45ms
+ ✓ src/lib/reasoning/__tests__/service.test.ts (2 tests) 55ms
+ ✓ src/lib/reasoning/__tests__/rules.test.ts (2 tests) 40ms
+
+ Test Files  13 passed (13)
+      Tests  53 passed (53)
+   Start at  18:23:13
+   Duration  16.91s (transform 4.88s, setup 0ms, collect 10.28s, tests 1.09s, environment 55.58s, prepare 12.08s)
+

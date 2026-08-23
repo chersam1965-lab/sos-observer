@@ -1,0 +1,80 @@
+import { NODE_MODULES_RE, baseBuildConfig, baseBuildPlugins, basename, copyPublicAssets, dirname, getChunkName, join, libChunkName, m, prepare, prettyPath, resolve, resolveModulePath, v, writeBuildInfo } from "./_build/common.mjs";
+import { formatCompatibilityDate } from "./_libs/compatx.mjs";
+import { createNitro, prerender } from "./_chunks/nitro.mjs";
+import { NitroDevApp } from "./_dev.mjs";
+import { createNitroEnvironment, createServiceEnvironment, createServiceEnvironments, getEnvRunner, initEnvRunner, nitroServiceProxy } from "./_build/vite.env.mjs";
+import { startPreview } from "./_chunks/nitro2.mjs";
+import { assetsPlugin } from "./_libs/pluginutils.mjs";
+import { runtimeDir } from "nitro/meta";
+import { existsSync } from "node:fs";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { defu } from "defu";
+import { colors } from "consola/utils";
+const getBundlerConfig = async (ctx) => {
+	const nitro = ctx.nitro;
+	const base = baseBuildConfig(nitro);
+	const commonConfig = {
+		input: nitro.options.entry,
+		external: [...base.env.external],
+		plugins: [...await baseBuildPlugins(nitro, base)].filter(Boolean),
+		onwarn(warning, warn) {
+			if (!base.ignoreWarningCodes.has(warning.code || "")) warn(warning);
+		},
+		output: {
+			dir: nitro.options.output.serverDir,
+			format: "esm",
+			entryFileNames: "index.mjs",
+			chunkFileNames: (chunk) => getChunkName(chunk, nitro),
+			inlineDynamicImports: nitro.options.inlineDynamicImports,
+			sourcemapIgnoreList: (id) => id.includes("node_modules")
+		}
+	};
+	if (ctx._isRolldown) {
+		const rolldownConfig = defu({
+			transform: { inject: base.env.inject },
+			output: { codeSplitting: { groups: [{
+				test: NODE_MODULES_RE,
+				name: (id) => libChunkName(id)
+			}] } }
+		}, nitro.options.rolldownConfig, nitro.options.rollupConfig, commonConfig);
+		const outputConfig = rolldownConfig.output;
+		if (outputConfig.inlineDynamicImports || outputConfig.format === "iife") {
+			delete outputConfig.inlineDynamicImports;
+			outputConfig.codeSplitting = false;
+		}
+		return {
+			base,
+			rolldownConfig
+		};
+	} else {
+		const inject = (await import("./_libs/plugin-inject.mjs").then((n) => n.es_exports)).default;
+		const alias = (await import("./_libs/plugin-alias.mjs").then((n) => n.dist_exports)).default;
+		const rollupConfig = defu({
+			plugins: [inject(base.env.inject), alias({ entries: base.aliases })],
+			output: {
+				sourcemapExcludeSources: true,
+				generatedCode: { constBindings: true },
+				manualChunks(id) {
+					if (NODE_MODULES_RE.test(id)) return libChunkName(id);
+				}
+			}
+		}, nitro.options.rolldownConfig, nitro.options.rollupConfig, commonConfig);
+		const outputConfig = rollupConfig.output;
+		if (outputConfig.inlineDynamicImports || outputConfig.format === "iife") delete outputConfig.manualChunks;
+		return {
+			base,
+			rollupConfig
+		};
+	}
+};
+const BuilderNames = {
+	nitro: colors.magenta("Nitro"),
+	client: colors.green("Client"),
+	ssr: colors.blue("SSR")
+};
+async function buildEnvironments(ctx, builder) {
+	const nitro = ctx.nitro;
+	for (const [envName, env] of Object.entries(builder.environments)) {
+		const fmtName = BuilderNames[envName] || (envName.length <= 3 ? envName.toUpperCase() : envName[0].toUpperCase() + envName.slice(1));
+		if (envName === "nitro" || !env.config.build.rollupOptions.input || env.isBuilt) {
+			if (![

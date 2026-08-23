@@ -1,0 +1,2 @@
+/data/data/com.termux/files/home/sos-observer/gsos/archive/sources/github/GITHUB_COMMIT_HISTORY.tsv
+/data/data/com.termux/files/home/sos-observer/gsos/archive/sources/github/GITHUB_REPOSITORY_METADATA.txt

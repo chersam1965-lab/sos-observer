@@ -1,0 +1,35 @@
+import { NODE_MODULES_RE, baseBuildConfig, baseBuildPlugins, basename, copyPublicAssets, dirname, getChunkName, join, libChunkName, m, prepare, prettyPath, resolve, resolveModulePath, v, writeBuildInfo } from "./_build/common.mjs";
+import { formatCompatibilityDate } from "./_libs/compatx.mjs";
+import { createNitro, prerender } from "./_chunks/nitro.mjs";
+import { NitroDevApp } from "./_dev.mjs";
+import { createNitroEnvironment, createServiceEnvironment, createServiceEnvironments, getEnvRunner, initEnvRunner, nitroServiceProxy } from "./_build/vite.env.mjs";
+import { startPreview } from "./_chunks/nitro2.mjs";
+import { assetsPlugin } from "./_libs/pluginutils.mjs";
+import { runtimeDir } from "nitro/meta";
+import { existsSync } from "node:fs";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { defu } from "defu";
+import { colors } from "consola/utils";
+const getBundlerConfig = async (ctx) => {
+	const nitro = ctx.nitro;
+	const base = baseBuildConfig(nitro);
+	const commonConfig = {
+		input: nitro.options.entry,
+		external: [...base.env.external],
+		plugins: [...await baseBuildPlugins(nitro, base)].filter(Boolean),
+		onwarn(warning, warn) {
+			if (!base.ignoreWarningCodes.has(warning.code || "")) warn(warning);
+		},
+		output: {
+			dir: nitro.options.output.serverDir,
+			format: "esm",
+			entryFileNames: "index.mjs",
+			chunkFileNames: (chunk) => getChunkName(chunk, nitro),
+			inlineDynamicImports: nitro.options.inlineDynamicImports,
+			sourcemapIgnoreList: (id) => id.includes("node_modules")
+		}
+	};
+	if (ctx._isRolldown) {
+		const rolldownConfig = defu({
+			transform: { inject: base.env.inject },
+			output: { codeSplitting: { groups: [{

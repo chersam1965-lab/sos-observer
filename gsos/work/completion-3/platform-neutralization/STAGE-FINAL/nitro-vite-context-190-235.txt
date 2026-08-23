@@ -1,0 +1,46 @@
+	".tsx",
+	".jsx"
+];
+const debug = process.env.NITRO_DEBUG ? (...args) => console.log("[nitro]", ...args) : () => {};
+function nitro(pluginConfig = {}) {
+	if (globalThis.__nitro_build__) return [];
+	const ctx = createContext(pluginConfig);
+	return [
+		nitroInit(ctx),
+		nitroEnv(ctx),
+		nitroMain(ctx),
+		nitroPrepare(ctx),
+		nitroService(ctx),
+		nitroServiceProxy(),
+		nitroPreviewPlugin(ctx),
+		pluginConfig.experimental?.vite?.assetsImport !== false && assetsPlugin({ experimental: { clientBuildFallback: false } })
+	].filter(Boolean);
+}
+function nitroInit(ctx) {
+	return {
+		name: "nitro:init",
+		sharedDuringBuild: true,
+		apply: (_config, configEnv) => !configEnv.isPreview,
+		async config(config, configEnv) {
+			ctx._isRolldown = !!this.meta.rolldownVersion;
+			if (!ctx._initialized) {
+				debug("[init] Initializing nitro");
+				ctx._initialized = true;
+				await setupNitroContext(ctx, configEnv, config);
+			}
+		},
+		applyToEnvironment(env) {
+			if (env.name === "nitro" && ctx.nitro?.options.dev) {
+				debug("[init] Adding rollup plugins for dev");
+				return [...ctx.bundlerConfig?.rolldownConfig?.plugins || ctx.bundlerConfig?.rollupConfig?.plugins || []];
+			}
+		}
+	};
+}
+function nitroEnv(ctx) {
+	return {
+		name: "nitro:env",
+		sharedDuringBuild: true,
+		apply: (_config, configEnv) => !configEnv.isPreview,
+		async config(userConfig, _configEnv) {
+			debug("[env]  Extending config (environments)");

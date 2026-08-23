@@ -1,0 +1,37 @@
+vitest.config.ts:1:import { defineConfig } from "vitest/config";
+package.json:7:    "dev": "vite dev",
+package.json:8:    "build": "vite build",
+package.json:9:    "build:dev": "vite build --mode development",
+package.json:10:    "preview": "vite preview",
+package.json:13:    "test": "vitest run"
+package.json:43:    "@tailwindcss/vite": "^4.2.1",
+package.json:68:    "vite-tsconfig-paths": "^6.0.2",
+package.json:73:    "@lovable.dev/vite-tanstack-config": "2.7.0",
+package.json:77:    "@vitejs/plugin-react": "^5.2.0",
+package.json:89:    "vite": "^8.0.16",
+package.json:90:    "vitest": "^4.1.9"
+src/components/ui/select.tsx:35:const SelectScrollUpButton = React.forwardRef<
+src/components/ui/select.tsx:36:  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+src/components/ui/select.tsx:37:  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+src/components/ui/select.tsx:39:  <SelectPrimitive.ScrollUpButton
+src/components/ui/select.tsx:45:  </SelectPrimitive.ScrollUpButton>
+src/components/ui/select.tsx:47:SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+src/components/ui/select.tsx:79:      <SelectScrollUpButton />
+src/components/ui/select.tsx:150:  SelectScrollUpButton,
+src/lib/analysis/__tests__/localStorageRepository.test.ts:1:import { afterEach, beforeEach, describe, expect, it } from "vitest";
+src/lib/analysis/__tests__/service.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";
+src/lib/i18n.tsx:185:    svPlan1: "Extend evaluator pool with independent domain experts.",
+src/lib/knowledge/__tests__/engine.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";
+src/lib/knowledge/__tests__/generator.test.ts:1:import { describe, expect, it } from "vitest";
+src/lib/knowledge/__tests__/service.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";
+src/lib/knowledge/defaultSources.ts:3:// Vite raw-imports of project docs; bundled at build time (no runtime fetch).
+src/lib/knowledge/defaultSources.ts:20:function toRelative(vitePath: string): string {
+src/lib/knowledge/defaultSources.ts:22:  return vitePath.replace(/^(\.\.\/)+/, "");
+src/lib/pilot/__tests__/localStorageRepository.test.ts:1:import { afterEach, beforeEach, describe, expect, it } from "vitest";
+src/lib/pilot/__tests__/service.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";
+src/lib/reasoning/__tests__/engine.test.ts:1:import { describe, expect, it } from "vitest";
+src/lib/reasoning/__tests__/explain.test.ts:1:import { describe, expect, it } from "vitest";
+src/lib/reasoning/__tests__/rules.test.ts:1:import { describe, expect, it } from "vitest";
+src/lib/reasoning/__tests__/service.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";
+src/lib/scientific/__tests__/localStorageRepository.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";
+src/lib/scientific/__tests__/service.test.ts:1:import { beforeEach, describe, expect, it } from "vitest";

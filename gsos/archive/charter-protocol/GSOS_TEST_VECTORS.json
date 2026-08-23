@@ -1,0 +1,61 @@
+{
+  "schema": "GSOS-CP-1.0",
+  "code": "GSOS-CP-20260812-190350-001",
+  "timestamp": "2026-08-12T19:03:50+0100",
+  "tests": [
+    {
+      "id": "CP-001",
+      "name": "required-documents",
+      "class": "structural",
+      "expected": "PASS"
+    },
+    {
+      "id": "CP-002",
+      "name": "sha256-format",
+      "class": "integrity",
+      "expected": "PASS"
+    },
+    {
+      "id": "CP-003",
+      "name": "addition-preserves-history",
+      "class": "mutation",
+      "expected": "PASS"
+    },
+    {
+      "id": "CP-004",
+      "name": "subtraction-is-detectable",
+      "class": "mutation",
+      "expected": "PASS"
+    },
+    {
+      "id": "CP-005",
+      "name": "single-character-mutation",
+      "class": "integrity",
+      "expected": "FAIL-DETECTED"
+    },
+    {
+      "id": "CP-006",
+      "name": "missing-required-field",
+      "class": "negative",
+      "expected": "FAIL-DETECTED"
+    },
+    {
+      "id": "CP-007",
+      "name": "duplicate-record",
+      "class": "negative",
+      "expected": "FAIL-DETECTED"
+    },
+    {
+      "id": "CP-008",
+      "name": "lineage-break",
+      "class": "negative",
+      "expected": "FAIL-DETECTED"
+    },
+    {
+      "id": "CP-009",
+      "name": "deterministic-replay",
+      "class": "reproducibility",
+      "expected": "PASS"
+    }
+  ]
+}

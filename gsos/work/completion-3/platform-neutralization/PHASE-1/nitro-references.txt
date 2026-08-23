@@ -1,0 +1,18 @@
+./.gitignore:16:.nitro
+./.gitignore:19:# Wrangler / Cloudflare
+./bun.lock:77:        "nitro": "3.0.260603-beta",
+./bun.lock:245:    "@lovable.dev/vite-tanstack-config": ["@lovable.dev/vite-tanstack-config@2.7.0", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@lovable.dev/vite-tanstack-config/-/vite-tanstack-config-2.7.0.tgz", { "dependencies": { "@lovable.dev/vite-plugin-dev-server-bridge": "^1.0.2", "@lovable.dev/vite-plugin-hmr-gate": "^1.1.1", "@tanstack/devtools-vite": "^0.8.1", "lightningcss": "^1.30.0", "lovable-tagger": "1.2.0" }, "peerDependencies": { "@tailwindcss/vite": ">=4.0.0", "@tanstack/react-start": ">=1.100.0", "@vitejs/plugin-react": ">=4.0.0", "nitro": ">=3.0.260603-beta", "vite": ">=5.0.0 <9.0.0", "vite-tsconfig-paths": ">=6.0.0" }, "optionalPeers": ["nitro"] }, "sha512-a6IMTa5NPWve8zbJziwTaeZkNpsPPzOyDC0EkFguFjpSvHssJP0YmOTik9Ek4SxFlE/jQJY9iKcZUD2z3tC+Kw=="],
+./bun.lock:1057:    "nitro": ["nitro@3.0.260603-beta", "", { "dependencies": { "consola": "^3.4.2", "crossws": "^0.4.5", "db0": "^0.3.4", "env-runner": "^0.1.9", "h3": "^2.0.1-rc.22", "hookable": "^6.1.1", "nf3": "^0.3.17", "ocache": "^0.1.4", "ofetch": "^2.0.0-alpha.3", "ohash": "^2.0.11", "rolldown": "^1.0.3", "srvx": "^0.11.16", "unenv": "^2.0.0-rc.24", "unstorage": "^2.0.0-alpha.7" }, "peerDependencies": { "@vercel/queue": "^0.2.0", "dotenv": "*", "giget": "*", "jiti": "^2.7.0", "rollup": "^4.60.4", "vite": "^7 || ^8", "xml2js": "^0.6.2", "zephyr-agent": "^0.2.0" }, "optionalPeers": ["@vercel/queue", "dotenv", "giget", "jiti", "rollup", "vite", "xml2js", "zephyr-agent"], "bin": { "nitro": "dist/cli/index.mjs" } }, "sha512-ffaSHK00a7YDlDizoEHwcxPwpQpdBRRA8k42ymTsRnfl3ipGeKgv4gnPr6DgmCNTo4tYVPK3bHBEv1gNhWpo/A=="],
+./docs/PRODUCTION_READINESS.md:19:| Bundle | `vite build` (Cloudflare Worker target) | ✅ generated, largest client chunk gzipped ≈135 kB (router), lazy `jspdf` ≈124 kB and `html2canvas` ≈63 kB loaded only on export |
+./docs/PRODUCTION_READINESS.md:130:**Ship V1 (v1.2.0) to production** on the current Lovable + Cloudflare
+./package.json:86:    "nitro": "3.0.260603-beta",
+./vite.config.ts:3://   - tanstackStart, viteReact, tailwindcss, tsConfigPaths, nitro (build-only using cloudflare as a default target),
+./vite.config.ts:12:    // nitro/vite builds from this
+./package-lock.json:79:        "nitro": "3.0.260603-beta",
+./package-lock.json:1342:        "nitro": ">=3.0.260603-beta",
+./package-lock.json:1347:        "nitro": {
+./package-lock.json:8146:    "node_modules/nitro": {
+./package-lock.json:8148:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./package-lock.json:8169:        "nitro": "dist/cli/index.mjs"
+./package-lock.json:8211:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/runtime-v2/events/s07_doc_audit.log:438:./node_modules/nitro/README.md

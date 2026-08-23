@@ -1,0 +1,33 @@
+{
+  "name": "nitro",
+  "version": "3.0.260603-beta",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "dependencies": {
+    "consola": "^3.4.2",
+    "crossws": "^0.4.5",
+    "db0": "^0.3.4",
+    "env-runner": "^0.1.9",
+    "h3": "^2.0.1-rc.22",
+    "hookable": "^6.1.1",
+    "nf3": "^0.3.17",
+    "ocache": "^0.1.4",
+    "ofetch": "^2.0.0-alpha.3",
+    "ohash": "^2.0.11",
+    "rolldown": "^1.0.3",
+    "srvx": "^0.11.16",
+    "unenv": "^2.0.0-rc.24",
+    "unstorage": "^2.0.0-alpha.7"
+  },
+  "peerDependencies": {
+    "@vercel/queue": "^0.2.0",
+    "dotenv": "*",
+    "giget": "*",
+    "jiti": "^2.7.0",
+    "rollup": "^4.60.4",
+    "vite": "^7 || ^8",
+    "xml2js": "^0.6.2",
+    "zephyr-agent": "^0.2.0"
+  }
+}

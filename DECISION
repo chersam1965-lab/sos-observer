@@ -1,0 +1,300 @@
+ NO GS
+cd ~/sos-observer
+set +H
+
+ROOT=gsos/docs/s08
+DRAFT=gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md
+ORIGINAL=gsos/docs/FOUNDING_CHARTER_AR.md
+META=gsos/docs/s08/CHARTER_BASELINE_METADATA.txt
+
+echo ==============================================================
+echo  GSOS S08-11E-L2.1 - DEEP LAYER CONTRACT FORENSIC BELT
+echo  READ ONLY / DEEP SEMANTIC AUDIT
+echo  NO GSOS EXECUTION
+echo  NO FILE MODIFICATION
+echo  NO RUNTIME ACCESS
+echo  NO ORIGINAL CHARTER WRITE
+echo ==============================================================
+
+FAIL=0
+WARN=0
+
+if [ ! -r gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md ]; then
+    echo [FAIL] DRAFT_NOT_READABLE
+    exit 1
+fi
+
+if [ ! -r gsos/docs/FOUNDING_CHARTER_AR.md ]; then
+    echo [FAIL] ORIGINAL_NOT_READABLE
+    exit 1
+fi
+
+echo
+echo ==============================================================
+echo  00 / DOCUMENT SAFETY BASELINE
+echo ==============================================================
+
+echo DRAFT=gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md
+echo DRAFT_BYTES=14692
+echo DRAFT_LINES=474
+echo DRAFT_SHA256=e64cb7716bcf7940dbbfe6aa7cc541e62e91f5defbcb99d8459baea4d1446a13
+
+echo ORIGINAL=gsos/docs/FOUNDING_CHARTER_AR.md
+echo ORIGINAL_BYTES=403
+echo ORIGINAL_LINES=19
+echo ORIGINAL_SHA256=dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396
+
+if [ -r gsos/docs/s08/CHARTER_BASELINE_METADATA.txt ]; then
+    BASELINE_SHA=dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396
+    CURRENT_SHA=dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396
+
+    if [  =  ]; then
+        echo [OK] ORIGINAL_BASELINE_UNCHANGED
+    else
+        echo [FAIL] ORIGINAL_BASELINE_CHANGED
+        FAIL=1
+    fi
+else
+    echo [WARN] BASELINE_METADATA_NOT_FOUND
+    WARN=1
+fi
+
+echo
+echo ==============================================================
+echo  01 / SECTION MAP
+echo ==============================================================
+
+grep -Ein '^#{1,4} ' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -120
+
+echo
+echo ==============================================================
+echo  02 / CONTRACT COMPLETENESS TEST
+echo ==============================================================
+
+check_any() {
+    LABEL=
+    PATTERN=
+
+    COUNT=474
+
+    if [  -gt 0 ]; then
+        echo [FOUND] : 
+    else
+        echo [GAP] 
+        FAIL=1
+    fi
+}
+
+echo
+echo ----- LAYER 01 / RUNTIME -----
+
+check_any Runtime identity 'Runtime State|حالة التشغيل|حالة النظام|حالة الخدمة|حالة التنفيذ'
+
+check_any Runtime purpose 'غرض.*تشغيل|هدف.*تشغيل|وظيفة.*تشغيل|دور.*التشغيل|runtime.*purpose'
+
+check_any Runtime inputs 'مدخلات.*التشغيل|مدخلات.*النظام|مدخلات.*الخدمة|مصادر.*التشغيل'
+
+check_any Runtime outputs 'مخرجات.*التشغيل|مخرجات.*النظام|مخرجات.*الخدمة|نتائج.*التشغيل'
+
+check_any Runtime authority boundary 'صلاحية.*تشغيل|صلاحية.*تنفيذ|سلطة.*تشغيل|سلطة.*تنفيذ'
+
+check_any Runtime historical boundary 'حالة النظام.*الدليل|حالة التشغيل.*الدليل|التشغيل.*الدليل التاريخي'
+
+echo
+echo ----- LAYER 02 / EVIDENCE -----
+
+check_any Evidence identity 'Evidence Record|سجل الدليل|سجل الأدلة'
+
+check_any Evidence ID 'معرف الدليل|هوية الدليل|Evidence ID|evidence id'
+
+check_any Evidence origin 'مصدر الدليل|أصل الدليل|provenance|Evidence Source'
+
+check_any Evidence timestamp 'زمن الدليل|وقت الدليل|تاريخ الدليل|timestamp'
+
+check_any Evidence integrity 'سلامة الدليل|بصمة الدليل|SHA-256.*دليل|hash.*دليل|immutable'
+
+check_any Evidence preservation 'حفظ.*الدليل|حفظ.*الأدلة|عدم.*حذف.*الدليل|عدم.*تعديل.*الدليل'
+
+echo
+echo ----- LAYER 03 / DOCUMENTATION -----
+
+check_any Documentation identity 'Documentation Record|سجل التوثيق|سجل الوثيقة|طبقة التوثيق'
+
+check_any Documentation ID 'معرف الوثيقة|هوية الوثيقة|رقم الوثيقة|Document ID'
+
+check_any Documentation version 'إصدار الوثيقة|رقم الإصدار|نسخة الوثيقة|Document Version'
+
+check_any Documentation provenance 'مصدر الوثيقة|أصل الوثيقة|Document Source'
+
+check_any Documentation status 'حالة الوثيقة|DRAFT|REVIEW|APPROVED|SUPERSEDED|ARCHIVED'
+
+check_any Documentation mutation rule 'لا يجوز.*تعديل.*الوثيقة|سجل تغيير.*الوثيقة|تغيير.*موثق'
+
+echo
+echo ----- LAYER 04 / ANALYSIS -----
+
+check_any Analysis identity 'Analytical Conclusion|الاستنتاج التحليلي|طبقة التحليل|التحليل والاستنتاج'
+
+check_any Analysis inputs 'مدخلات.*التحليل|بيانات.*التحليل|أدلة.*التحليل|مصادر.*التحليل'
+
+check_any Analysis method 'منهج.*التحليل|منهجية.*التحليل|طريقة.*التحليل|Analysis Method'
+
+check_any Analysis limitations 'قيود.*التحليل|حدود.*التحليل|القيود.*التحليل|Analysis Limitations'
+
+check_any Analysis uncertainty 'عدم اليقين|درجة الثقة|مستوى الثقة|Uncertainty|Confidence'
+
+check_any Alternative explanations 'تفسير بديل|تفسيرات بديلة|فرضية بديلة|Alternative Explanation'
+
+echo
+echo ----- LAYER 05 / GOVERNANCE DECISION -----
+
+check_any Governance identity 'Governance Decision|قرار الحوكمة|طبقة الحوكمة|Governance Layer'
+
+check_any Decision identity 'تعريف القرار|هوية القرار|قرار رسمي|قرار معتمد'
+
+check_any Decision authority 'صاحب الصلاحية|جهة مخولة|صلاحية القرار|سلطة القرار|Authority'
+
+check_any Approval mechanism 'اعتماد القرار|اعتماد نهائي|قرار معتمد|Approval Authority'
+
+check_any Decision rationale 'مصدر القرار|سبب القرار|مبرر القرار|مبررات القرار|Decision Rationale'
+
+echo
+echo ==============================================================
+echo  03 / CROSS-LAYER SEPARATION
+echo ==============================================================
+
+grep -Ein 'يجب الفصل|يجب.*فصل.*بين|لا يجوز.*خلط|لا يجوز.*دمج|فصل.*الطبقات|حتى لا تختلط|حتى لا يختلط' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -200
+
+echo
+echo ==============================================================
+echo  04 / FORBIDDEN EQUIVALENCE
+echo ==============================================================
+
+check_any Evidence is not analysis 'الدليل.*ليس.*تحليل|الدليل.*لا.*يعتبر.*تحليل|Evidence.*not.*Analysis'
+
+check_any Analysis is not evidence 'التحليل.*ليس.*دليل|التحليل.*لا.*يعتبر.*دليل|Analysis.*not.*Evidence'
+
+check_any Conclusion is not evidence 'الاستنتاج.*ليس.*دليل|الاستنتاج.*لا.*يعتبر.*دليل|Conclusion.*not.*Evidence'
+
+check_any Decision is not evidence 'القرار.*ليس.*دليل|القرار.*لا.*يعتبر.*دليل|Decision.*not.*Evidence'
+
+check_any Runtime is not historical evidence 'التشغيل.*ليس.*دليل|حالة التشغيل.*ليست.*دليل|حالة النظام.*ليست.*دليل|Runtime.*not.*Evidence'
+
+echo
+echo ==============================================================
+echo  05 / WRITE-BACK / IMMUTABILITY BOUNDARY
+echo ==============================================================
+
+grep -Ein 'لا يجوز.*التشغيل.*تعديل.*الدليل|لا يجوز.*حالة النظام.*تعديل.*الدليل|لا يجوز.*التحليل.*تعديل.*الدليل|التحليل.*لا.*يعدل.*الدليل|لا يجوز.*القرار.*تعديل.*التاريخ|القرار.*لا.*يعدل.*السجل|لا يجوز.*تعديل.*أثر.*رجعي' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -200
+
+echo
+echo ==============================================================
+echo  06 / TRACEABILITY CHAIN
+echo ==============================================================
+
+echo ----- EVENT - -----
+grep -Ein 'Event.*Evidence|الحدث.*الدليل|معرف الحدث.*معرف الدليل' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -80
+
+echo
+echo ----- EVIDENCE - -----
+grep -Ein 'Evidence.*Document|الدليل.*الوثيقة|الدليل.*التوثيق' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -80
+
+echo
+echo ----- DOCUMENT - -----
+grep -Ein 'Document.*Analysis|الوثيقة.*التحليل|التوثيق.*التحليل' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -80
+
+echo
+echo ----- ANALYSIS - -----
+grep -Ein 'Analysis.*Conclusion|التحليل.*الاستنتاج' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -80
+
+echo
+echo ----- CONCLUSION - -----
+grep -Ein 'Conclusion.*Decision|الاستنتاج.*القرار' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -80
+
+echo
+echo ==============================================================
+echo  07 / COMPLETE CHAIN
+echo ==============================================================
+
+grep -Ein 'Event.*Evidence.*Document.*Analysis.*Conclusion.*Decision|الحدث.*الدليل.*الوثيقة.*التحليل.*الاستنتاج.*القرار|الوثيقة.*المصدر.*الدليل.*الزمن.*التحليل.*الاستنتاج.*القرار' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -100
+
+echo
+echo ==============================================================
+echo  08 / NORMATIVE STRENGTH
+echo ==============================================================
+
+echo MANDATORY:
+grep -Ein 'يجب|يلزم|لا يجوز|يحظر|يمنع|يتعين|يشترط|must|shall|required|prohibited' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | wc -l
+
+echo CONDITIONAL:
+grep -Ein 'عند|إذا|في حال|بشرط|ما لم|إلا إذا|يمكن.*عند|when|where|provided|conditional' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | wc -l
+
+echo ASPIRATIONAL / FUTURE:
+grep -Ein 'مستقبلاً|مستقبل|عند توفر|يمكن لـ|يمكن أن|يهدف|تسعى|future|may|planned|intended' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | wc -l
+
+echo
+echo ==============================================================
+echo  09 / HIGH-RISK SEMANTIC COLLISIONS
+echo ==============================================================
+
+grep -Ein 'حقيقة.*استنتاج|استنتاج.*حقيقة|دليل.*حقيقة|حقيقة.*دليل|قرار.*حقيقة|حالة النظام.*حقيقة|تحليل.*حقيقة' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -200
+
+echo
+echo ==============================================================
+echo  10 / ORIGINAL CHARTER PROTECTION
+echo ==============================================================
+
+if git diff --quiet -- gsos/docs/FOUNDING_CHARTER_AR.md; then
+    echo [OK] ORIGINAL_GIT_DIFF_EMPTY
+else
+    echo [FAIL] ORIGINAL_GIT_DIFF_PRESENT
+    git diff -- gsos/docs/FOUNDING_CHARTER_AR.md
+    FAIL=1
+fi
+
+CURRENT_SHA=dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396
+
+if [ -r gsos/docs/s08/CHARTER_BASELINE_METADATA.txt ]; then
+    BASELINE_SHA=dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396
+
+    if [  =  ]; then
+        echo [OK] ORIGINAL_SHA_BASELINE_MATCH
+    else
+        echo [FAIL] ORIGINAL_SHA_BASELINE_MISMATCH
+        FAIL=1
+    fi
+fi
+
+echo
+echo ==============================================================
+echo  11 / DRAFT STATUS
+echo ==============================================================
+
+grep -Ein 'رقم الوثيقة|الإصدار المقترح|الحالة|تاريخ إنشاء المسودة|وقت إنشاء المسودة|حالة الوثيقة|الغرض' gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md | head -80
+
+echo
+echo ==============================================================
+echo  FINAL RESULT
+echo ==============================================================
+
+if [  -eq 0 ]; then
+    echo [OK] S08-11E-L2.1 STRUCTURAL SAFETY PASSED
+    echo [OK] ORIGINAL CHARTER PROTECTED
+    echo [OK] NO WRITE OPERATION PERFORMED
+    echo [OK] LAYER CONTRACT AUDIT COMPLETED
+    echo [INFO] REVIEW THE FOUND/GAP COUNTS BEFORE S08-12
+else
+    echo [WARN] S08-11E-L2.1 GAPS DETECTED
+    echo [WARN] THIS IS AN ACADEMIC/DOCUMENTATION GAP
+    echo [WARN] DO NOT MODIFY ORIGINAL CHARTER
+    echo [INFO] NEXT = CLASSIFY GAPS BEFORE ANY DRAFT REVISION
+fi
+
+echo
+echo ==============================================================
+echo  S08-11E-L2.1 COMPLETE
+echo  READ ONLY
+echo  NO GSOS EXECUTION
+echo  NO FILE MODIFICATION
+echo ==============================================================
+DRAFT=gsos/docs/s08/FOUNDING_CHARTER_GSOS_S08_DRAFT_AR.md

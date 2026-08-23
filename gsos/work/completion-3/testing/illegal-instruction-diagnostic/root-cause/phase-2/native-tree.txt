@@ -1,0 +1,22 @@
+tanstack_start_ts@ /data/data/com.termux/files/home/sos-observer
+├─┬ @lovable.dev/vite-tanstack-config@2.7.0
+│ ├─┬ @tanstack/devtools-vite@0.8.3
+│ │ └─┬ @tanstack/devtools-bundler-core@0.1.1
+│ │   └─┬ oxc-parser@0.120.0
+│ │     └── @oxc-project/types@0.120.0
+│ └─┬ lovable-tagger@1.2.0
+│   └── esbuild@0.25.12
+├─┬ @tanstack/router-plugin@1.168.23
+│ └─┬ unplugin@3.3.0
+│   └── rolldown@1.2.0 deduped
+├─┬ @vitejs/plugin-react@5.2.0
+│ └── @rolldown/pluginutils@1.0.0-rc.3
+├─┬ nitro@3.0.260603-beta
+│ └─┬ rolldown@1.2.0
+│   ├── @oxc-project/types@0.140.0
+│   └── @rolldown/pluginutils@1.0.1
+└─┬ vite@8.1.5
+  └─┬ rolldown@1.1.5
+    ├── @oxc-project/types@0.139.0
+    └── @rolldown/pluginutils@1.0.1
+

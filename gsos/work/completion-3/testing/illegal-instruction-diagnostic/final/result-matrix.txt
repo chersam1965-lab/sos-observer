@@ -1,0 +1,5 @@
+DEFAULT_POOL=
+default_pool_log=/data/data/com.termux/files/home/sos-observer/gsos/work/completion-3/testing/illegal-instruction-diagnostic/final/default-pool.log
+forks_pool_log=/data/data/com.termux/files/home/sos-observer/gsos/work/completion-3/testing/illegal-instruction-diagnostic/final/forks-pool.log
+threads_pool_log=/data/data/com.termux/files/home/sos-observer/gsos/work/completion-3/testing/illegal-instruction-diagnostic/final/threads-pool.log
+vmthreads_pool_log=/data/data/com.termux/files/home/sos-observer/gsos/work/completion-3/testing/illegal-instruction-diagnostic/final/vmthreads-pool.log

@@ -1,0 +1,4 @@
+nitro => /data/data/com.termux/files/home/sos-observer/node_modules/nitro/dist/runtime/nitro.mjs
+vite => /data/data/com.termux/files/home/sos-observer/node_modules/vite/dist/node/index.js
+@lovable.dev/vite-tanstack-config => /data/data/com.termux/files/home/sos-observer/node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs
+esbuild => /data/data/com.termux/files/home/sos-observer/node_modules/esbuild/lib/main.js

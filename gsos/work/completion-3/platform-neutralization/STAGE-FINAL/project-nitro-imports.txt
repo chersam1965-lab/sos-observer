@@ -1,0 +1,26 @@
+./vite.config.ts:12:    // nitro/vite builds from this
+./package-lock.json:8148:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./package-lock.json:8211:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/runtime-v2/events/s07_doc_audit.log:438:./node_modules/nitro/README.md
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/root-cause/phase-2/snapshot/package-lock.json.before:7720:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/root-cause/phase-2/snapshot/package-lock.json.before:7783:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/phase-1/package-lock.json.before:7720:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/phase-1/package-lock.json.before:7783:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/phase-1-final/package-lock.json.before:7720:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/phase-1-final/package-lock.json.before:7783:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/phase-2-vite7/package-lock.json.before:8634:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/phase-2-vite7/package-lock.json.before:8697:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/final-fix/package-lock.json.before:8567:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/final-fix/package-lock.json.before:8630:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/final-vite6/package-lock.json.before:8567:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/final-vite6/package-lock.json.before:8630:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/STAGE-CLOSURE/package-lock.json.before:8148:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/illegal-instruction-diagnostic/STAGE-CLOSURE/package-lock.json.before:8211:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/testing/TERMUX_FINAL_REPAIR/package-lock.json.before:8634:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/testing/TERMUX_FINAL_REPAIR/package-lock.json.before:8697:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/platform-neutralization/FINAL-GATE/build.txt:7:    at config (file:///data/data/com.termux/files/home/sos-observer/node_modules/nitro/dist/vite.mjs:214:29)
+./gsos/work/completion-3/platform-neutralization/STAGE-FINAL/package-lock.json.before:8148:      "resolved": "https://registry.npmjs.org/nitro/-/nitro-3.0.260603-beta.tgz",
+./gsos/work/completion-3/platform-neutralization/STAGE-FINAL/package-lock.json.before:8211:    "node_modules/nitro/node_modules/unstorage": {
+./gsos/work/completion-3/platform-neutralization/STAGE-FINAL/nitro-meta-lines.txt:1:8:import { runtimeDir } from "nitro/meta";
+./gsos/work/completion-3/platform-neutralization/STAGE-FINAL/nitro-meta-lines.txt:3:444:		meta: { name: "nitro-vite" },
+./gsos/work/completion-3/platform-neutralization/STAGE-FINAL/vite-config.txt:12:    // nitro/vite builds from this

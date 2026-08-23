@@ -1,0 +1,28 @@
+
+PACKAGE: vite
+VERSION: 6.4.1
+ENGINES: {
+  "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
+}
+OPTIONAL: {
+  "fsevents": "~2.3.3"
+}
+
+PACKAGE: nitro
+VERSION: 3.0.260603-beta
+ENGINES: {
+  "node": "^20.19.0 || >=22.12.0"
+}
+OPTIONAL: {}
+
+PACKAGE: @lovable.dev/vite-tanstack-config
+VERSION: 2.7.0
+ENGINES: {}
+OPTIONAL: {}
+
+PACKAGE: @tanstack/react-start
+VERSION: 1.168.32
+ENGINES: {
+  "node": ">=22.12.0"
+}
+OPTIONAL: {}

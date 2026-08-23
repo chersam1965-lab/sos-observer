@@ -1,0 +1,58 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+ROOT="./gsos/runtime-v2"
+
+echo "================================"
+echo " GSOS Runtime Orchestrator V2"
+echo "================================"
+echo
+
+run_step() {
+    local name="$1"
+    local script="$2"
+
+    echo
+    echo "[$name]"
+    echo "--------------------------------"
+
+    if [ ! -x "$script" ]; then
+        echo "ERROR : SCRIPT_NOT_EXECUTABLE"
+        return 1
+    fi
+
+    "$script"
+    local rc=$?
+
+    if [ "$rc" -eq 0 ]; then
+        echo "[$name] STATUS : OK"
+    else
+        echo "[$name] STATUS : FAILED"
+        return "$rc"
+    fi
+}
+
+run_step "EVENTBUS" "$ROOT/eventbus/eventbus.sh" || exit 1
+run_step "KERNEL" "$ROOT/kernel/kernel.sh" || exit 1
+run_step "DISPATCHER" "$ROOT/dispatcher/runtime-dispatcher.sh" || exit 1
+run_step "DECISION" "$ROOT/decision/decision-engine.sh" || exit 1
+run_step "POLICY" "$ROOT/policy/policy-engine.sh" || exit 1
+run_step "EXECUTION" "$ROOT/execution/execution-engine.sh" || exit 1
+run_step "STATE_MANAGER" "$ROOT/state-manager/state-manager.sh" || exit 1
+run_step "RECOVERY_CONTROLLER" "$ROOT/recovery/recovery-controller.sh" || exit 1
+run_step "SUPERVISOR" "$ROOT/supervisor/supervisor.sh" || exit 1
+run_step "WATCHDOG" "$ROOT/watchdog/watchdog.sh" || exit 1
+run_step "HEALTH" "$ROOT/health/health-check.sh" || exit 1
+
+echo
+echo "================================"
+echo " FINAL RUNTIME STATE"
+echo "================================"
+
+cat "$ROOT/state/service.state"
+
+echo
+echo "================================"
+echo " ORCHESTRATOR COMPLETE"
+echo "================================"
+
+exit 0

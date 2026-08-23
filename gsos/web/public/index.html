@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GSOS Observer V2</title>
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 24px;
+  background: #0b1020;
+  color: #f5f7ff;
+}
+.card {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #151c32;
+}
+h1 { margin-top: 0; }
+pre {
+  background: #080c18;
+  padding: 16px;
+  border-radius: 12px;
+  overflow: auto;
+}
+.ok { color: #55d68a; }
+</style>
+</head>
+
+<body>
+<div class="card">
+<h1>GSOS Observer V2</h1>
+<p id="health">Loading...</p>
+<pre id="state"></pre>
+</div>
+
+<script>
+async function refresh() {
+  try {
+    const health = await fetch("/api/v1/health").then(r => r.json());
+    const runtime = await fetch("/api/v1/runtime").then(r => r.json());
+
+    document.getElementById("health").innerHTML =
+      `<strong class="ok">${health.health}</strong> —
+       Runtime: ${health.runtime_mode} —
+       Watchdog: ${health.watchdog_state}`;
+
+    document.getElementById("state").textContent =
+      JSON.stringify(runtime, null, 2);
+  } catch (e) {
+    document.getElementById("health").textContent =
+      "GSOS API unavailable";
+  }
+}
+
+refresh();
+setInterval(refresh, 5000);
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:134:var NITRO_DEFAULT_PRESET_MIN = [3, 0, 260603];
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:135:async function nitroSupportsDefaultPreset() {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:139:    const { version } = require2("nitro/package.json");
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:145:      if (parts[i] !== NITRO_DEFAULT_PRESET_MIN[i])
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:146:        return parts[i] > NITRO_DEFAULT_PRESET_MIN[i];
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:624:      if ("cloudflare" in optionObject) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:625:        if (optionObject.cloudflare === false && !("nitro" in optionObject)) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:626:          optionObject.nitro = false;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:628:            "`cloudflare: false` is deprecated in v2 \u2014 migrated to `nitro: false`. Update your config to drop the warning."
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:632:            "The `cloudflare` option was removed in v2. Use `nitro: false` to disable the deploy plugin, or `nitro: { preset: '...' }` to configure it. The `cloudflare` setting is being ignored."
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:636:      const hasLovableKey = "vite" in optionObject || "serverFnErrorLogger" in optionObject || "ssrErrorLogger" in optionObject || "nitro" in optionObject || "tanstackStart" in optionObject || "react" in optionObject || "envDefine" in optionObject || "hmrGate" in optionObject;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:665:    const explicitNitro = options.nitro === true || typeof options.nitro === "object" && options.nitro !== null;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:666:    const shouldRunNitro = options.nitro !== false && command === "build";
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:667:    if (shouldRunNitro) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:668:      let nitroMod;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:670:        nitroMod = await import("nitro/vite");
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:672:        if (explicitNitro || isSandbox) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:673:          const reason = explicitNitro ? `an explicit \`nitro\` option (${options.nitro === true ? "true" : "{ ... }"}) was set in vite.config.ts` : "running inside a Lovable sandbox";
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:675:            `[@lovable.dev/vite-tanstack-config] ${reason}, but the \`nitro\` package isn't installed. Add \`nitro\` to your devDependencies (matches peerDependency >=3.0.260429-beta). Original import error: ${err instanceof Error ? err.message : String(err)}`
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:679:      if (nitroMod) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:680:        const { nitro } = nitroMod;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:681:        const userNitroOpts = typeof options.nitro === "object" && options.nitro ? options.nitro : {};
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:682:        const nitroOpts = { defaultPreset: "cloudflare-module", ...userNitroOpts };
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:684:          delete nitroOpts.defaultPreset;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:685:          nitroOpts.preset = "cloudflare-module";
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:686:          nitroOpts.output = { dir: "dist", serverDir: "dist/server", publicDir: "dist/client" };
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:687:          nitroOpts.cloudflare = { nodeCompat: true, deployConfig: true, ...userNitroOpts.cloudflare };
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:688:        } else if (!nitroOpts.preset && !await nitroSupportsDefaultPreset()) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:690:            'The installed `nitro` predates the `defaultPreset` option (3.0.260603-beta), so the Cloudflare fallback is ignored and a zero-config build may target Node instead. Upgrade nitro to >=3.0.260603-beta, or set an explicit `nitro: { preset: "cloudflare-module" }`.'
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:693:        internalPlugins.push(nitro(nitroOpts));
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.cjs:734:        envDefine[`import.meta.env.${key}`] = JSON.stringify(value);
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:20:     * Options forwarded to `nitro()` from `nitro/vite`.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:23:     * - **undefined** (default): nitro runs on every production build, defaulting
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:24:     *   to the `cloudflare-module` preset via Nitro's `defaultPreset` — zero-config
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:25:     *   target auto-detection (`NITRO_PRESET`, Vercel/Netlify/Cloudflare Pages)
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:27:     *   `nitro` peer dep isn't installed, it's skipped (no deploy intent to honor).
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:28:     * - **`true`**: same as undefined, but fails fast if the `nitro` peer dep is
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:32:     * - **`false`**: skip nitro entirely.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:35:     * Cloudflare; `preset`/`output`/`cloudflare` overrides apply only outside it.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:37:     * The option surface is narrow on purpose — Nitro v3 is still pre-RC, so
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:39:     * `NitroPluginConfig` schema changes. File an issue if you need more.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:41:    nitro?: true | {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.cts:48:        cloudflare?: {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:99:var NITRO_DEFAULT_PRESET_MIN = [3, 0, 260603];
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:100:async function nitroSupportsDefaultPreset() {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:104:    const { version } = require2("nitro/package.json");
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:110:      if (parts[i] !== NITRO_DEFAULT_PRESET_MIN[i])
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:111:        return parts[i] > NITRO_DEFAULT_PRESET_MIN[i];
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:589:      if ("cloudflare" in optionObject) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:590:        if (optionObject.cloudflare === false && !("nitro" in optionObject)) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:591:          optionObject.nitro = false;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:593:            "`cloudflare: false` is deprecated in v2 \u2014 migrated to `nitro: false`. Update your config to drop the warning."
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:597:            "The `cloudflare` option was removed in v2. Use `nitro: false` to disable the deploy plugin, or `nitro: { preset: '...' }` to configure it. The `cloudflare` setting is being ignored."
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:601:      const hasLovableKey = "vite" in optionObject || "serverFnErrorLogger" in optionObject || "ssrErrorLogger" in optionObject || "nitro" in optionObject || "tanstackStart" in optionObject || "react" in optionObject || "envDefine" in optionObject || "hmrGate" in optionObject;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:630:    const explicitNitro = options.nitro === true || typeof options.nitro === "object" && options.nitro !== null;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:631:    const shouldRunNitro = options.nitro !== false && command === "build";
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:632:    if (shouldRunNitro) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:633:      let nitroMod;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:635:        nitroMod = await import("nitro/vite");
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:637:        if (explicitNitro || isSandbox) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:638:          const reason = explicitNitro ? `an explicit \`nitro\` option (${options.nitro === true ? "true" : "{ ... }"}) was set in vite.config.ts` : "running inside a Lovable sandbox";
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:640:            `[@lovable.dev/vite-tanstack-config] ${reason}, but the \`nitro\` package isn't installed. Add \`nitro\` to your devDependencies (matches peerDependency >=3.0.260429-beta). Original import error: ${err instanceof Error ? err.message : String(err)}`
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:644:      if (nitroMod) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:645:        const { nitro } = nitroMod;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:646:        const userNitroOpts = typeof options.nitro === "object" && options.nitro ? options.nitro : {};
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:647:        const nitroOpts = { defaultPreset: "cloudflare-module", ...userNitroOpts };
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:649:          delete nitroOpts.defaultPreset;
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:650:          nitroOpts.preset = "cloudflare-module";
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:651:          nitroOpts.output = { dir: "dist", serverDir: "dist/server", publicDir: "dist/client" };
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:652:          nitroOpts.cloudflare = { nodeCompat: true, deployConfig: true, ...userNitroOpts.cloudflare };
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:653:        } else if (!nitroOpts.preset && !await nitroSupportsDefaultPreset()) {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:655:            'The installed `nitro` predates the `defaultPreset` option (3.0.260603-beta), so the Cloudflare fallback is ignored and a zero-config build may target Node instead. Upgrade nitro to >=3.0.260603-beta, or set an explicit `nitro: { preset: "cloudflare-module" }`.'
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:658:        internalPlugins.push(nitro(nitroOpts));
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.js:699:        envDefine[`import.meta.env.${key}`] = JSON.stringify(value);
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:20:     * Options forwarded to `nitro()` from `nitro/vite`.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:23:     * - **undefined** (default): nitro runs on every production build, defaulting
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:24:     *   to the `cloudflare-module` preset via Nitro's `defaultPreset` — zero-config
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:25:     *   target auto-detection (`NITRO_PRESET`, Vercel/Netlify/Cloudflare Pages)
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:27:     *   `nitro` peer dep isn't installed, it's skipped (no deploy intent to honor).
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:28:     * - **`true`**: same as undefined, but fails fast if the `nitro` peer dep is
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:32:     * - **`false`**: skip nitro entirely.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:35:     * Cloudflare; `preset`/`output`/`cloudflare` overrides apply only outside it.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:37:     * The option surface is narrow on purpose — Nitro v3 is still pre-RC, so
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:39:     * `NitroPluginConfig` schema changes. File an issue if you need more.
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:41:    nitro?: true | {
+node_modules/@lovable.dev/vite-tanstack-config/dist/index.d.ts:48:        cloudflare?: {
+node_modules/@lovable.dev/vite-tanstack-config/package.json:39:    "nitro": ">=3.0.260603-beta",
+node_modules/@lovable.dev/vite-tanstack-config/package.json:43:  "peerDependenciesMeta": {
+node_modules/@lovable.dev/vite-tanstack-config/package.json:44:    "nitro": {
+node_modules/@lovable.dev/vite-tanstack-config/package.json:49:    "nitro": "3.0.260603-beta",
+node_modules/@lovable.dev/vite-tanstack-config/README.md:14:Apps can pass through Vite options and adjust the React, TanStack Start, Nitro, HMR gate, and error-logging behavior when they need to.

@@ -1,0 +1,11 @@
+
+> build
+> vite build
+
+error during build:
+TypeError: Cannot read properties of undefined (reading 'meta')
+    at config (file:///data/data/com.termux/files/home/sos-observer/node_modules/nitro/dist/vite.mjs:214:29)
+    at runConfigHook (file:///data/data/com.termux/files/home/sos-observer/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:49479:23)
+    at async resolveConfig (file:///data/data/com.termux/files/home/sos-observer/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:48785:12)
+    at async createBuilder (file:///data/data/com.termux/files/home/sos-observer/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:46736:18)
+    at async CAC.<anonymous> (file:///data/data/com.termux/files/home/sos-observer/node_modules/vite/dist/node/cli.js:862:23)

@@ -1,0 +1,20 @@
+GSOS SOURCE + EVIDENCE ARCHIVE
+
+PHASE=2/5
+DATE=2026-08-13
+TIME=01:48:12+0100
+STAMP=20260813-014812+0100
+
+GIT_HEAD=5b044c16d55fcc30158300dd8a28ea8ad9e546c9
+BRANCH=gsos-mobile-lab
+
+CHATGPT_ARCHIVE=/data/data/com.termux/files/home/sos-observer/gsos/archive/sources/chatgpt/2026-08-13
+GITHUB_ARCHIVE=/data/data/com.termux/files/home/sos-observer/gsos/archive/sources/github/2026-08-13
+LOVABLE_ARCHIVE=/data/data/com.termux/files/home/sos-observer/gsos/archive/sources/lovable/2026-08-13
+TERMUX_ARCHIVE=/data/data/com.termux/files/home/sos-observer/gsos/archive/sources/termux/2026-08-13
+
+EVIDENCE_ARCHIVE=/data/data/com.termux/files/home/sos-observer/gsos/archive/evidence/2026-08-13
+
+SOURCE_STATUS=PRESERVED_AS_AVAILABLE
+HISTORICAL_RECORDS=IMMUTABLE
+AUTOMATIC_ASSERTION_OF_TRUTH=DISABLED

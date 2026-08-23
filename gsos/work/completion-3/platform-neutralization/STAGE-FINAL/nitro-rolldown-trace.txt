@@ -1,0 +1,58 @@
+node_modules/nitro/dist/node_modules/cookie-es/package.json:35:    "rolldown": "1.0.0-rc.11",
+node_modules/nitro/dist/docs/2.config/0.index/index.md:874:- Type: `"rollup"` | `"rolldown"` | `"vite"`
+node_modules/nitro/dist/docs/2.config/0.index/index.md:896:### `rolldownConfig`
+node_modules/nitro/dist/docs/2.config/0.index/index.md:898:Additional rolldown configuration.
+node_modules/nitro/dist/docs/2.config/0.index/index.md:902:  rolldownConfig: {
+node_modules/nitro/dist/docs/2.config/0.index/index.md:1083:OXC options for rolldown builds. Includes `minify` and `transform` sub-options.
+node_modules/nitro/dist/_presets.mjs:459:		nitro.options.rolldownConfig ??= {};
+node_modules/nitro/dist/_presets.mjs:460:		nitro.options.rolldownConfig.platform ??= "node";
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:201:	if (isPackageExists("rolldown")) parseSync = (await importModule("rolldown/utils")).parseSync;
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:203:	else throw new Error("[unimport] the `oxc` parser requires either `rolldown` or `oxc-parser` to be installed.");
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1236:	const nativeFilter = key === "rolldown";
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1275:	if (framework === "rolldown") return true;
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1281:function getRolldownPlugin(factory) {
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1283:		const plugins = toArray$2(factory(userOptions, { framework: "rolldown" })).map((rawPlugin) => {
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1284:			return toRollupPlugin(rawPlugin, "rolldown");
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1562:		get rolldown() {
+node_modules/nitro/dist/_libs/unimport+unplugin.mjs:1563:			return getRolldownPlugin(factory);
+node_modules/nitro/dist/_build/common.mjs:6774:		case "rolldown": {
+node_modules/nitro/dist/_build/common.mjs:6775:			const { rolldownBuild } = await import("./rolldown.mjs");
+node_modules/nitro/dist/_build/common.mjs:6776:			return rolldownBuild(nitro);
+node_modules/nitro/dist/_build/common.mjs:21110:	if (chunk.name === "rolldown-runtime") return "_runtime.mjs";
+node_modules/nitro/dist/_build/common.mjs:28059:	const { transformSync } = await import("rolldown/utils");
+node_modules/nitro/dist/_build/common.mjs:28487:	const { minifySync, transformSync } = await import("rolldown/utils");
+node_modules/nitro/dist/_build/rolldown.mjs:9:const getRolldownConfig = async (nitro) => {
+node_modules/nitro/dist/_build/rolldown.mjs:61:	config = defu(nitro.options.rolldownConfig, nitro.options.rollupConfig, config);
+node_modules/nitro/dist/_build/rolldown.mjs:70:	const rolldown = await import("rolldown");
+node_modules/nitro/dist/_build/rolldown.mjs:109:	nitro.logger.info(`Starting dev watcher (builder: \`rolldown\`, preset: \`${nitro.options.preset}\`, compatibility date: \`${formatCompatibilityDate(nitro.options.compatibilityDate)}\`)`);
+node_modules/nitro/dist/_build/rolldown.mjs:112:		const watcher = rolldown.watch(config);
+node_modules/nitro/dist/_build/rolldown.mjs:134:	const rolldown = await import("rolldown");
+node_modules/nitro/dist/_build/rolldown.mjs:140:		nitro.logger.info(`Building server (builder: \`rolldown\`, preset: \`${nitro.options.preset}\`, compatibility date: \`${formatCompatibilityDate(nitro.options.compatibilityDate)}\`)`);
+node_modules/nitro/dist/_build/rolldown.mjs:141:		output = await (await rolldown.rolldown(config)).write(config.output);
+node_modules/nitro/dist/_build/rolldown.mjs:160:async function rolldownBuild(nitro) {
+node_modules/nitro/dist/_build/rolldown.mjs:162:	const config = await getRolldownConfig(nitro);
+node_modules/nitro/dist/_build/rolldown.mjs:166:export { rolldownBuild };
+node_modules/nitro/dist/_build/vite.env.mjs:11:			rolldownOptions: ctx.bundlerConfig.rolldownConfig,
+node_modules/nitro/dist/types/index.d.mts:23:import { InputOptions, MinifyOptions, OutputOptions, TransformOptions } from "rolldown";
+node_modules/nitro/dist/types/index.d.mts:1080:type RolldownConfig = InputOptions & {
+node_modules/nitro/dist/types/index.d.mts:1856:   * `nitro()` plugin is found, otherwise `"rolldown"` (bundled with Nitro).
+node_modules/nitro/dist/types/index.d.mts:1861:  builder?: "rollup" | "rolldown" | "vite";
+node_modules/nitro/dist/types/index.d.mts:1869:   * Additional Rolldown configuration.
+node_modules/nitro/dist/types/index.d.mts:1871:   * @see https://nitro.build/config#rolldownconfig
+node_modules/nitro/dist/types/index.d.mts:1873:  rolldownConfig?: RolldownConfig;
+node_modules/nitro/dist/types/index.d.mts:1935:   * OXC options for Rolldown builds (minification and transforms).
+node_modules/nitro/dist/types/index.d.mts:2232:export { $Fetch, AssetMeta, AvailableRouterMethod, Base$Fetch, type CacheEntry, type CacheOptions, CachedEventHandlerOptions, CaptureError, CapturedErrorContext, CompressOptions, DatabaseConnectionConfig, DatabaseConnectionConfigs, DatabaseConnectionName, type EnvRunner, EventHandlerFormat, ExtractedRouteMethod, type FetchHandler, H3Event$Fetch, H3EventFetch, HTTPstatus, InternalApi, LoadConfigOptions, MatchedRouteRule, MatchedRouteRules, MatchedRoutes, MiddlewareOf, Nitro, NitroApp, NitroAppPlugin, NitroAsyncContext, NitroBuildInfo, NitroConfig, NitroDevEventHandler, NitroDynamicConfig, NitroErrorHandler, NitroEventHandler, NitroFetchOptions, NitroFetchRequest, NitroFrameworkInfo, NitroHooks, NitroImportMeta, NitroMeta, NitroModule, NitroModuleInput, type NitroOpenAPIConfig, NitroOptions, NitroPreset, NitroPresetMeta$1 as NitroPresetMeta, NitroRouteConfig, NitroRouteMeta, NitroRouteRules, NitroRuntimeConfig, NitroRuntimeConfigApp, NitroRuntimeHooks, NitroTypes, OXCOptions, PrerenderGenerateRoute, PrerenderRoute, PublicAsset, PublicAssetDir, RenderContext, RenderHandler, RenderResponse, type ResponseCacheEntry, RolldownConfig, RollupConfig, type RunnerMessageListener, type RunnerRPCHooks, Serialize, SerializeObject, SerializeTuple, ServerAssetDir, type ServerRequest, Simplify, StorageMounts, Task, TaskContext, TaskEvent, TaskMeta, TaskPayload, TaskResult, TaskRunnerOptions, TracingOptions, TypedInternalResponse, type UpgradeHandler, VercelISRConfig, type WorkerAddress, type WorkerHooks };
+node_modules/nitro/dist/_chunks/nitro.mjs:441:	"rolldown",
+node_modules/nitro/dist/_chunks/nitro.mjs:450:		if (pkg !== "rolldown" && !isPkgInstalled(pkg, options.rootDir)) {
+node_modules/nitro/dist/_chunks/nitro.mjs:464:	options.builder = "rolldown";
+node_modules/nitro/dist/_chunks/nitro.mjs:1004:		builder: nitro.options.builder === "vite" ? "rolldown" : nitro.options.builder
+node_modules/nitro/dist/vite.mjs:32:	if (ctx._isRolldown) {
+node_modules/nitro/dist/vite.mjs:33:		const rolldownConfig = defu({
+node_modules/nitro/dist/vite.mjs:39:		}, nitro.options.rolldownConfig, nitro.options.rollupConfig, commonConfig);
+node_modules/nitro/dist/vite.mjs:40:		const outputConfig = rolldownConfig.output;
+node_modules/nitro/dist/vite.mjs:47:			rolldownConfig
+node_modules/nitro/dist/vite.mjs:61:		}, nitro.options.rolldownConfig, nitro.options.rollupConfig, commonConfig);
+node_modules/nitro/dist/vite.mjs:214:			ctx._isRolldown = !!this.meta.rolldownVersion;
+node_modules/nitro/dist/vite.mjs:224:				return [...ctx.bundlerConfig?.rolldownConfig?.plugins || ctx.bundlerConfig?.rollupConfig?.plugins || []];
+node_modules/nitro/dist/vite.mjs:256:			const entry = getEntry(config.build?.rolldownOptions?.input || config.build?.rollupOptions?.input);
+node_modules/nitro/dist/vite.mjs:449:	await ctx.nitro.hooks.callHook("rollup:before", ctx.nitro, ctx.bundlerConfig.rollupConfig || ctx.bundlerConfig.rolldownConfig);

@@ -1,0 +1,42 @@
+tanstack_start_ts@ /data/data/com.termux/files/home/sos-observer
+├─┬ @lovable.dev/vite-tanstack-config@2.7.0
+│ ├─┬ @lovable.dev/vite-plugin-dev-server-bridge@1.2.1
+│ │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+│ ├─┬ @lovable.dev/vite-plugin-hmr-gate@1.1.4
+│ │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+│ ├─┬ @tanstack/devtools-vite@0.8.3
+│ │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+│ ├─┬ lovable-tagger@1.2.0
+│ │ ├── esbuild@0.25.12 deduped
+│ │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+│ ├── nitro@3.0.260603-beta deduped
+│ └── vite@6.4.1 deduped
+├─┬ @tailwindcss/vite@4.3.3
+│ └── vite@6.4.1 deduped
+├─┬ @tanstack/react-start@1.168.32
+│ ├─┬ @tanstack/start-plugin-core@1.171.24
+│ │ ├── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro, ">=7.0.0" from node_modules/@tanstack/start-plugin-core
+│ │ └─┬ vitefu@1.1.3
+│ │   └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro, ">=7.0.0" from node_modules/@tanstack/start-plugin-core
+│ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start
+├─┬ @tanstack/router-plugin@1.168.23
+│ ├─┬ unplugin@3.3.0
+│ │ ├── esbuild@0.25.12 deduped
+│ │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro, ">=7.0.0" from node_modules/@tanstack/start-plugin-core
+│ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start
+├─┬ @vitejs/plugin-react@5.2.0
+│ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start
+├── esbuild@0.25.12
+├─┬ nitro@3.0.260603-beta
+│ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+├─┬ vite-tsconfig-paths@6.1.1
+│ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+├─┬ vite@6.4.1 invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+│ └── esbuild@0.25.12 deduped
+└─┬ vitest@3.2.4
+  ├─┬ @vitest/mocker@3.2.4
+  │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro, ">=7.0.0" from node_modules/@tanstack/start-plugin-core
+  ├─┬ vite-node@3.2.4
+  │ └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro, ">=7.0.0" from node_modules/@tanstack/start-plugin-core
+  └── vite@6.4.1 deduped invalid: ">=7.0.0" from node_modules/@tanstack/react-start, "^7 || ^8" from node_modules/nitro
+

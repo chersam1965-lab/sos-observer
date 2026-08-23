@@ -1,0 +1,66 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+ROOT="./gsos/runtime-v2"
+
+DECISION_FILE="$ROOT/state/decision.state"
+POLICY_FILE="$ROOT/state/policy.state"
+EXECUTION_FILE="$ROOT/state/execution.state"
+
+EVENT_LOG="$ROOT/events/runtime-events.log"
+
+echo "================================"
+echo " GSOS Recovery Controller V2"
+echo "================================"
+echo
+
+DECISION="MISSING"
+POLICY="MISSING"
+EXECUTION="MISSING"
+
+if [ -f "$DECISION_FILE" ]; then
+    DECISION=$(cat "$DECISION_FILE")
+fi
+
+if [ -f "$POLICY_FILE" ]; then
+    POLICY=$(cat "$POLICY_FILE")
+fi
+
+if [ -f "$EXECUTION_FILE" ]; then
+    EXECUTION=$(cat "$EXECUTION_FILE")
+fi
+
+echo "Decision  : $DECISION"
+echo "Policy    : $POLICY"
+echo "Execution : $EXECUTION"
+echo
+
+if [ "$DECISION" = "RECOVERY_REQUIRED" ] &&
+   [ "$POLICY" = "RECOVERY" ] &&
+   [ "$EXECUTION" = "RECOVERY_STARTED" ]; then
+
+    printf '%s\n' "[RECOVERY] CONTROLLER_ACTIVE" >> "$EVENT_LOG"
+
+    echo "Recovery Controller : ACTIVE"
+    echo "Recovery Verification : PENDING"
+
+    exit 0
+fi
+
+if [ "$DECISION" = "NO_ACTION" ] &&
+   [ "$POLICY" = "NO_ACTION" ] &&
+   [ "$EXECUTION" = "NOTHING_TO_EXECUTE" ]; then
+
+    printf '%s\n' "[RECOVERY] NOT_REQUIRED" >> "$EVENT_LOG"
+
+    echo "Recovery Controller : STANDBY"
+    echo "Recovery Status : NOT_REQUIRED"
+
+    exit 0
+fi
+
+printf '%s\n' "[RECOVERY] INVALID_STATE" >> "$EVENT_LOG"
+
+echo "Recovery Controller : BLOCKED"
+echo "Recovery Status : INVALID_STATE"
+
+exit 1

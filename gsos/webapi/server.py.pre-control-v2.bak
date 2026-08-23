@@ -1,0 +1,158 @@
+#!/data/data/com.termux/files/usr/bin/python
+
+import json
+import os
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+ROOT = os.path.expanduser("~/sos-observer")
+STATE = os.path.join(ROOT, "gsos", "runtime-v2", "state")
+
+HOST = "0.0.0.0"
+PORT = 8787
+
+
+def read_state(name, default="UNKNOWN"):
+    path = os.path.join(STATE, name)
+
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            value = f.read().strip()
+
+        return value if value else default
+
+    except Exception:
+        return default
+
+
+def read_service_state():
+    result = {}
+    path = os.path.join(STATE, "service.state")
+
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+
+                if "=" in line:
+                    key, value = line.split("=", 1)
+                    result[key] = value
+
+    except Exception:
+        pass
+
+    return result
+
+
+def build_status():
+    service = read_service_state()
+
+    return {
+        "system": "GSOS",
+        "version": "V2",
+        "api": "remote-capable",
+        "decision": read_state("decision.state"),
+        "policy": read_state("policy.state"),
+        "execution": read_state("execution.state"),
+        "runtime_state": service.get("RUNTIME_STATE", "UNKNOWN"),
+        "watchdog_state": service.get("WATCHDOG_STATE", "UNKNOWN"),
+        "service_state": service.get("GSOS_SERVICE", "UNKNOWN"),
+    }
+
+
+class Handler(BaseHTTPRequestHandler):
+
+    def send_json(self, payload, status=200):
+        body = json.dumps(
+            payload,
+            ensure_ascii=False,
+            indent=2
+        ).encode("utf-8")
+
+        self.send_response(status)
+        self.send_header(
+            "Content-Type",
+            "application/json; charset=utf-8"
+        )
+        self.send_header(
+            "Content-Length",
+            str(len(body))
+        )
+        self.send_header(
+            "Cache-Control",
+            "no-store"
+        )
+        self.end_headers()
+
+        self.wfile.write(body)
+
+    def do_GET(self):
+
+        if self.path == "/":
+            self.send_json({
+                "service": "GSOS Web/API",
+                "version": "V2",
+                "status": "online",
+                "access": "remote-capable",
+                "endpoints": [
+                    "/ping",
+                    "/status"
+                ]
+            })
+            return
+
+        if self.path == "/ping":
+            self.send_json({
+                "ok": True,
+                "service": "GSOS",
+                "version": "V2",
+                "access": "remote-capable"
+            })
+            return
+
+        if self.path == "/status":
+            self.send_json(build_status())
+            return
+
+        self.send_json({
+            "error": "NOT_FOUND"
+        }, 404)
+
+    def log_message(self, fmt, *args):
+        print(
+            "%s - %s" % (
+                self.address_string(),
+                fmt % args
+            ),
+            flush=True
+        )
+
+
+def main():
+
+    print(
+        f"GSOS API STARTING HOST={HOST} PORT={PORT}",
+        flush=True
+    )
+
+    server = ThreadingHTTPServer(
+        (HOST, PORT),
+        Handler
+    )
+
+    print(
+        f"GSOS API READY http://0.0.0.0:{PORT}",
+        flush=True
+    )
+
+    try:
+        server.serve_forever()
+
+    except KeyboardInterrupt:
+        print("GSOS API STOPPED", flush=True)
+
+    finally:
+        server.server_close()
+
+
+if __name__ == "__main__":
+    main()

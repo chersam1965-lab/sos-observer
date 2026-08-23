@@ -1,0 +1,152 @@
+
+> lint
+> eslint .
+
+
+/data/data/com.termux/files/home/sos-observer/src/components/PilotFeedbackForm.tsx
+  28:11  error  Replace `⏎········role="radiogroup"⏎········aria-label={label}⏎········className="inline-flex·items-center·gap-1"⏎······` with `·role="radiogroup"·aria-label={label}·className="inline-flex·items-center·gap-1"`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/components/ui/badge.tsx
+  32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/components/ui/button.tsx
+  49:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/components/ui/form.tsx
+  163:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/components/ui/navigation-menu.tsx
+  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/components/ui/sidebar.tsx
+  743:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/components/ui/toggle.tsx
+  42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/lib/i18n.tsx
+  173:27  error    Insert `⏎·····`                                                                                                                 prettier/prettier
+  394:27  error    Insert `⏎·····`                                                                                                                 prettier/prettier
+  399:30  error    Insert `⏎·····`                                                                                                                 prettier/prettier
+  403:23  error    Insert `⏎·····`                                                                                                                 prettier/prettier
+  404:25  error    Insert `⏎·····`                                                                                                                 prettier/prettier
+  411:16  error    Insert `⏎·····`                                                                                                                 prettier/prettier
+  446:5   error    Delete `⏎`                                                                                                                      prettier/prettier
+  664:5   error    Delete `⏎`                                                                                                                      prettier/prettier
+  701:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/__tests__/generator.test.ts
+   8:4  error  Replace `·id:·"indicator.a",·category:·"indicator",·title:·"A",·body:·"b",·sourcePath:·"s",·sprintCode:·"S",·extractedAt:·now` with `⏎····id:·"indicator.a",⏎····category:·"indicator",⏎····title:·"A",⏎····body:·"b",⏎····sourcePath:·"s",⏎····sprintCode:·"S",⏎····extractedAt:·now,⏎·`                                          prettier/prettier
+   9:4  error  Replace `·id:·"rule.a",·category:·"rule",·title:·"R",·body:·"b",·sourcePath:·"s",·sprintCode:·"S",·extractedAt:·now` with `⏎····id:·"rule.a",⏎····category:·"rule",⏎····title:·"R",⏎····body:·"b",⏎····sourcePath:·"s",⏎····sprintCode:·"S",⏎····extractedAt:·now,⏎·`                                                              prettier/prettier
+  10:4  error  Replace `·id:·"decision.a",·category:·"decision",·title:·"D",·body:·"b",·sourcePath:·"s",·sprintCode:·"S",·extractedAt:·now` with `⏎····id:·"decision.a",⏎····category:·"decision",⏎····title:·"D",⏎····body:·"b",⏎····sourcePath:·"s",⏎····sprintCode:·"S",⏎····extractedAt:·now,⏎·`                                              prettier/prettier
+  11:4  error  Replace `·id:·"reference.changelog",·category:·"reference",·title:·"CL",·body:·"b",·sourcePath:·"CHANGELOG.md",·sprintCode:·"S",·extractedAt:·now` with `⏎····id:·"reference.changelog",⏎····category:·"reference",⏎····title:·"CL",⏎····body:·"b",⏎····sourcePath:·"CHANGELOG.md",⏎····sprintCode:·"S",⏎····extractedAt:·now,⏎·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/extractors/rulesExtractor.ts
+  33:12  error  Delete `⏎·······`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/generator.ts
+  175:12  error  Replace `·heading:·"Sprint·history",·body:·sources.sprints.map((s)·=>·`—·${s.path}`).join("\n")·||·"—"` with `⏎············heading:·"Sprint·history",⏎············body:·sources.sprints.map((s)·=>·`—·${s.path}`).join("\n")·||·"—",⏎·········`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/index.ts
+  2:9  error  Replace `⏎··getKnowledgeRepository,⏎··setKnowledgeRepository,⏎` with `·getKnowledgeRepository,·setKnowledgeRepository·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/pdf.ts
+  81:19  error  Delete `⏎···`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/service.ts
+  24:16  error  Replace `⏎······existing.filter((v)·=>·v.sprintCode·===·input.sprintCode·&&·v.appVersion·===·input.appVersion)` with `·existing.filter(⏎······(v)·=>·v.sprintCode·===·input.sprintCode·&&·v.appVersion·===·input.appVersion,`  prettier/prettier
+  26:5   error  Replace `····` with `)`                                                                                                                                                                                                        prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/knowledge/types.ts
+  32:3  error  Replace `|·"methodology"⏎··|·"architecture"⏎··|·"research"⏎··|·"decisionRules"⏎··|·"knowledgeBook"⏎·` with `"methodology"·|·"architecture"·|·"research"·|·"decisionRules"·|·"knowledgeBook"`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/pilot/__tests__/service.test.ts
+  4:9  error  Replace `⏎··PilotService,⏎··isPilotModeEnabled,⏎··setPilotModeEnabled,⏎` with `·PilotService,·isPilotModeEnabled,·setPilotModeEnabled·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/pilot/index.ts
+  4:9  error  Replace `⏎··PilotService,⏎··isPilotModeEnabled,⏎··setPilotModeEnabled,⏎··PILOT_MODE_KEY,⏎` with `·PilotService,·isPilotModeEnabled,·setPilotModeEnabled,·PILOT_MODE_KEY·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/pilot/localStorageRepository.ts
+  90:12  error  Replace `(⏎······readAll<PilotFeedback>(FEEDBACK_KEY).find((r)·=>·r.sessionId·===·sessionId)·??·null⏎····)` with `readAll<PilotFeedback>(FEEDBACK_KEY).find((r)·=>·r.sessionId·===·sessionId)·??·null`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/pilot/service.ts
+  12:9   error  Replace `"a","an","and","or","but","of","to","in","on","for","with","is",` with `⏎··"a",⏎··"an",⏎··"and",⏎··"or",⏎··"but",⏎··"of",⏎··"to",⏎··"in",⏎··"on",⏎··"for",⏎··"with",⏎··"is",⏎··`            prettier/prettier
+  13:9   error  Replace `"were","be","been","it","this","that","as","at","by","from","not",` with `⏎··"were",⏎··"be",⏎··"been",⏎··"it",⏎··"this",⏎··"that",⏎··"as",⏎··"at",⏎··"by",⏎··"from",⏎··"not",⏎··`           prettier/prettier
+  15:8   error  Replace `"la","les","un","une","des","de","du","et","ou","mais","pour","avec",` with `⏎··"la",⏎··"les",⏎··"un",⏎··"une",⏎··"des",⏎··"de",⏎··"du",⏎··"et",⏎··"ou",⏎··"mais",⏎··"pour",⏎··"avec",⏎··`  prettier/prettier
+  16:10  error  Replace `"ce","ça","cette","ces","au","aux","dans","sur","par","pas",` with `⏎··"ce",⏎··"ça",⏎··"cette",⏎··"ces",⏎··"au",⏎··"aux",⏎··"dans",⏎··"sur",⏎··"par",⏎··"pas",⏎··`                          prettier/prettier
+  18:8   error  Replace `"من","على","إلى","و","أن","لا","ما","هذا","هذه","التي","الذي","مع",` with `⏎··"من",⏎··"على",⏎··"إلى",⏎··"و",⏎··"أن",⏎··"لا",⏎··"ما",⏎··"هذا",⏎··"هذه",⏎··"التي",⏎··"الذي",⏎··"مع",⏎··`      prettier/prettier
+  19:8   error  Replace `"كان","كانت","لم","لن","هو","هي","نحن","انت","أنت",` with `⏎··"كان",⏎··"كانت",⏎··"لم",⏎··"لن",⏎··"هو",⏎··"هي",⏎··"نحن",⏎··"انت",⏎··"أنت",⏎··`                                               prettier/prettier
+  73:33  error  Replace `·stable:·0,·monitor:·0,·risk:·0` with `⏎······stable:·0,⏎······monitor:·0,⏎······risk:·0,⏎···`                                                                                              prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/reasoning/__tests__/service.test.ts
+  24:44  error  Replace `·input,·sprintCode:·"V2.0-S1-REF",·appVersion:·"2.0.0-dev"` with `⏎······input,⏎······sprintCode:·"V2.0-S1-REF",⏎······appVersion:·"2.0.0-dev",⏎···`  prettier/prettier
+  25:44  error  Replace `·input,·sprintCode:·"V2.0-S1-REF",·appVersion:·"2.0.0-dev"` with `⏎······input,⏎······sprintCode:·"V2.0-S1-REF",⏎······appVersion:·"2.0.0-dev",⏎···`  prettier/prettier
+  26:44  error  Replace `·input,·sprintCode:·"V2.0-S2-KG",·appVersion:·"2.0.0-dev"` with `⏎······input,⏎······sprintCode:·"V2.0-S2-KG",⏎······appVersion:·"2.0.0-dev",⏎···`    prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/reasoning/engine.ts
+  16:37  error  Replace `⏎····?·`analysis:${input.sourceAnalysisId}`⏎···` with `·?·`analysis:${input.sourceAnalysisId}``  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/reasoning/explain.ts
+  49:60  error  Replace `trace.conclusion.confidence·*·100).toFixed(⏎······0,⏎····` with `⏎······trace.conclusion.confidence·*·100⏎····).toFixed(0`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/reasoning/index.ts
+  5:9  error  Replace `⏎··getReasoningRepository,⏎··setReasoningRepository,⏎` with `·getReasoningRepository,·setReasoningRepository·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/reasoning/service.ts
+  13:22  error  Replace `sprintCode:·string,·appVersion:·string,·seq:·number,·timestamp:·string` with `⏎··sprintCode:·string,⏎··appVersion:·string,⏎··seq:·number,⏎··timestamp:·string,⏎`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/scientific/__tests__/localStorageRepository.test.ts
+  4:20  error  Replace `overrides:·Partial<Parameters<LocalStorageScientificRepository["create"]>[0]>·=·{}` with `⏎··overrides:·Partial<Parameters<LocalStorageScientificRepository["create"]>[0]>·=·{},⏎`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/scientific/index.ts
+  3:9  error  Replace `⏎··getScientificRepository,⏎··setScientificRepository,⏎` with `·getScientificRepository,·setScientificRepository·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/scientific/localStorageRepository.ts
+  2:14  error  Replace `⏎··Experiment,⏎··NewExperimentInput,⏎··ScientificRepository,⏎` with `·Experiment,·NewExperimentInput,·ScientificRepository·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/scientific/match.ts
+  23:31  error  Delete `⏎···`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/lib/scientific/service.ts
+  3:14  error  Replace `⏎··Experiment,⏎··NewExperimentInput,⏎··ScientificAggregate,⏎` with `·Experiment,·NewExperimentInput,·ScientificAggregate·`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/routes/__root.tsx
+  82:8  error  Replace `·name:·"description",·content:·"Exact·Capture·creates·pixel-perfect·replicas·of·screenshots·for·web·applications."` with `⏎········name:·"description",⏎········content:⏎··········"Exact·Capture·creates·pixel-perfect·replicas·of·screenshots·for·web·applications.",⏎·····`                                                                                                                                                                                                    prettier/prettier
+  85:8  error  Replace `·property:·"og:description",·content:·"Exact·Capture·creates·pixel-perfect·replicas·of·screenshots·for·web·applications."` with `⏎········property:·"og:description",⏎········content:⏎··········"Exact·Capture·creates·pixel-perfect·replicas·of·screenshots·for·web·applications.",⏎·····`                                                                                                                                                                                      prettier/prettier
+  90:8  error  Replace `·name:·"twitter:description",·content:·"Exact·Capture·creates·pixel-perfect·replicas·of·screenshots·for·web·applications."` with `⏎········name:·"twitter:description",⏎········content:⏎··········"Exact·Capture·creates·pixel-perfect·replicas·of·screenshots·for·web·applications.",⏎·····`                                                                                                                                                                                    prettier/prettier
+  91:8  error  Replace `·property:·"og:image",·content:·"https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ec655980-9780-4104-bac3-e85aac00873e/id-preview-e225c0d0--2ba44f8b-2a58-423a-97b8-6af61a05b023.lovable.app-1783307424971.png"` with `⏎········property:·"og:image",⏎········content:⏎··········"https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ec655980-9780-4104-bac3-e85aac00873e/id-preview-e225c0d0--2ba44f8b-2a58-423a-97b8-6af61a05b023.lovable.app-1783307424971.png",⏎·····`    prettier/prettier
+  92:8  error  Replace `·name:·"twitter:image",·content:·"https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ec655980-9780-4104-bac3-e85aac00873e/id-preview-e225c0d0--2ba44f8b-2a58-423a-97b8-6af61a05b023.lovable.app-1783307424971.png"` with `⏎········name:·"twitter:image",⏎········content:⏎··········"https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ec655980-9780-4104-bac3-e85aac00873e/id-preview-e225c0d0--2ba44f8b-2a58-423a-97b8-6af61a05b023.lovable.app-1783307424971.png",⏎·····`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/routes/pilot.tsx
+   92:49  error  Replace `⏎········lang·===·"fr"·?·"fr-FR"·:·"en-US",` with `lang·===·"fr"·?·"fr-FR"·:·"en-US",·{`                                                                                                                                            prettier/prettier
+   94:8   error  Replace `·{·dateStyle:·"medium",·timeStyle:·"short"·}` with `·dateStyle:·"medium",⏎········timeStyle:·"short"`                                                                                                                               prettier/prettier
+   95:7   error  Insert `}`                                                                                                                                                                                                                                   prettier/prettier
+   97:22  error  Replace `text:·string,·size:·number,·bold·=·false,·color:·[number,·number,·number]·=·[20,·20,·20]` with `⏎········text:·string,⏎········size:·number,⏎········bold·=·false,⏎········color:·[number,·number,·number]·=·[20,·20,·20],⏎······`  prettier/prettier
+  122:13  error  Replace `⏎········`${t("pilotAvgAccuracy")}:·${agg.averageAccuracy?.toFixed(2)·??·"—"}·/·5`,⏎········12,⏎······` with ``${t("pilotAvgAccuracy")}:·${agg.averageAccuracy?.toFixed(2)·??·"—"}·/·5`,·12`                                        prettier/prettier
+  126:13  error  Replace `⏎········`${t("pilotAvgUsefulness")}:·${agg.averageUsefulness?.toFixed(2)·??·"—"}·/·5`,⏎········12,⏎······` with ``${t("pilotAvgUsefulness")}:·${agg.averageUsefulness?.toFixed(2)·??·"—"}·/·5`,·12`                                prettier/prettier
+  130:13  error  Replace `⏎········`${t("pilotAvgCombined")}:·${agg.averageCombined?.toFixed(2)·??·"—"}·/·5`,⏎········12,⏎······` with ``${t("pilotAvgCombined")}:·${agg.averageCombined?.toFixed(2)·??·"—"}·/·5`,·12`                                        prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/routes/reasoning.tsx
+  211:47  error  Replace `{"·"}⏎··························{(selected.conclusion.confidence·*·100).toFixed(0)}%···{t("reScore")}:{"·"}⏎·························` with `·{(selected.conclusion.confidence·*·100).toFixed(0)}%⏎····························{t("reScore")}:`  prettier/prettier
+
+/data/data/com.termux/files/home/sos-observer/src/routes/scientific.tsx
+   85:42  error  Replace `⏎······ScientificService.list(),⏎······ScientificService.aggregate(),⏎····` with `ScientificService.list(),·ScientificService.aggregate()`                                                                                                                                                                                                         prettier/prettier
+  134:9   error  Replace `agg.languageDistribution.ar·>·0·&&·agg.languageDistribution.fr·>·0·&&·agg.languageDistribution.en·>·0` with `⏎······agg.languageDistribution.ar·>·0·&&⏎······agg.languageDistribution.fr·>·0·&&⏎······agg.languageDistribution.en·>·0⏎····`                                                                                                        prettier/prettier
+  144:61  error  Delete `⏎·····`                                                                                                                                                                                                                                                                                                                                             prettier/prettier
+  156:58  error  Delete `⏎·····`                                                                                                                                                                                                                                                                                                                                             prettier/prettier
+  163:13  error  Replace `⏎······t("svPlan1"),⏎······t("svPlan2"),⏎······t("svPlan3"),⏎······t("svPlan4"),⏎····` with `t("svPlan1"),·t("svPlan2"),·t("svPlan3"),·t("svPlan4")`                                                                                                                                                                                               prettier/prettier
+  181:49  error  Replace `⏎········lang·===·"fr"·?·"fr-FR"·:·"en-US",` with `lang·===·"fr"·?·"fr-FR"·:·"en-US",·{`                                                                                                                                                                                                                                                           prettier/prettier
+  183:8   error  Replace `·{·dateStyle:·"medium",·timeStyle:·"short"·}` with `·dateStyle:·"medium",⏎········timeStyle:·"short"`                                                                                                                                                                                                                                              prettier/prettier
+  184:7   error  Insert `}`                                                                                                                                                                                                                                                                                                                                                  prettier/prettier
+  219:13  error  Replace `⏎········`${t("svSuccessRate")}:·${agg.successRate·??·"—"}%`,⏎········11,⏎······` with ``${t("svSuccessRate")}:·${agg.successRate·??·"—"}%`,·11`                                                                                                                                                                                                   prettier/prettier
+  223:13  error  Replace `⏎········`${t("svAvgMatchRate")}:·${agg.averageMatchRate·??·"—"}%`,⏎········11,⏎······` with ``${t("svAvgMatchRate")}:·${agg.averageMatchRate·??·"—"}%`,·11`                                                                                                                                                                                       prettier/prettier
+  231:13  error  Replace ``EN:·${agg.languageDistribution.en}··•··FR:·${agg.languageDistribution.fr}··•··AR:·${agg.languageDistribution.ar}`,·11` with `⏎········`EN:·${agg.languageDistribution.en}··•··FR:·${agg.languageDistribution.fr}··•··AR:·${agg.languageDistribution.ar}`,⏎········11,⏎······`                                                                     prettier/prettier
+  484:75  error  Replace `{agg!.totalExperiments}` with `⏎··················{agg!.totalExperiments}⏎················`                                                                                                                                                                                                                                                        prettier/prettier
+  525:41  error  Replace `·?·t("svMatch")·:·k·===·"partial"·?·t("svPartial")` with `⏎····························?·t("svMatch")⏎····························:·k·===·"partial"⏎······························?·t("svPartial")⏎·····························`                                                                                                                  prettier/prettier
+  528:41  error  Replace `·?·agg!.matches·:·k·===·"partial"·?·agg!.partials` with `⏎····························?·agg!.matches⏎····························:·k·===·"partial"⏎······························?·agg!.partials⏎·····························`                                                                                                                    prettier/prettier
+  532:32  error  Replace `k·===·"match"·?·agg!.matches·:·k·===·"partial"·?·agg!.partials·:·agg!.mismatches` with `⏎··························k·===·"match"⏎····························?·agg!.matches⏎····························:·k·===·"partial"⏎······························?·agg!.partials⏎······························:·agg!.mismatches⏎························`  prettier/prettier
+  558:31  error  Replace `⏎····························value={p.successRate}⏎····························max={100}⏎····························className="bg-primary"⏎·························` with `·value={p.successRate}·max={100}·className="bg-primary"`                                                                                                              prettier/prettier
+
+✖ 78 problems (71 errors, 7 warnings)
+  71 errors and 0 warnings potentially fixable with the `--fix` option.
+

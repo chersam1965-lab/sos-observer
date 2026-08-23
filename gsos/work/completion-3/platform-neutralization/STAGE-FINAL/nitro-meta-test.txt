@@ -1,0 +1,2 @@
+NITRO_META_LOAD=OK
+keys=docsDir,pkgDir,presetsDir,runtimeDependencies,runtimeDir,version
