@@ -1,0 +1,7 @@
+.git
+.gitignore
+*.pyc
+__pycache__/
+*.phase*-backup
+gsos/runtime-v2/logs/
+gsos/runtime-v2/state/

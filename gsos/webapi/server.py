@@ -4,11 +4,11 @@ import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-ROOT = os.path.expanduser("~/sos-observer")
+ROOT = os.environ.get("GSOS_ROOT", os.path.expanduser("~/sos-observer"))
 STATE = os.path.join(ROOT, "gsos", "runtime-v2", "state")
 
-HOST = "0.0.0.0"
-PORT = 8787
+HOST = os.environ.get("HOST", "0.0.0.0")
+PORT = int(os.environ.get("PORT", "8787"))
 
 
 def read_state(name, default="UNKNOWN"):
