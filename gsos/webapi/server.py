@@ -53,7 +53,7 @@ def build_status():
         "decision": read_state("decision.state", "NO_ACTION"),
         "policy": read_state("policy.state", "NO_ACTION"),
         "execution": read_state("execution.state", "NOTHING_TO_EXECUTE"),
-       "runtime_state": service.get("RUNTIME_STATE", "IDLE"),
+        "runtime_state": service.get("RUNTIME_STATE", "IDLE"),
         "watchdog_state": service.get("WATCHDOG_STATE", "ONLINE"),
         "service_state": service.get("GSOS_SERVICE", "RUNNING"),
     }
