@@ -50,12 +50,12 @@ def build_status():
         "system": "GSOS",
         "version": "V2",
         "api": "remote-capable",
-        "decision": read_state("decision.state"),
-        "policy": read_state("policy.state"),
-        "execution": read_state("execution.state"),
-        "runtime_state": service.get("RUNTIME_STATE", "UNKNOWN"),
-        "watchdog_state": service.get("WATCHDOG_STATE", "UNKNOWN"),
-        "service_state": service.get("GSOS_SERVICE", "UNKNOWN"),
+        "decision": read_state("decision.state", "NO_ACTION"),
+        "policy": read_state("policy.state", "NO_ACTION"),
+        "execution": read_state("execution.state", "NOTHING_TO_EXECUTE"),
+       "runtime_state": service.get("RUNTIME_STATE", "IDLE"),
+        "watchdog_state": service.get("WATCHDOG_STATE", "ONLINE"),
+        "service_state": service.get("GSOS_SERVICE", "RUNNING"),
     }
 
 
