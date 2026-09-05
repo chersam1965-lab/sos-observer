@@ -1,0 +1,9 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "status": "TRUTH_REVEALED_AFTER_FREEZE",
+  "truth_sha256": "582ca3674909467235adf87fe4f0fb0c0f97c433e4998c5a34a0d3e394e2e967",
+  "baseline_prediction_sha256": "cfe6dd66e7d4a3f1cca6fc9dd3fc0ac370bef68610134014a466c2dd7b2e66fe",
+  "isnad_prediction_sha256": "c8797f9a7012c46913d6e2c56f570a5b350e4d7d5db0bcda408396de76aaf133",
+  "prediction_mutation_after_freeze": false,
+  "scoring_started": false
+}

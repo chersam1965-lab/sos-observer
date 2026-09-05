@@ -1,0 +1,21 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "status": "VERIFIED-HISTORICAL-REVEAL",
+  "reveal_stage": 1,
+  "adjudication_method": "REGISTERED_HISTORICAL_SOURCE_ADJUDICATION",
+  "derived_from_predictions": false,
+  "cases": [
+    {"case_id":"C01","actual_direction":"DOWN","truth_source":"T01"},
+    {"case_id":"C02","actual_direction":"UP","truth_source":"T02"},
+    {"case_id":"C03","actual_direction":"DOWN","truth_source":"T03"},
+    {"case_id":"C04","actual_direction":"UP","truth_source":"T04"},
+    {"case_id":"C05","actual_direction":"UP","truth_source":"T05"},
+    {"case_id":"C06","actual_direction":"UP","truth_source":"T06"},
+    {"case_id":"C07","actual_direction":"UP","truth_source":"T07"},
+    {"case_id":"C08","actual_direction":"UP","truth_source":"T08"},
+    {"case_id":"C09","actual_direction":"DOWN","truth_source":"T01"},
+    {"case_id":"C10","actual_direction":"DOWN","truth_source":"T03"},
+    {"case_id":"C11","actual_direction":"UP","truth_source":"T09"},
+    {"case_id":"C12","actual_direction":"UP","truth_source":"T10"}
+  ]
+}
