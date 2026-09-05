@@ -1,0 +1,15 @@
+{
+  "required": [
+    "case_id",
+    "registered_at",
+    "cutoff",
+    "predicted_direction",
+    "confidence",
+    "evidence_refs",
+    "falsifiable_condition"
+  ],
+  "allowed_directions": ["UP", "DOWN"],
+  "confidence_min": 0.0,
+  "confidence_max": 1.0,
+  "case_count": 12
+}

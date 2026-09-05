@@ -1,0 +1,45 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "title": "Nokia A/B Historical Forecasting Test: GSOS vs GSOS+ISNAD",
+  "revision": "1.0",
+  "date": "2026-09-05",
+  "status": "PREREGISTERED",
+  "tracks": [
+    "GSOS_BASELINE",
+    "GSOS_PLUS_ISNAD"
+  ],
+  "same_information_boundary": true,
+  "same_cases": true,
+  "same_cutoffs": true,
+  "same_targets": true,
+  "same_scoring": true,
+  "future_information_blocked_before_freeze": true,
+  "runtime_autonomy_claim": false,
+  "primary_metrics": [
+    "brier_score",
+    "calibration",
+    "false_positive_rate",
+    "false_negative_rate",
+    "precision",
+    "recall",
+    "lead_time",
+    "prediction_stability"
+  ],
+  "secondary_metrics": [
+    "evidence_quality",
+    "corroboration",
+    "contradiction_detection"
+  ],
+  "decision_rule": {
+    "primary_comparator": "paired_difference",
+    "direction": "lower_brier_is_better",
+    "calibration_error": "lower_is_better"
+  },
+  "scientific_stop_rules": [
+    "Do not score if either track is incomplete.",
+    "Do not score if freeze is missing.",
+    "Do not score if cutoffs are violated.",
+    "Do not replace missing predictions with synthetic values.",
+    "Do not claim general forecasting ability from this experiment alone."
+  ]
+}
