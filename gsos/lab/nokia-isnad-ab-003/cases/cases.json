@@ -8,7 +8,10 @@
       "horizon_end": "2011-12-31",
       "target": "Nokia_mobile_device_market_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N14"
@@ -19,18 +22,24 @@
       "horizon_end": "2013-12-31",
       "target": "Nokia_control_over_NSN_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N16"
     },
     {
       "case_id": "C03",
-      "historical_cutoff": "2013-12-31",
-      "horizon_end": "2014-12-31",
+      "historical_cutoff": "2013-06-30",
+      "horizon_end": "2014-06-30",
       "target": "Nokia_devices_services_ownership_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N6"
@@ -41,29 +50,38 @@
       "horizon_end": "2015-12-31",
       "target": "Nokia_network_infrastructure_scale_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N7"
     },
     {
       "case_id": "C05",
-      "historical_cutoff": "2023-12-31",
-      "horizon_end": "2024-12-31",
+      "historical_cutoff": "2023-06-30",
+      "horizon_end": "2024-06-30",
       "target": "Nokia_US_strategy_presence_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "US",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N9"
     },
     {
       "case_id": "C06",
-      "historical_cutoff": "2024-06-30",
-      "horizon_end": "2025-06-30",
+      "historical_cutoff": "2024-03-31",
+      "horizon_end": "2025-03-31",
       "target": "Nokia_optical_network_scale_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N8"
@@ -71,10 +89,13 @@
     {
       "case_id": "C07",
       "historical_cutoff": "2025-12-31",
-      "horizon_end": "2026-12-31",
+      "horizon_end": "2026-09-05",
       "target": "Nokia_AI_native_RAN_capability_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N10"
@@ -82,10 +103,13 @@
     {
       "case_id": "C08",
       "historical_cutoff": "2025-12-31",
-      "horizon_end": "2026-12-31",
+      "horizon_end": "2026-09-05",
       "target": "Nokia_Saudi_RnD_presence_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "SAUDI_ARABIA",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N11"
@@ -96,29 +120,38 @@
       "horizon_end": "2011-12-31",
       "target": "Nokia_net_sales_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N14"
     },
     {
       "case_id": "C10",
-      "historical_cutoff": "2013-12-31",
-      "horizon_end": "2014-12-31",
+      "historical_cutoff": "2013-06-30",
+      "horizon_end": "2014-06-30",
       "target": "Nokia_handset_business_weight_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N6"
     },
     {
       "case_id": "C11",
-      "historical_cutoff": "2024-12-31",
-      "horizon_end": "2025-12-31",
+      "historical_cutoff": "2024-06-30",
+      "horizon_end": "2025-06-30",
       "target": "Nokia_AI_cloud_customer_activity_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N2"
@@ -126,10 +159,13 @@
     {
       "case_id": "C12",
       "historical_cutoff": "2025-12-31",
-      "horizon_end": "2026-12-31",
+      "horizon_end": "2026-09-05",
       "target": "Nokia_AI_cloud_business_direction",
       "target_type": "BINARY_DIRECTION",
-      "allowed_prediction": ["UP", "DOWN"],
+      "allowed_prediction": [
+        "UP",
+        "DOWN"
+      ],
       "spatial_scope": "GLOBAL",
       "evidence_boundary": "SOURCES_PUBLISHED_ON_OR_BEFORE_CUTOFF",
       "future_truth_source": "N3/N4"

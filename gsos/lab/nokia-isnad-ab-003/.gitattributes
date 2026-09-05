@@ -1,0 +1,2 @@
+# Web evidence snapshots are archival artifacts, not source code.
+evidence/snapshots/*.html -diff

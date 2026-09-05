@@ -1,0 +1,50 @@
+{
+  "amendment_id": "GSOS-NOKIA-003-AMEND-002",
+  "revision": "1.2",
+  "date": "2026-09-05",
+  "status": "APPROVED-BEFORE-PREDICTIONS",
+  "reason": "Correct historical leakage and prevent future-horizon leakage before A/B registration.",
+  "changes": [
+    {
+      "case_id": "C03",
+      "old_cutoff": "2013-12-31",
+      "new_cutoff": "2013-06-30"
+    },
+    {
+      "case_id": "C05",
+      "old_cutoff": "2023-12-31",
+      "new_cutoff": "2023-06-30"
+    },
+    {
+      "case_id": "C06",
+      "old_cutoff": "2024-06-30",
+      "new_cutoff": "2024-03-31"
+    },
+    {
+      "case_id": "C10",
+      "old_cutoff": "2013-12-31",
+      "new_cutoff": "2013-06-30"
+    },
+    {
+      "case_id": "C11",
+      "old_cutoff": "2024-12-31",
+      "new_cutoff": "2024-06-30"
+    },
+    {
+      "case_id": "C07",
+      "old_horizon_end": "2026-12-31",
+      "new_horizon_end": "2026-09-05"
+    },
+    {
+      "case_id": "C08",
+      "old_horizon_end": "2026-12-31",
+      "new_horizon_end": "2026-09-05"
+    },
+    {
+      "case_id": "C12",
+      "old_horizon_end": "2026-12-31",
+      "new_horizon_end": "2026-09-05"
+    }
+  ],
+  "rule": "No prediction may be registered before this amendment is committed."
+}

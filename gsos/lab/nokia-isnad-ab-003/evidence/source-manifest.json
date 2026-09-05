@@ -1,23 +1,11 @@
 {
   "experiment_id": "GSOS-LAB-NOKIA-003",
-  "document": "TIME-BOUNDED HISTORICAL EVIDENCE PACK",
-  "revision": "1.0",
-  "status": "PREPARED",
-  "rule": "A prediction source is eligible only when publication_date <= case cutoff.",
+  "revision": "1.4",
+  "status": "COMPLETE_RETRIEVED",
   "prediction_sources_only": true,
   "truth_sources_excluded": true,
+  "eligibility_rule": "publication_date <= case_cutoff",
   "sources": [
-    {
-      "source_id": "E01",
-      "case_scope": [
-        "C01",
-        "C09"
-      ],
-      "publication_date": "2011-02-03",
-      "cutoff_max": "2010-12-31",
-      "eligibility": "INELIGIBLE_FOR_PREDICTION",
-      "reason": "Published after the C01/C09 cutoff; retained only as truth-side reference."
-    },
     {
       "source_id": "E02",
       "case_scope": [
@@ -25,23 +13,31 @@
         "C09"
       ],
       "publication_date": "2010-01-28",
-      "cutoff_max": "2010-12-31",
-      "eligibility": "ELIGIBLE",
       "publisher": "Nokia",
-      "title": "Nokia 2009 financial results / 2010 outlook",
-      "url": "https://www.nokia.com/newsroom/nokia-reports-fourth-quarter-and-full-year-2009-results/"
+      "source_type": "PDF",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2010-12-31",
+      "url": "https://www.nokia.com/system/files/files/request-4q-2009-results-presentation-pdf_0.pdf",
+      "snapshot_file": "snapshots/E02.pdf",
+      "snapshot_bytes": 879709,
+      "snapshot_sha256": "ac6dceea9d8f3ad84a95835d825d3535627cf6924c46cece372e3a331f4e7504",
+      "retrieved_at": "2026-09-05T17:03:40.096761+00:00"
     },
     {
       "source_id": "E03",
       "case_scope": [
         "C02"
       ],
-      "publication_date": "2012-02-09",
-      "cutoff_max": "2012-12-31",
-      "eligibility": "ELIGIBLE",
+      "publication_date": "2012-01-26",
       "publisher": "Nokia",
-      "title": "Nokia Q4 and full year 2011 results",
-      "url": "https://www.nokia.com/newsroom/nokia-reports-fourth-quarter-and-full-year-2011-results/"
+      "source_type": "PDF",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2012-12-31",
+      "url": "https://www.nokia.com/system/files/files/q4-earningsrelease.pdf",
+      "snapshot_file": "snapshots/E03.pdf",
+      "snapshot_bytes": 917889,
+      "snapshot_sha256": "852a19cbd7348d47d3ec14383baebb8381258bece9839d043430eec9120b6022",
+      "retrieved_at": "2026-09-05T17:03:40.128669+00:00"
     },
     {
       "source_id": "E04",
@@ -49,12 +45,17 @@
         "C03",
         "C10"
       ],
-      "publication_date": "2013-04-18",
-      "cutoff_max": "2013-06-30",
-      "eligibility": "ELIGIBLE",
+      "publication_date": "2013-03-07",
       "publisher": "Nokia",
-      "title": "Nokia Q1 2013 results",
-      "url": "https://www.nokia.com/newsroom/nokia-interim-report-for-q1-2013/"
+      "source_type": "PDF",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2013-06-30",
+      "url": "https://www.nokia.com/system/files/files/form20-f-12-pdf.pdf",
+      "title": "Nokia 2012 Form 20-F",
+      "snapshot_file": "snapshots/E04.pdf",
+      "snapshot_bytes": 1040287,
+      "snapshot_sha256": "01ebbe2e9c3a33db59ca24cf4e621d4b8d18679b7aea5cb45ef47aa678d98a26",
+      "retrieved_at": "2026-09-05T17:03:40.138736+00:00"
     },
     {
       "source_id": "E05",
@@ -62,26 +63,47 @@
         "C04"
       ],
       "publication_date": "2014-10-23",
-      "cutoff_max": "2014-12-31",
-      "eligibility": "ELIGIBLE",
       "publisher": "Nokia",
-      "title": "Nokia Q3 2014 results",
-      "url": "https://www.nokia.com/newsroom/nokia-interim-report-for-q3-2014/"
+      "source_type": "PDF",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2014-12-31",
+      "url": "https://www.nokia.com/system/files/files/nokia_results_2014_q3_presentation.pdf",
+      "snapshot_file": "snapshots/E05.pdf",
+      "snapshot_bytes": 1465210,
+      "snapshot_sha256": "c1fb324e8cdaf83effcd1bcb16648d1918e715461fc6d0c81915fdc31bf79fc7",
+      "retrieved_at": "2026-09-06T16:53:21.055341+00:00"
     },
     {
-      "source_id": "E06",
+      "source_id": "E13",
       "case_scope": [
         "C05"
       ],
-      "publication_date": "2023-02-16",
-      "cutoff_max": "2023-06-30",
+      "publication_date": "2022-05-23",
+      "publisher": "Nokia/T-Mobile",
+      "source_type": "HTML",
       "eligibility": "ELIGIBLE",
+      "cutoff": "2023-06-30",
+      "url": "https://www.nokia.com/newsroom/t-mobile-and-nokia-collaborate-on-building-flexible-and-scalable-5g-networks/",
+      "snapshot_file": "snapshots/E13.html",
+      "snapshot_bytes": 138914,
+      "snapshot_sha256": "d1fda6e4add1fbdadc87c4db923b5b02ac1d7833052c97f725b8454a07f76694",
+      "retrieved_at": "2026-09-06T16:53:21.056873+00:00"
+    },
+    {
+      "source_id": "E14",
+      "case_scope": [
+        "C05"
+      ],
+      "publication_date": "2022-05-09",
       "publisher": "Nokia",
-      "title": "PSE-6s coherent optics launch",
-      "url": "https://www.nokia.com/newsroom/nokia-launches-next-gen-coherent-optics-to-reduce-network-power-consumption-by-60-percent-mwc23/",
-      "snapshot_file": "snapshots/E06.html",
-      "snapshot_sha256": "a59c66581a7a19119693eeb170240c16c519fe0588f28ab4785a88b315efbb98",
-      "snapshot_bytes": 142383
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2023-06-30",
+      "url": "https://www.nokia.com/newsroom/nokia-launches-groundbreaking-cybersecurity-focused-testing-lab-in-the-us/",
+      "snapshot_file": "snapshots/E14.html",
+      "snapshot_bytes": 136152,
+      "snapshot_sha256": "6f757e8e62c31c30124c95dce652a33d6c91e3b3e18a16f28b4235d90f013206",
+      "retrieved_at": "2026-09-06T16:53:21.058050+00:00"
     },
     {
       "source_id": "E07",
@@ -89,14 +111,79 @@
         "C06"
       ],
       "publication_date": "2023-02-16",
-      "cutoff_max": "2024-03-31",
-      "eligibility": "ELIGIBLE",
       "publisher": "Nokia",
-      "title": "PSE-6s optical networking technology",
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2024-03-31",
       "url": "https://www.nokia.com/newsroom/nokia-launches-next-gen-coherent-optics-to-reduce-network-power-consumption-by-60-percent-mwc23/",
       "snapshot_file": "snapshots/E07.html",
-      "snapshot_sha256": "1947505fa8c69b22d95dffd06dfac2ee27bba51b8b076a808926808a54a3253f",
-      "snapshot_bytes": 142383
+      "snapshot_bytes": 142196,
+      "snapshot_sha256": "3d0181a1bca958f7fa6da1d0ced16cb8cb5ecb07324d7d3c258ae03332a30d0a",
+      "retrieved_at": "2026-09-06T16:53:21.059225+00:00"
+    },
+    {
+      "source_id": "E15",
+      "case_scope": [
+        "C08"
+      ],
+      "publication_date": "2023-11-08",
+      "publisher": "Nokia Bell Labs/Aramco",
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2025-12-31",
+      "url": "https://www.nokia.com/newsroom/nokia-bell-labs-and-aramco-announce-rd-collaboration-to-support-priority-industries/",
+      "snapshot_file": "snapshots/E15.html",
+      "snapshot_bytes": 136891,
+      "snapshot_sha256": "a0e775d6d06a2cb1d0b2c1b9896e17653973fb6cd13642df3c056d1d103ca7b0",
+      "retrieved_at": "2026-09-06T16:53:21.060286+00:00"
+    },
+    {
+      "source_id": "E16",
+      "case_scope": [
+        "C08"
+      ],
+      "publication_date": "2024-03-06",
+      "publisher": "Nokia/stc",
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2025-12-31",
+      "url": "https://www.nokia.com/newsroom/nokia-and-stc-use-microsoft-azure-operator-nexus-to-successfully-perform-o-ran-based-5g-private-wireless-network-trial/",
+      "snapshot_file": "snapshots/E16.html",
+      "snapshot_bytes": 139773,
+      "snapshot_sha256": "0cf2ef5ad7f0494c51158493b4f77d3c34b5ab2b415a0de508f8fd8f03560d37",
+      "retrieved_at": "2026-09-06T16:53:21.061384+00:00"
+    },
+    {
+      "source_id": "E17",
+      "case_scope": [
+        "C11"
+      ],
+      "publication_date": "2024-02-21",
+      "publisher": "Nokia/NVIDIA",
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2024-06-30",
+      "url": "https://www.nokia.com/newsroom/nokia-to-revolutionize-mobile-networks-with-cloud-ran-and-ai-powered-by-nvidia/",
+      "snapshot_file": "snapshots/E17.html",
+      "snapshot_bytes": 139169,
+      "snapshot_sha256": "87200f0cb2b85cf3a05c3040dbb9c2ee96926ce96003afb9fced9e43e20d937b",
+      "retrieved_at": "2026-09-06T16:53:21.062429+00:00"
+    },
+    {
+      "source_id": "E18",
+      "case_scope": [
+        "C11"
+      ],
+      "publication_date": "2024-03-04",
+      "publisher": "Nokia/STL",
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2024-06-30",
+      "url": "https://www.nokia.com/newsroom/stl-and-nokia-to-collaborate-on-enterprise-connectivity-solutions-and-government-driven-connectivity-projects/",
+      "snapshot_file": "snapshots/E18.html",
+      "snapshot_bytes": 138614,
+      "snapshot_sha256": "b0f653bef0df524472ae61588e54aacac79196a5a5d7fc57de48563cd1f5d5bf",
+      "retrieved_at": "2026-09-06T16:53:21.063503+00:00"
     },
     {
       "source_id": "E08",
@@ -105,14 +192,15 @@
         "C12"
       ],
       "publication_date": "2024-09-18",
-      "cutoff_max": "2025-12-31",
-      "eligibility": "ELIGIBLE",
       "publisher": "Nokia",
-      "title": "AI-RAN / AI + Cloud + RAN",
+      "source_type": "HTML",
+      "eligibility": "ELIGIBLE",
+      "cutoff": "2025-12-31",
       "url": "https://www.nokia.com/blog/nokia-and-partners-are-driving-the-fusion-of-ai-cloud-and-ran/",
       "snapshot_file": "snapshots/E08.html",
-      "snapshot_sha256": "205232ae400396f13bad36fa1d916bf34089ee11d829ea26c472c31805e6543d",
-      "snapshot_bytes": 196674
+      "snapshot_bytes": 196672,
+      "snapshot_sha256": "47256006cf9a075ec838beb0dd391adcf47ed96a1d9a4a0710e5fa93b314ef02",
+      "retrieved_at": "2026-09-06T16:53:21.065043+00:00"
     },
     {
       "source_id": "E09",
@@ -121,14 +209,15 @@
         "C12"
       ],
       "publication_date": "2024-09-16",
-      "cutoff_max": "2025-12-31",
+      "publisher": "Nokia/CoreWeave",
+      "source_type": "HTML",
       "eligibility": "ELIGIBLE",
-      "publisher": "Nokia",
-      "title": "CoreWeave hyperscale AI cloud networking",
+      "cutoff": "2025-12-31",
       "url": "https://www.nokia.com/newsroom/nokia-selected-by-coreweave-to-provide-networking-backbone-behind-hyperscale-ai-cloud/",
       "snapshot_file": "snapshots/E09.html",
-      "snapshot_sha256": "1fc1b15b3e9763cc14e7b4d6fa6867f13c16052c004b1a09b187b11923e377e3",
-      "snapshot_bytes": 138196
+      "snapshot_bytes": 138009,
+      "snapshot_sha256": "733dad54f0bb9f64ae0a964c2191def3f8b014b34f2622f2e85d3a1db117a09d",
+      "retrieved_at": "2026-09-06T16:53:21.066060+00:00"
     },
     {
       "source_id": "E10",
@@ -137,14 +226,15 @@
         "C12"
       ],
       "publication_date": "2024-10-22",
-      "cutoff_max": "2025-12-31",
+      "publisher": "Nokia/Lenovo",
+      "source_type": "HTML",
       "eligibility": "ELIGIBLE",
-      "publisher": "Nokia",
-      "title": "Nokia and Lenovo AI/data-center partnership",
+      "cutoff": "2025-12-31",
       "url": "https://www.nokia.com/newsroom/nokia-and-lenovo-join-forces-to-drive-advancements-in-data-center-solutions-for-the-ai-era/",
       "snapshot_file": "snapshots/E10.html",
-      "snapshot_sha256": "da4d2df5284be768067ccb2c1873a942eb4ee52eaff33e5443543730d318760d",
-      "snapshot_bytes": 139069
+      "snapshot_bytes": 138882,
+      "snapshot_sha256": "01df3c8819f75df22d7904cd8fd21496180d48d443229e7e4061d3d32f44b75a",
+      "retrieved_at": "2026-09-06T16:53:21.067036+00:00"
     },
     {
       "source_id": "E11",
@@ -153,14 +243,15 @@
         "C12"
       ],
       "publication_date": "2024-11-21",
-      "cutoff_max": "2025-12-31",
+      "publisher": "Nokia/Microsoft",
+      "source_type": "HTML",
       "eligibility": "ELIGIBLE",
-      "publisher": "Nokia",
-      "title": "Nokia / Microsoft Azure data-center networking agreement",
+      "cutoff": "2025-12-31",
       "url": "https://www.nokia.com/newsroom/nokia-expands-multi-year-agreement-to-supply-microsoft-azure-datacenternetworks/",
       "snapshot_file": "snapshots/E11.html",
-      "snapshot_sha256": "d74036540f37e126ba2135b126176900ffb53d2c9a788c2956a160dcc5713fdc",
-      "snapshot_bytes": 137084
+      "snapshot_bytes": 136897,
+      "snapshot_sha256": "a0b650989251dcaf2fd106c6cb84e26c7ec24a7b213aeb1e9db1e6409a670f71",
+      "retrieved_at": "2026-09-06T16:53:21.067980+00:00"
     },
     {
       "source_id": "E12",
@@ -169,14 +260,16 @@
         "C12"
       ],
       "publication_date": "2024-12-11",
-      "cutoff_max": "2025-12-31",
+      "publisher": "Nokia/Nscale",
+      "source_type": "HTML",
       "eligibility": "ELIGIBLE",
-      "publisher": "Nokia",
-      "title": "Nokia / Nscale AI data-center network",
+      "cutoff": "2025-12-31",
       "url": "https://www.nokia.com/newsroom/nokia-building-ip-network-to-support-ai-workloads-at-nscales-new-sustainable-data-center/",
       "snapshot_file": "snapshots/E12.html",
-      "snapshot_sha256": "d31989063289d3572eb7b139afed55100ec8cec5b084b3cb9c44186115d9489e",
-      "snapshot_bytes": 138851
+      "snapshot_bytes": 138664,
+      "snapshot_sha256": "ca2e9b6d1ffef556e6b936a3a8adc3c9b337bcbe334f392ef82068784fb7b1a4",
+      "retrieved_at": "2026-09-06T16:53:21.069065+00:00"
     }
-  ]
+  ],
+  "snapshot_count": 16
 }
