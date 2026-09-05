@@ -1,0 +1,8 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "track": "GSOS_BASELINE",
+  "status": "FROZEN-BEFORE-REVEAL",
+  "frozen_at": "2026-09-05T19:37:49+01:00",
+  "prediction_count": 12,
+  "prediction_sha256": "cfe6dd66e7d4a3f1cca6fc9dd3fc0ac370bef68610134014a466c2dd7b2e66fe"
+}

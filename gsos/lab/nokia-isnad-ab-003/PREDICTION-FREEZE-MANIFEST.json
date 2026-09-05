@@ -1,0 +1,40 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "status": "PREDICTIONS-FROZEN-BEFORE-TRUTH",
+  "generation_mode": "CONTROLLED_PROTOCOL_SIMULATION",
+  "runtime_autonomy_established": false,
+  "truth_present": false,
+  "scoring_performed": false,
+  "files": [
+    {
+      "path": "PREDICTION-PROTOCOL-001.md",
+      "bytes": 1063,
+      "sha256": "0a8799387f80256e9e541c00d0a8d72bb0899410ad1d2f54a741af215ec1e54c"
+    },
+    {
+      "path": "predictions/baseline-predictions.jsonl",
+      "bytes": 2940,
+      "sha256": "cfe6dd66e7d4a3f1cca6fc9dd3fc0ac370bef68610134014a466c2dd7b2e66fe"
+    },
+    {
+      "path": "predictions/isnad-predictions.jsonl",
+      "bytes": 3878,
+      "sha256": "c8797f9a7012c46913d6e2c56f570a5b350e4d7d5db0bcda408396de76aaf133"
+    },
+    {
+      "path": "freeze/freeze-A.json",
+      "bytes": 269,
+      "sha256": "365afcd8cbd000b375048f4eddcca4c1fbd6739b344f987d5fcbaf29c8788af1"
+    },
+    {
+      "path": "freeze/freeze-B.json",
+      "bytes": 271,
+      "sha256": "3fd66f7faf2e25d8b573261ea4ad3f49835b69008398a056b7c3d9bea7da60ff"
+    },
+    {
+      "path": "freeze/freeze-status.json",
+      "bytes": 408,
+      "sha256": "ec3e745642abd90ba03527d9b20fcf7da0165abaf5b4fe953ba5281d6a606ee5"
+    }
+  ]
+}
