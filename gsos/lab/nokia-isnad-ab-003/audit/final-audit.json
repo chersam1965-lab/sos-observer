@@ -1,0 +1,25 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "status": "AUDITED",
+  "revision": "2.0",
+  "baseline_prediction_sha256": "cfe6dd66e7d4a3f1cca6fc9dd3fc0ac370bef68610134014a466c2dd7b2e66fe",
+  "isnad_prediction_sha256": "c8797f9a7012c46913d6e2c56f570a5b350e4d7d5db0bcda408396de76aaf133",
+  "truth_sha256": "582ca3674909467235adf87fe4f0fb0c0f97c433e4998c5a34a0d3e394e2e967",
+  "scoring_sha256": "cc9816e7fa61b08807ca18949b22eea8b6d2d7484ebee9a8bd4bb49b5c0ab05a",
+  "founding_charter_sha256": "dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396",
+  "experiment1_registry_sha256": "b0573b4b22148ff8c972b06a4b8299412aea368d50ff58f8bc7f289fe7470bb7",
+  "predictions_frozen_before_truth": true,
+  "prediction_mutation_after_freeze": false,
+  "truth_derived_from_predictions": false,
+  "runtime_autonomy_established": false,
+  "general_forecasting_capability_established": false,
+  "experimental_mode": "CONTROLLED_HISTORICAL_AB_COMPARISON",
+  "statistical_significance_claimed": false,
+  "limitations": [
+    "Sample size is 12 paired cases.",
+    "The experiment compares a controlled baseline protocol against an ISNAD-augmented protocol.",
+    "The experiment does not establish autonomous GSOS Runtime prediction generation.",
+    "The experiment does not by itself establish general forecasting capability.",
+    "Lead time is not scored because the registered targets are binary annual directions."
+  ]
+}

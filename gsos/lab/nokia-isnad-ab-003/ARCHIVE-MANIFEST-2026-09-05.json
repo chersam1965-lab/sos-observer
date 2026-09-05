@@ -1,0 +1,26 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "title": "Nokia A/B Historical Forecasting Test: GSOS vs GSOS+ISNAD",
+  "revision": "2.0",
+  "date": "2026-09-05",
+  "status": "ARCHIVE-READY",
+  "case_count": 12,
+  "tracks": [
+    "GSOS_BASELINE",
+    "GSOS_PLUS_ISNAD"
+  ],
+  "baseline_prediction_sha256": "cfe6dd66e7d4a3f1cca6fc9dd3fc0ac370bef68610134014a466c2dd7b2e66fe",
+  "isnad_prediction_sha256": "c8797f9a7012c46913d6e2c56f570a5b350e4d7d5db0bcda408396de76aaf133",
+  "truth_sha256": "582ca3674909467235adf87fe4f0fb0c0f97c433e4998c5a34a0d3e394e2e967",
+  "scoring_sha256": "cc9816e7fa61b08807ca18949b22eea8b6d2d7484ebee9a8bd4bb49b5c0ab05a",
+  "final_audit_sha256": "950ef0a9023cc9ada3998345a93461da446a5c171ce60690114d93a0995abb5f",
+  "founding_charter_sha256": "dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396",
+  "experiment1_registry_sha256": "b0573b4b22148ff8c972b06a4b8299412aea368d50ff58f8bc7f289fe7470bb7",
+  "frozen_before_truth": true,
+  "truth_derived_from_predictions": false,
+  "prediction_mutation_after_freeze": false,
+  "scoring_completed": true,
+  "runtime_autonomy_established": false,
+  "statistical_significance_claimed": false,
+  "archive_state": "COMPLETE"
+}

@@ -1,0 +1,18 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "status": "CLOSED-FOR-THIS-REVISION",
+  "closed_at": "2026-09-06T19:34:52+01:00",
+  "cases": 12,
+  "baseline_frozen": true,
+  "isnad_frozen": true,
+  "truth_revealed_after_freeze": true,
+  "scoring_completed": true,
+  "prediction_mutation_after_freeze": false,
+  "truth_derived_from_predictions": false,
+  "scoring_sha256": "cc9816e7fa61b08807ca18949b22eea8b6d2d7484ebee9a8bd4bb49b5c0ab05a",
+  "final_audit_sha256": "950ef0a9023cc9ada3998345a93461da446a5c171ce60690114d93a0995abb5f",
+  "founding_charter_preserved": true,
+  "experiment1_registry_preserved": true,
+  "runtime_autonomy_established": false,
+  "scientific_claim_level": "COMPARATIVE_PROTOCOL_EVIDENCE_ONLY"
+}

@@ -1,0 +1,420 @@
+{
+  "experiment_id": "GSOS-LAB-NOKIA-003",
+  "status": "SCORED",
+  "sample_size": 12,
+  "baseline": {
+    "track": "GSOS_BASELINE",
+    "n": 12,
+    "true_positive": 8,
+    "false_positive": 0,
+    "true_negative": 4,
+    "false_negative": 0,
+    "accuracy": 1.0,
+    "brier_score": 0.16289166666666668,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "calibration_ece": 0.40249999999999997,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.5,
+        "n": 4,
+        "mean_predicted": 0.37,
+        "observed_frequency": 0.0,
+        "absolute_error": 0.37
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.7,
+        "n": 8,
+        "mean_predicted": 0.5812499999999999,
+        "observed_frequency": 1.0,
+        "absolute_error": 0.41875000000000007
+      }
+    ],
+    "rows": [
+      {
+        "case_id": "C01",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.62,
+        "p_up": 0.38,
+        "correct": true,
+        "brier": 0.1444
+      },
+      {
+        "case_id": "C02",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.56,
+        "p_up": 0.56,
+        "correct": true,
+        "brier": 0.19359999999999997
+      },
+      {
+        "case_id": "C03",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.64,
+        "p_up": 0.36,
+        "correct": true,
+        "brier": 0.1296
+      },
+      {
+        "case_id": "C04",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.58,
+        "p_up": 0.58,
+        "correct": true,
+        "brier": 0.17640000000000003
+      },
+      {
+        "case_id": "C05",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.57,
+        "p_up": 0.57,
+        "correct": true,
+        "brier": 0.18490000000000004
+      },
+      {
+        "case_id": "C06",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.6,
+        "p_up": 0.6,
+        "correct": true,
+        "brier": 0.16000000000000003
+      },
+      {
+        "case_id": "C07",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.61,
+        "p_up": 0.61,
+        "correct": true,
+        "brier": 0.1521
+      },
+      {
+        "case_id": "C08",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.54,
+        "p_up": 0.54,
+        "correct": true,
+        "brier": 0.21159999999999995
+      },
+      {
+        "case_id": "C09",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.62,
+        "p_up": 0.38,
+        "correct": true,
+        "brier": 0.1444
+      },
+      {
+        "case_id": "C10",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.64,
+        "p_up": 0.36,
+        "correct": true,
+        "brier": 0.1296
+      },
+      {
+        "case_id": "C11",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.59,
+        "p_up": 0.59,
+        "correct": true,
+        "brier": 0.16810000000000003
+      },
+      {
+        "case_id": "C12",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.6,
+        "p_up": 0.6,
+        "correct": true,
+        "brier": 0.16000000000000003
+      }
+    ]
+  },
+  "isnad": {
+    "track": "GSOS_PLUS_ISNAD",
+    "n": 12,
+    "true_positive": 8,
+    "false_positive": 0,
+    "true_negative": 4,
+    "false_negative": 0,
+    "accuracy": 1.0,
+    "brier_score": 0.10829166666666666,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "calibration_ece": 0.3258333333333333,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.5,
+        "n": 4,
+        "mean_predicted": 0.305,
+        "observed_frequency": 0.0,
+        "absolute_error": 0.305
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.7,
+        "n": 6,
+        "mean_predicted": 0.6383333333333333,
+        "observed_frequency": 1.0,
+        "absolute_error": 0.3616666666666667
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.9,
+        "n": 2,
+        "mean_predicted": 0.74,
+        "observed_frequency": 1.0,
+        "absolute_error": 0.26
+      }
+    ],
+    "rows": [
+      {
+        "case_id": "C01",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.68,
+        "p_up": 0.31999999999999995,
+        "correct": true,
+        "brier": 0.10239999999999996
+      },
+      {
+        "case_id": "C02",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.61,
+        "p_up": 0.61,
+        "correct": true,
+        "brier": 0.1521
+      },
+      {
+        "case_id": "C03",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.71,
+        "p_up": 0.29000000000000004,
+        "correct": true,
+        "brier": 0.08410000000000002
+      },
+      {
+        "case_id": "C04",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.65,
+        "p_up": 0.65,
+        "correct": true,
+        "brier": 0.12249999999999998
+      },
+      {
+        "case_id": "C05",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.66,
+        "p_up": 0.66,
+        "correct": true,
+        "brier": 0.11559999999999998
+      },
+      {
+        "case_id": "C06",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.66,
+        "p_up": 0.66,
+        "correct": true,
+        "brier": 0.11559999999999998
+      },
+      {
+        "case_id": "C07",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.75,
+        "p_up": 0.75,
+        "correct": true,
+        "brier": 0.0625
+      },
+      {
+        "case_id": "C08",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.58,
+        "p_up": 0.58,
+        "correct": true,
+        "brier": 0.17640000000000003
+      },
+      {
+        "case_id": "C09",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.68,
+        "p_up": 0.31999999999999995,
+        "correct": true,
+        "brier": 0.10239999999999996
+      },
+      {
+        "case_id": "C10",
+        "predicted_direction": "DOWN",
+        "actual_direction": "DOWN",
+        "confidence": 0.71,
+        "p_up": 0.29000000000000004,
+        "correct": true,
+        "brier": 0.08410000000000002
+      },
+      {
+        "case_id": "C11",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.67,
+        "p_up": 0.67,
+        "correct": true,
+        "brier": 0.10889999999999997
+      },
+      {
+        "case_id": "C12",
+        "predicted_direction": "UP",
+        "actual_direction": "UP",
+        "confidence": 0.73,
+        "p_up": 0.73,
+        "correct": true,
+        "brier": 0.0729
+      }
+    ]
+  },
+  "paired_delta_isnad_minus_baseline": {
+    "accuracy": 0.0,
+    "brier_score": -0.054600000000000024,
+    "brier_improvement": 0.054600000000000024,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "calibration_ece": -0.07666666666666666
+  },
+  "prediction_stability": {
+    "direction_agreement_rate": 1.0,
+    "mean_absolute_confidence_delta": 0.07666666666666667
+  },
+  "paired_case_deltas": [
+    {
+      "case_id": "C01",
+      "brier_baseline": 0.1444,
+      "brier_isnad": 0.10239999999999996,
+      "brier_isnad_minus_baseline": -0.04200000000000004,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.06000000000000005
+    },
+    {
+      "case_id": "C02",
+      "brier_baseline": 0.19359999999999997,
+      "brier_isnad": 0.1521,
+      "brier_isnad_minus_baseline": -0.041499999999999954,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.04999999999999993
+    },
+    {
+      "case_id": "C03",
+      "brier_baseline": 0.1296,
+      "brier_isnad": 0.08410000000000002,
+      "brier_isnad_minus_baseline": -0.04549999999999997,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.06999999999999995
+    },
+    {
+      "case_id": "C04",
+      "brier_baseline": 0.17640000000000003,
+      "brier_isnad": 0.12249999999999998,
+      "brier_isnad_minus_baseline": -0.053900000000000045,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.07000000000000006
+    },
+    {
+      "case_id": "C05",
+      "brier_baseline": 0.18490000000000004,
+      "brier_isnad": 0.11559999999999998,
+      "brier_isnad_minus_baseline": -0.06930000000000006,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.09000000000000008
+    },
+    {
+      "case_id": "C06",
+      "brier_baseline": 0.16000000000000003,
+      "brier_isnad": 0.11559999999999998,
+      "brier_isnad_minus_baseline": -0.04440000000000005,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.06000000000000005
+    },
+    {
+      "case_id": "C07",
+      "brier_baseline": 0.1521,
+      "brier_isnad": 0.0625,
+      "brier_isnad_minus_baseline": -0.08960000000000001,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.14
+    },
+    {
+      "case_id": "C08",
+      "brier_baseline": 0.21159999999999995,
+      "brier_isnad": 0.17640000000000003,
+      "brier_isnad_minus_baseline": -0.035199999999999926,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.039999999999999925
+    },
+    {
+      "case_id": "C09",
+      "brier_baseline": 0.1444,
+      "brier_isnad": 0.10239999999999996,
+      "brier_isnad_minus_baseline": -0.04200000000000004,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.06000000000000005
+    },
+    {
+      "case_id": "C10",
+      "brier_baseline": 0.1296,
+      "brier_isnad": 0.08410000000000002,
+      "brier_isnad_minus_baseline": -0.04549999999999997,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.06999999999999995
+    },
+    {
+      "case_id": "C11",
+      "brier_baseline": 0.16810000000000003,
+      "brier_isnad": 0.10889999999999997,
+      "brier_isnad_minus_baseline": -0.05920000000000006,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.08000000000000007
+    },
+    {
+      "case_id": "C12",
+      "brier_baseline": 0.16000000000000003,
+      "brier_isnad": 0.0729,
+      "brier_isnad_minus_baseline": -0.08710000000000002,
+      "direction_agreement": true,
+      "confidence_delta_isnad_minus_baseline": 0.13
+    }
+  ],
+  "lead_time": {
+    "status": "NOT_SCORED",
+    "reason": "Binary annual targets do not define a unique event timestamp."
+  },
+  "statistical_significance": {
+    "status": "NOT_CLAIMED",
+    "reason": "n=12 is too small for a reliable general significance claim in this experiment without a separately justified inferential design."
+  },
+  "scientific_claim_level": "COMPARATIVE_PROTOCOL_EVIDENCE_ONLY"
+}
