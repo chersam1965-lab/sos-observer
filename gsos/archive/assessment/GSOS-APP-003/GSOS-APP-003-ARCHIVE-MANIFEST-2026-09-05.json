@@ -1,0 +1,40 @@
+{
+  "document_id": "GSOS-APP-003",
+  "annex_id": "GSOS-NOKIA-ANNEX-50P-2026",
+  "experiment_id": "GSOS-LAB-NOKIA-002",
+  "revision": "1.0",
+  "document_date": "2026-09-05",
+  "cutoff": "2026-07-23",
+  "pages": 50,
+  "status": "ARCHIVE-READY",
+  "blind_tests": "synthetic_only",
+  "confidential_data_used": false,
+  "artifact_count": 4,
+  "artifacts": [
+    {
+      "name": "GSOS-APP-003-NOKIA-DEEP-ACADEMIC-STUDY-2026-09-05.docx",
+      "bytes": 459049,
+      "sha256": "6181b34fb3130f8c57f1235acd026846e403242996adf235a41df4e773afc40d"
+    },
+    {
+      "name": "GSOS-APP-003-NOKIA-DEEP-ACADEMIC-STUDY-2026-09-05.md",
+      "bytes": 35841,
+      "sha256": "5c41ddd49a2da873eff0958134adf6202643dcec8b8acceb9890e65b448e6234"
+    },
+    {
+      "name": "GSOS-APP-003-NOKIA-DEEP-ACADEMIC-STUDY-2026-09-05.pdf",
+      "bytes": 1003128,
+      "sha256": "6ff411c1080ac27a75306725583da71a066d6046ff2074bcd8d66b748e373e23"
+    },
+    {
+      "name": "GSOS-APP-003-SOURCE-REGISTER-2026-09-05.md",
+      "bytes": 4272,
+      "sha256": "d7b612260a416d87400f6b6fba1448111382219746da88478f8f3979d6c4e8e0"
+    }
+  ],
+  "limitations": [
+    "Blind scenarios are synthetic.",
+    "The annex does not by itself establish general forecasting accuracy.",
+    "The experiment must remain distinguished from the production runtime."
+  ]
+}
