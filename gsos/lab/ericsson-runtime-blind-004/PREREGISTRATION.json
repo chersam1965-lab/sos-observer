@@ -1,0 +1,50 @@
+{
+  "experiment_id": "GSOS-LAB-ERICSSON-004",
+  "revision": "1.0",
+  "preregistration_date": "2026-09-07",
+  "status": "PREREGISTERED",
+  "company": "Ericsson",
+  "experiment_type": "RUNTIME_BLIND_VALIDATION",
+  "tracks": [
+    "GSOS_BASELINE",
+    "GSOS_PLUS_ISNAD"
+  ],
+  "same_information_boundary": true,
+  "same_case_set": true,
+  "same_cutoffs": true,
+  "same_targets": true,
+  "same_truth_sources": true,
+  "same_scoring": true,
+  "future_information_blocked_before_prediction": true,
+  "runtime_generated_prediction_required": true,
+  "manual_prediction_edit_after_generation_forbidden": true,
+  "truth_must_not_exist_before_freeze": true,
+  "statistical_significance_claimed": false,
+  "primary_metrics": [
+    "accuracy",
+    "brier_score",
+    "log_loss",
+    "false_positive_rate",
+    "false_negative_rate",
+    "precision",
+    "recall",
+    "calibration_ece",
+    "prediction_stability"
+  ],
+  "secondary_metrics": [
+    "evidence_quality",
+    "corroboration",
+    "contradiction_detection",
+    "provenance_completeness"
+  ],
+  "scientific_stop_rules": [
+    "STOP if runtime prediction generation cannot be independently demonstrated.",
+    "STOP if future information enters the prediction input.",
+    "STOP if the two tracks do not receive the same case and evidence boundary.",
+    "STOP if predictions are edited after freeze.",
+    "STOP if truth is revealed before both tracks are frozen.",
+    "STOP if scoring code changes after reveal.",
+    "Do not claim general forecasting ability from one company experiment."
+  ],
+  "runtime_claim_level": "RUNTIME_VALIDATION_ONLY"
+}

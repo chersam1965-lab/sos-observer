@@ -1,0 +1,116 @@
+{
+  "experiment_id": "GSOS-LAB-ERICSSON-004",
+  "case_count": 12,
+  "target_type": "BINARY_DIRECTION",
+  "allowed_prediction": ["UP", "DOWN"],
+  "cases": [
+    {
+      "case_id": "C01",
+      "historical_cutoff": "1990-12-31",
+      "horizon_end": "1991-12-31",
+      "target": "Ericsson_GSM_system_activity",
+      "direction_definition": "UP means GSM activity/operational footprint increases during the horizon.",
+      "difficulty": "EASY",
+      "source_family": "Ericsson historical GSM archive"
+    },
+    {
+      "case_id": "C02",
+      "historical_cutoff": "1998-12-31",
+      "horizon_end": "1999-12-31",
+      "target": "Ericsson_3G_mobile_internet_focus",
+      "direction_definition": "UP means 3G/mobile-internet strategic and technical activity increases.",
+      "difficulty": "EASY",
+      "source_family": "Ericsson innovation archive"
+    },
+    {
+      "case_id": "C03",
+      "historical_cutoff": "2000-12-31",
+      "horizon_end": "2001-12-31",
+      "target": "Ericsson_3G_deployment_milestones",
+      "direction_definition": "UP means observable 3G deployment/call milestones increase.",
+      "difficulty": "EASY",
+      "source_family": "Ericsson 3G historical archive"
+    },
+    {
+      "case_id": "C04",
+      "historical_cutoff": "2000-12-31",
+      "horizon_end": "2001-12-31",
+      "target": "Ericsson_handset_business_organizational_change",
+      "direction_definition": "UP means a major handset-business structural change occurs.",
+      "difficulty": "MEDIUM",
+      "source_family": "Ericsson corporate history"
+    },
+    {
+      "case_id": "C05",
+      "historical_cutoff": "2004-12-31",
+      "horizon_end": "2005-12-31",
+      "target": "Ericsson_high_speed_mobile_broadband_activity",
+      "direction_definition": "UP means high-speed mobile broadband capability advances.",
+      "difficulty": "MEDIUM",
+      "source_family": "Ericsson innovation archive"
+    },
+    {
+      "case_id": "C06",
+      "historical_cutoff": "2008-12-31",
+      "horizon_end": "2009-12-31",
+      "target": "Ericsson_LTE_commercial_deployment",
+      "direction_definition": "UP means commercial LTE deployment activity increases.",
+      "difficulty": "MEDIUM",
+      "source_family": "Ericsson LTE historical archive"
+    },
+    {
+      "case_id": "C07",
+      "historical_cutoff": "2010-12-31",
+      "horizon_end": "2011-12-31",
+      "target": "Ericsson_5G_standardization_activity",
+      "direction_definition": "UP means identifiable 5G research/standards activity increases.",
+      "difficulty": "HARD",
+      "source_family": "Ericsson 5G innovation journey"
+    },
+    {
+      "case_id": "C08",
+      "historical_cutoff": "2014-12-31",
+      "horizon_end": "2015-12-31",
+      "target": "Ericsson_5G_product_readiness",
+      "direction_definition": "UP means 5G-compatible product readiness increases.",
+      "difficulty": "HARD",
+      "source_family": "Ericsson 5G historical archive"
+    },
+    {
+      "case_id": "C09",
+      "historical_cutoff": "2017-12-31",
+      "horizon_end": "2018-12-31",
+      "target": "Ericsson_live_5G_network_presence",
+      "direction_definition": "UP means live 5G network presence increases.",
+      "difficulty": "HARD",
+      "source_family": "Ericsson 5G launch history"
+    },
+    {
+      "case_id": "C10",
+      "historical_cutoff": "2019-12-31",
+      "horizon_end": "2020-12-31",
+      "target": "Ericsson_legacy_2G_3G_subscription_weight",
+      "direction_definition": "DOWN means the relative weight of legacy 2G/3G subscriptions declines.",
+      "difficulty": "HARD",
+      "source_family": "Ericsson Mobility Report historical archive"
+    },
+    {
+      "case_id": "C11",
+      "historical_cutoff": "2023-12-31",
+      "horizon_end": "2024-12-31",
+      "target": "Ericsson_IoT_6G_innovation_focus",
+      "direction_definition": "UP means IoT/6G-oriented innovation activity increases.",
+      "difficulty": "HARD",
+      "source_family": "Ericsson history and technology archive"
+    },
+    {
+      "case_id": "C12",
+      "historical_cutoff": "2025-12-31",
+      "horizon_end": "2026-06-30",
+      "target": "Ericsson_4G_subscription_direction",
+      "direction_definition": "DOWN means global 4G subscriptions decline during the horizon.",
+      "difficulty": "HARD",
+      "source_family": "Ericsson Mobility Report / Q2 2026 reporting"
+    }
+  ]
+}

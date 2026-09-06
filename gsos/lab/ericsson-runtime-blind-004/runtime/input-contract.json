@@ -1,0 +1,26 @@
+{
+  "experiment_id": "GSOS-LAB-ERICSSON-004",
+  "required_inputs": [
+    "cases/cases.json",
+    "evidence/source-manifest.json",
+    "evidence/snapshots",
+    "PREREGISTRATION.json"
+  ],
+  "forbidden_inputs": [
+    "reveal/truth.json",
+    "audit/scoring-result.json",
+    "audit/final-audit.json",
+    "audit/closure.json"
+  ],
+  "required_outputs": [
+    "run_id",
+    "runtime_version",
+    "case_id",
+    "cutoff",
+    "evidence_manifest_sha256",
+    "input_sha256",
+    "predicted_direction",
+    "probability_up"
+  ],
+  "manual_prediction_edit_allowed": false
+}
