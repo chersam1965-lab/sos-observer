@@ -1,0 +1,11 @@
+{
+  "card_id": "B05",
+  "domain": "combined",
+  "visibility": "PARTIAL",
+  "cutoff_rule": "Prediction must be frozen before reveal.",
+  "known_information": [
+    "public_financial_facts",
+    "synthetic_spatial_zones"
+  ],
+  "hidden_target": true
+}

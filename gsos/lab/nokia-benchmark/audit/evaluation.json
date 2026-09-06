@@ -1,0 +1,75 @@
+{
+  "evaluation_id": "GSOS-NOKIA-EVAL-001",
+  "status": "EVALUATED",
+  "prediction_count": 5,
+  "success_count": 3,
+  "failure_count": 2,
+  "success_rate": 0.6,
+  "results": [
+    {
+      "prediction_id": "P01",
+      "card_id": "B01",
+      "horizon": "T-NEAR",
+      "spatial_scope": "S-NEAR",
+      "predicted_direction": "STABLE_OR_UP",
+      "revealed_direction": "UP",
+      "confidence": 0.6,
+      "baseline": 1.0,
+      "revealed": 1.04,
+      "success": true,
+      "falsified": false
+    },
+    {
+      "prediction_id": "P02",
+      "card_id": "B02",
+      "horizon": "T-FAR",
+      "spatial_scope": "S-FAR",
+      "predicted_direction": "UP",
+      "revealed_direction": "UP",
+      "confidence": 0.65,
+      "baseline": 105.0,
+      "revealed": 120.0,
+      "success": true,
+      "falsified": false
+    },
+    {
+      "prediction_id": "P03",
+      "card_id": "B03",
+      "horizon": "T-NEAR",
+      "spatial_scope": "S-NEAR",
+      "predicted_direction": "STABLE",
+      "revealed_direction": "UP",
+      "confidence": 0.55,
+      "baseline": 4.815,
+      "revealed": 5.2,
+      "success": false,
+      "falsified": true
+    },
+    {
+      "prediction_id": "P04",
+      "card_id": "B04",
+      "horizon": "T-NEAR",
+      "spatial_scope": "S-FAR",
+      "predicted_direction": "STABLE_OR_DOWN",
+      "revealed_direction": "UP",
+      "confidence": 0.58,
+      "baseline": 0.31,
+      "revealed": 0.39,
+      "success": false,
+      "falsified": true
+    },
+    {
+      "prediction_id": "P05",
+      "card_id": "B05",
+      "horizon": "T-FAR",
+      "spatial_scope": "S-NEAR",
+      "predicted_direction": "UP",
+      "revealed_direction": "UP",
+      "confidence": 0.52,
+      "baseline": 1.0,
+      "revealed": 1.08,
+      "success": true,
+      "falsified": false
+    }
+  ]
+}

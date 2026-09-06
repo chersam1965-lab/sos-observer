@@ -1,0 +1,13 @@
+{
+  "document_id": "GSOS-LAB-NOKIA-PRED-001",
+  "revision": "1.0",
+  "status": "FROZEN-BEFORE-REVEAL",
+  "cutoff": "2026-09-03T19:41:30+01:00",
+  "prediction_registry": "predictions/prediction-registry.jsonl",
+  "prediction_registry_sha256": "b0573b4b22148ff8c972b06a4b8299412aea368d50ff58f8bc7f289fe7470bb7",
+  "prediction_count": 5,
+  "confidential_data": false,
+  "synthetic_spatial_data": true,
+  "runtime_executed": false,
+  "founding_charter_sha256": "dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396"
+}

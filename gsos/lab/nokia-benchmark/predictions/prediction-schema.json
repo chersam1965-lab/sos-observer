@@ -1,0 +1,27 @@
+{
+  "required": [
+    "prediction_id",
+    "card_id",
+    "registered_at",
+    "cutoff",
+    "horizon",
+    "spatial_scope",
+    "target",
+    "predicted_direction",
+    "confidence",
+    "evidence_refs",
+    "falsifiable_condition"
+  ],
+  "allowed_horizons": [
+    "T-NEAR",
+    "T-FAR"
+  ],
+  "allowed_spatial_scope": [
+    "S-NEAR",
+    "S-FAR"
+  ],
+  "confidence_range": {
+    "minimum": 0.0,
+    "maximum": 1.0
+  }
+}

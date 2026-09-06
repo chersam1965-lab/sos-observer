@@ -1,0 +1,27 @@
+{
+  "dataset_id": "GSOS-NOKIA-SPATIAL-001",
+  "type": "SYNTHETIC",
+  "real_nokia_location_data": false,
+  "zones": [
+    {
+      "zone_id": "Z01",
+      "name": "North",
+      "signal_level": 0.82
+    },
+    {
+      "zone_id": "Z02",
+      "name": "South",
+      "signal_level": 0.47
+    },
+    {
+      "zone_id": "Z03",
+      "name": "East",
+      "signal_level": 0.68
+    },
+    {
+      "zone_id": "Z04",
+      "name": "West",
+      "signal_level": 0.31
+    }
+  ]
+}

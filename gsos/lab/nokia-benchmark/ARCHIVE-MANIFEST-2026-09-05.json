@@ -1,0 +1,124 @@
+{
+  "archive_manifest_id": "GSOS-NOKIA-LAB-ARCHIVE-001",
+  "experiment_id": "GSOS-LAB-NOKIA-001",
+  "revision": "1.0",
+  "date": "2026-09-05",
+  "status": "ARCHIVE-READY",
+  "file_count": 20,
+  "immutable_inputs": {
+    "founding_charter_sha256": "dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396",
+    "prediction_registry_sha256": "b0573b4b22148ff8c972b06a4b8299412aea368d50ff58f8bc7f289fe7470bb7"
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1442,
+      "sha256": "99f18a0b61e52abe2fc9befc2e91080db3e92e0ba72e776b4ab251de10a44378"
+    },
+    {
+      "path": "audit/closure.json",
+      "bytes": 756,
+      "sha256": "f23b738ee936df8a3211f9de992fbbd1a729c75edd29a3f94bfaee2333e2b928"
+    },
+    {
+      "path": "audit/closure.pre-mutation-repair.json",
+      "bytes": 527,
+      "sha256": "9ae645f1c9bb4c0f607b3e9b025bf1dc00f191df8b9cd39bd9f8bdda6743eb4d"
+    },
+    {
+      "path": "audit/evaluate.py",
+      "bytes": 2328,
+      "sha256": "b4858d62bb56c8f36eafe07ac404ea9ee593912c16667713c1c134b5b5e6694c"
+    },
+    {
+      "path": "audit/evaluation.json",
+      "bytes": 1791,
+      "sha256": "550ae9c2b9eed1eae1024977612a6713ea0fba57af476a8b3be7502fc950e36d"
+    },
+    {
+      "path": "audit/final-audit.json",
+      "bytes": 2035,
+      "sha256": "32c84c51a9ada73ee92faf8a42835121e1d71849163219bc19051e9ba9fa8965"
+    },
+    {
+      "path": "audit/final-audit.pre-mutation-repair.json",
+      "bytes": 1447,
+      "sha256": "1e74c4637047d755c4dd0faf37fcf380a53c497b5c3ac35f754501bd7f8d92e8"
+    },
+    {
+      "path": "benchmark-manifest.json",
+      "bytes": 379,
+      "sha256": "9b9eb4be4427150a6638f2abbae2a2e45b58c1325f74bc650601bd8412b5f07e"
+    },
+    {
+      "path": "blind-cards/B01.json",
+      "bytes": 262,
+      "sha256": "77a4454d5abf59b72b8eb044f1325181768788af0d681b0805dc8bd355794059"
+    },
+    {
+      "path": "blind-cards/B02.json",
+      "bytes": 227,
+      "sha256": "86979d427057b836ef5264faac52e0899caaf3d068804ac6e7102b101f3c720a"
+    },
+    {
+      "path": "blind-cards/B03.json",
+      "bytes": 230,
+      "sha256": "cf5dd2c438fa36ae3975ae7a1feb608b5eed27be0ae2f5485f3fc68ce31b11ed"
+    },
+    {
+      "path": "blind-cards/B04.json",
+      "bytes": 248,
+      "sha256": "638f0527ba2d0b52121d4f036b7e2bacf7e600e719b36b3f306d4bdf4c9cef26"
+    },
+    {
+      "path": "blind-cards/B05.json",
+      "bytes": 250,
+      "sha256": "198f8ba978cc94a86cf468f84dd87595d6ab04a90d8da5b4c559c2e7fe0fe402"
+    },
+    {
+      "path": "predictions/EXPERIMENT_RULES.md",
+      "bytes": 1162,
+      "sha256": "eb89bbe5dafe3b2be5043f14711ab0e695daa9fbb638ea3f9d48f725f58fef04"
+    },
+    {
+      "path": "predictions/prediction-freeze.json",
+      "bytes": 526,
+      "sha256": "307c676ed4fcc6c62c03cf5eed1c258f6883c98effbaad45a8fe1844fc9d068b"
+    },
+    {
+      "path": "predictions/prediction-registry.jsonl",
+      "bytes": 2025,
+      "sha256": "b0573b4b22148ff8c972b06a4b8299412aea368d50ff58f8bc7f289fe7470bb7"
+    },
+    {
+      "path": "predictions/prediction-schema.json",
+      "bytes": 422,
+      "sha256": "249f2ce363a26d5b14401a4593d2eeb57d6ea9d3a0447efb89740ce022f849a4"
+    },
+    {
+      "path": "public-data/nokia-public-facts-2026.json",
+      "bytes": 1151,
+      "sha256": "55d1e163e783f99980f53f9530d89e09c1e042265ce531f31de89234441981bc"
+    },
+    {
+      "path": "public-data/synthetic-spatial-zones.json",
+      "bytes": 468,
+      "sha256": "a14ad116cd1320b13b652eff7770dc13569884c9eb65bfb6fc16bfa7b88eaa81"
+    },
+    {
+      "path": "reveal/reveal-targets.json",
+      "bytes": 1326,
+      "sha256": "3b588be6315e02ccf11a7ad3b1b3da7857c9291a0579f760ab7596d4bb614eac"
+    }
+  ],
+  "audit_state": {
+    "evaluation": "CONSISTENT",
+    "mutation_testing": "REPLAYED_AND_DETECTED",
+    "closure": "REPAIRED"
+  },
+  "limitations": [
+    "Reveal targets are synthetic.",
+    "The 3/5 result is not evidence of general forecasting accuracy.",
+    "GSOS runtime autonomous prediction generation was not established by this experiment."
+  ]
+}

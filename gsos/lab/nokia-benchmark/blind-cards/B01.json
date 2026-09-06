@@ -1,0 +1,12 @@
+{
+  "card_id": "B01",
+  "domain": "financial",
+  "visibility": "PARTIAL",
+  "cutoff_rule": "Only evidence available at or before cutoff may be used.",
+  "known_metrics": [
+    "gross_margin",
+    "operating_margin",
+    "net_cash"
+  ],
+  "hidden_target": true
+}

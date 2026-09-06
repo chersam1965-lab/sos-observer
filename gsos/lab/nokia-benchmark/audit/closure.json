@@ -1,0 +1,21 @@
+{
+  "closure_id": "GSOS-NOKIA-CLOSURE-001",
+  "status": "CLOSED-FOR-THIS-REVISION",
+  "revision": "1.0",
+  "closed_at": "2026-09-03T19:45:53+01:00",
+  "prediction_count": 5,
+  "reveal_count": 5,
+  "mutation_tests_passed": true,
+  "provenance_reviewed": true,
+  "historical_predictions_preserved": true,
+  "founding_charter_preserved": true,
+  "runtime_executed": false,
+  "confidential_data": false,
+  "synthetic_spatial_data": true,
+  "final_audit_sha256": "32c84c51a9ada73ee92faf8a42835121e1d71849163219bc19051e9ba9fa8965",
+  "correction": {
+    "type": "MUTATION_REPLAY_CORRECTION",
+    "corrected_at": "2026-09-05T12:55:07+01:00",
+    "reason": "The mutation suite was replayed successfully after correcting the temporary-copy permission error."
+  }
+}

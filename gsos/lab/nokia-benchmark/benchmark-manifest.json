@@ -1,0 +1,16 @@
+{
+  "document_id": "GSOS-LAB-NOKIA-001",
+  "revision": "1.0",
+  "status": "BLIND-BENCHMARK-BUILT",
+  "confidential_data": false,
+  "runtime_executed": false,
+  "founding_charter_sha256": "dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396",
+  "blind_cards": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05"
+  ],
+  "created_at": "2026-09-03T19:39:36+01:00"
+}

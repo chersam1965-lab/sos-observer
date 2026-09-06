@@ -1,0 +1,11 @@
+{
+  "card_id": "B03",
+  "domain": "financial",
+  "visibility": "PARTIAL",
+  "cutoff_rule": "Only evidence available at or before cutoff may be used.",
+  "known_metrics": [
+    "net_sales",
+    "EPS"
+  ],
+  "hidden_target": true
+}

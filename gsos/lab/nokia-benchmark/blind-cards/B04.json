@@ -1,0 +1,13 @@
+{
+  "card_id": "B04",
+  "domain": "spatial",
+  "visibility": "SYNTHETIC",
+  "cutoff_rule": "Only observations available at or before cutoff may be used.",
+  "known_zones": [
+    "Z01",
+    "Z02",
+    "Z03",
+    "Z04"
+  ],
+  "hidden_target": true
+}

@@ -1,0 +1,16 @@
+{
+  "closure_id": "GSOS-NOKIA-CLOSURE-001",
+  "status": "CLOSED-FOR-THIS-REVISION",
+  "revision": "1.0",
+  "closed_at": "2026-09-03T19:45:53+01:00",
+  "prediction_count": 5,
+  "reveal_count": 5,
+  "mutation_tests_passed": true,
+  "provenance_reviewed": true,
+  "historical_predictions_preserved": true,
+  "founding_charter_preserved": true,
+  "runtime_executed": false,
+  "confidential_data": false,
+  "synthetic_spatial_data": true,
+  "final_audit_sha256": "1e74c4637047d755c4dd0faf37fcf380a53c497b5c3ac35f754501bd7f8d92e8"
+}

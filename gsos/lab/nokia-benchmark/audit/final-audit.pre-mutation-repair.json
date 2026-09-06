@@ -1,0 +1,34 @@
+{
+  "audit_id": "GSOS-NOKIA-AUDIT-001",
+  "revision": "1.0",
+  "status": "CLOSED-FOR-THIS-REVISION",
+  "experiment": "GSOS Nokia Mini Benchmark",
+  "confidential_data": false,
+  "real_nokia_future_data": false,
+  "synthetic_spatial_data": true,
+  "runtime_executed": false,
+  "reveal_performed": true,
+  "predictions_frozen_before_reveal": true,
+  "prediction_registry_sha256": "b0573b4b22148ff8c972b06a4b8299412aea368d50ff58f8bc7f289fe7470bb7",
+  "evaluation_sha256": "550ae9c2b9eed1eae1024977612a6713ea0fba57af476a8b3be7502fc950e36d",
+  "reveal_sha256": "3b588be6315e02ccf11a7ad3b1b3da7857c9291a0579f760ab7596d4bb614eac",
+  "founding_charter_sha256": "dfc656a5ee1bec7ed072f28f4b27357d66eb1c6fb404e3d92448cf2273f77396",
+  "mutation_tests": {
+    "required_field_removal": "DETECTED",
+    "invalid_confidence": "DETECTED",
+    "duplicate_prediction_id": "DETECTED",
+    "original_registry_preserved": true
+  },
+  "integrity": {
+    "founding_charter_unchanged": true,
+    "prediction_registry_unchanged": true,
+    "historical_prediction_not_rewritten": true
+  },
+  "limitations": [
+    "Reveal targets are synthetic.",
+    "This experiment does not prove real-world predictive capability.",
+    "Nokia confidential or internal information was not used.",
+    "Temporal horizons are represented synthetically rather than by waiting for real future events.",
+    "Spatial zones are synthetic and do not represent real Nokia geographic data."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "reveal_id": "GSOS-NOKIA-REVEAL-001",
+  "reveal_time": "2026-09-03T19:45:51+01:00",
+  "source_class": "SYNTHETIC_TEST_TARGETS",
+  "confidential_data": false,
+  "real_nokia_future_data": false,
+  "targets": [
+    {
+      "prediction_id": "P01",
+      "card_id": "B01",
+      "horizon": "T-NEAR",
+      "spatial_scope": "S-NEAR",
+      "baseline": 1.00,
+      "revealed": 1.04,
+      "direction": "UP"
+    },
+    {
+      "prediction_id": "P02",
+      "card_id": "B02",
+      "horizon": "T-FAR",
+      "spatial_scope": "S-FAR",
+      "baseline": 105.00,
+      "revealed": 120.00,
+      "direction": "UP"
+    },
+    {
+      "prediction_id": "P03",
+      "card_id": "B03",
+      "horizon": "T-NEAR",
+      "spatial_scope": "S-NEAR",
+      "baseline": 4.815,
+      "revealed": 5.20,
+      "direction": "UP"
+    },
+    {
+      "prediction_id": "P04",
+      "card_id": "B04",
+      "horizon": "T-NEAR",
+      "spatial_scope": "S-FAR",
+      "baseline": 0.31,
+      "revealed": 0.39,
+      "direction": "UP"
+    },
+    {
+      "prediction_id": "P05",
+      "card_id": "B05",
+      "horizon": "T-FAR",
+      "spatial_scope": "S-NEAR",
+      "baseline": 1.00,
+      "revealed": 1.08,
+      "direction": "UP"
+    }
+  ],
+  "note": "All reveal targets are synthetic and exist only to test GSOS temporal/spatial prediction mechanics."
+}

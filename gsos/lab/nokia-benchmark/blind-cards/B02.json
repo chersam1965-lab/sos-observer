@@ -1,0 +1,10 @@
+{
+  "card_id": "B02",
+  "domain": "AI_CLOUD",
+  "visibility": "PARTIAL",
+  "cutoff_rule": "Only evidence available at or before cutoff may be used.",
+  "known_metrics": [
+    "AI_Cloud_net_sales"
+  ],
+  "hidden_target": true
+}

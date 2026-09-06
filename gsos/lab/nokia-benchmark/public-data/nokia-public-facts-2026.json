@@ -1,0 +1,51 @@
+{
+  "dataset_id": "GSOS-NOKIA-PUBLIC-2026-001",
+  "source_class": "PUBLIC",
+  "confidential_data": false,
+  "currency": "EUR",
+  "facts": [
+    {
+      "fact_id": "N01",
+      "metric": "net_sales",
+      "value": 4.815,
+      "unit": "billion_eur"
+    },
+    {
+      "fact_id": "N02",
+      "metric": "gross_margin",
+      "value": 46,
+      "unit": "percent"
+    },
+    {
+      "fact_id": "N03",
+      "metric": "operating_margin",
+      "value": 9,
+      "unit": "percent"
+    },
+    {
+      "fact_id": "N04",
+      "metric": "comparable_diluted_eps",
+      "value": 0.07,
+      "unit": "eur_per_share"
+    },
+    {
+      "fact_id": "N05",
+      "metric": "net_cash",
+      "value": 2.8,
+      "unit": "billion_eur"
+    },
+    {
+      "fact_id": "N06",
+      "metric": "AI_Cloud_net_sales",
+      "value": 446,
+      "unit": "million_eur"
+    },
+    {
+      "fact_id": "N07",
+      "metric": "AI_Cloud_growth_constant_currency",
+      "value": 105,
+      "unit": "percent"
+    }
+  ],
+  "note": "Values are reproduced from the supplied Nokia benchmark material and are treated here as public benchmark inputs, not confidential Nokia information."
+}
