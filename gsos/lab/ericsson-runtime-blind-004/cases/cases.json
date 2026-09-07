@@ -2,7 +2,10 @@
   "experiment_id": "GSOS-LAB-ERICSSON-004",
   "case_count": 12,
   "target_type": "BINARY_DIRECTION",
-  "allowed_prediction": ["UP", "DOWN"],
+  "allowed_prediction": [
+    "UP",
+    "DOWN"
+  ],
   "cases": [
     {
       "case_id": "C01",
@@ -110,7 +113,7 @@
       "target": "Ericsson_4G_subscription_direction",
       "direction_definition": "DOWN means global 4G subscriptions decline during the horizon.",
       "difficulty": "HARD",
-      "source_family": "Ericsson Mobility Report / Q2 2026 reporting"
+      "source_family": "Ericsson Mobility Report historical archive / November 2025 edition"
     }
   ]
 }
